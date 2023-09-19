@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\City;
+use App\Models\Paytoll;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 
@@ -22,7 +23,9 @@ class TicketController extends Controller
     public function index()
     {
         $tickets = Ticket::all();
-        return view('ticket.index',compact('tickets'));
+        $tolls = Paytoll::all();
+        $cities = city::all();
+        return view('ticket.index',compact('tickets','tolls','cities'));
     }
     public function payticket($id)
     {

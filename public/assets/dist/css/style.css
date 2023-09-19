@@ -561,7 +561,7 @@ li.treeview {
 
 .active.treeview {
   border-radius: 6px;
-  background: var(--primary, #2D927E);
+  background: #8C52FF !important;
 }
 
 .treeview a span svg path {
@@ -1115,7 +1115,7 @@ li.dropdown.tasks-menu img {
 }
 
 .back-button h3 {
-  color: #000;
+  color:black;
   font-size: 18px;
   font-style: normal;
   font-weight: 600;
@@ -1434,30 +1434,31 @@ li.dropdown.tasks-menu img {
   margin-top: 4rem;
 }
 .cancel-btn a {
-  border: 1px solid #2d927e;
   padding: 13px 60px;
   text-align: center;
   border-radius: 10px;
-  color: #2D927E;
+  color: #F8F8FA;
   text-transform: capitalize;
   font-size: 14px;
 }
 .add-btn a {
-  border: 1px solid #2d927e;
+  border: 1px solid black !important;
   padding: 13px 60px;
   text-align: center;
   border-radius: 10px;
-  background: #2d927e;
-  color: #fff;
+  background:  #F8F8FA !important;
+  color: black !important;
+  margin-right: 10px;
   text-transform: capitalize;
   font-size: 14px;
+  width: 20px;
 }
 .add-btn button {
-  border: 1px solid #2d927e;
+  border: 1px solid white;
   padding: 13px 60px;
   text-align: center;
   border-radius: 10px;
-  background: #2d927e;
+  background: #8C52FF !important;
   color: #fff;
   text-transform: capitalize;
   font-size: 14px;
@@ -1733,7 +1734,7 @@ li.dropdown.tasks-menu img {
 }
 .for-our-services a {
   border-radius: 10px;
-  background: var(--primary, #2D927E);
+  background:  #8C52FF !important;
   padding: 13px 20px;
   color: var(--white, #FFF);
   font-size: 16px;

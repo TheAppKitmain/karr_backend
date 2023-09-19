@@ -17,9 +17,7 @@ return new class extends Migration
             $table->string('number');
             $table->string('license')->unique();
             $table->string('password');
-            $table->string('image');
-            $table->bigInteger('car_id')->nullable()->unsigned();
-            $table->foreign('car_id')->references('id')->on('cars')->onDelete('cascade');
+            $table->string('email');
             $table->timestamps();
         });
     }

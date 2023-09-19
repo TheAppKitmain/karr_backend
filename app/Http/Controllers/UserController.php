@@ -85,6 +85,7 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
+        try {
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email,'.$id,
@@ -105,8 +106,10 @@ class UserController extends Controller
     
         $user->assignRole($request->input('roles'));
     
-        return redirect()->route('users.index')
-                        ->with('success','User updated successfully');
+        return redirect()->back()->with('success','User updated successfully');
+        } catch (\Exception $e) {
+            return back()->with('error', $e.'Failed to update user. Please try again.');
+        }
     }
     
     /**
@@ -127,6 +130,14 @@ class UserController extends Controller
         $user = User::all();
 
         return view('profile', compact('user'));
+    }
+    
+    public function setting($id)
+    {
+        $user = User::find($id);
+        $roles = Role::pluck('name','name')->all();
+        $userRole = $user->roles->pluck('name','name')->all();
+        return view('profile.profile',compact('user','roles','userRole'));
     }
 
 }

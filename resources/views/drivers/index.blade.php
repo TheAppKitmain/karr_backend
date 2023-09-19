@@ -5,12 +5,34 @@ $page = 'driver';
 @section('content')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
 
+<style>
+    .edit{
+        /* background-color: #F8F8FA; */
+        width: 150px;
+        height: 40px;
+        border-radius: 10px;
+        /* align-content: center; */
+    }
+    .edit a{
+        background-color: #F8F8FA;
+        float: left;
+        padding: 2px;
+        /* margin-right: 2px 5px; */
+        width: 50px;
+    
+    }
 
+    .edit a img{
+        padding: 2px;
+        align-items: center;
+        margin-left: 7px;
+    }
+</style>
     <section class="create-services-screen">
         <div class="row create-services-screen-left">
             <div class="col-lg-12">
                 <div class="for-our-services">
-                    <h3>Drivers</h3>
+                    <h3>All Drivers</h3>
                     @can('driver-create')
                         <a href="{{ route('drivers.created') }}">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
@@ -44,47 +66,47 @@ $page = 'driver';
                             {{ Session::get('error') }}
                         </div>
                     @endif
-                    <tr>
+                    <tr style="background: #F8F8FA">
                         <th>No</th>
-                        <th>Image</th>
                         <th>Name</th>
                         <th>Number</th>
-                        <th>License</th>
-                        @can('driver-edit')
+                        <th>Email</th>
+                        <th>Plate Number</th>
+                        {{-- @can('driver-edit')
                             <th>Update</th>
                         @endcan
                         @can('driver-delete')
                             <th>Delete</th>
-                        @endcan
-                        <th>Actions</th>
+                        @endcan --}}
+                        <th>Views</th>
                     </tr>
                 </thread>
 
                 @foreach ($drivers as $key => $driver)
                     <tr>
                         <th scope="row">{{ $key + 1 }}</th>
-                        <td>
-                            <img src="{{asset($driver->image)}}" height="50" width="50" >
-                        </td>
                         <td>{{ $driver->name }}</td>
                         <td>{{ $driver->number }}</td>
+                        <td>{{$driver->email}}</td>
                         <td>{{ $driver->license }}</td>
-                        @can('driver-edit')
+                        {{-- @can('driver-edit')
                             <td>
                                 <a class="btn btn-success" href="{{ route('drivers.edit', $driver->id) }}">Update</a>
 
                             </td>
-                        @endcan
+                        @endcan --}}
                         @can('driver-delete')
-                            <td>
-                                <form action="{{ route('drivers.destroy', $driver->id) }}" method="POST">
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                </form>
-                            </td>
+                        <td class="edit">
+                            <a href="{{ route('drivers.edit', $driver->id) }}"><img src="{{ asset('assets/dist/img/eye.png') }}" alt="Edit"></a>
+                            <form action="{{ route('drivers.destroy', $driver->id) }}" method="POST">
+                                @csrf
+                                @method('delete')
+                                <button type="submit" style="border:none; cursor: pointer; padding:2px 7px;"><img src="{{ asset('assets/dist/img/bin.png') }}" alt="Delete"></button>
+                            </form>
+                        </td>
+                        
                         @endcan
-                        <td>
+                        {{-- <td>
                             <div class="dropdown">
                                 <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -109,19 +131,12 @@ $page = 'driver';
                                 </div>
 
                             </div>
-                        </td>
+                        </td> --}}
 
 
                     </tr>
                 @endforeach
             </table>
-            <footer style="margin-top: 100px">
-                <div class="text-center p-3">
-                    © 2023 Copyright:
-                    <a class="text-dark">KARR</a>
-                </div>
-                <!-- Copyright -->
-            </footer>
         </div>
     </section>
 @endsection

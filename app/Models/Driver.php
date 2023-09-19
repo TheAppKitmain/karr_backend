@@ -12,7 +12,7 @@ class Driver extends Model
     protected $fillable =
     [
         'name', 'number', 'license', 'password',
-        'image',
+        'email',
     ];
     public function car()
     {

@@ -40,8 +40,8 @@ class CreateAdminUserSeeder extends Seeder
         
         // Define specific permissions for the admin user
         $adminPermissions = [
+            'users-edit',
             'car-list',
-            'driver-list',
             'toll-pay',
             'toll-list',
             'ticket-list',
@@ -50,6 +50,10 @@ class CreateAdminUserSeeder extends Seeder
             'charges-pay',
             'driver-assign',
             'driver-unassign',
+            'driver-list',
+            'driver-create',
+            'driver-edit',
+            'driver-delete',
             
         ];
 

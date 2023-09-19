@@ -43,21 +43,13 @@ class DriverController extends Controller
                 'license' => 'required|string',
                 'number' => 'required|string',
                 'password' => 'required|min:6',
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif',
+                'email' => 'required'
             ]);
             
             $input = $request->all();
             
             // Hash the password
             $input['password'] = Hash::make($input['password']);
-            
-            if ($request->hasFile('image')) {
-                $image = $request->file('image');
-                $destinationPath = 'driver/';
-                $imageName = $input['name'] . '.' . $image->getClientOriginalExtension();
-                $imagePath = $image->move($destinationPath, $imageName);
-                $input['image'] = $imagePath;
-            }
             
             // Create the driver
             Driver::create($input);
@@ -86,18 +78,11 @@ class DriverController extends Controller
                 'number' => 'required',
                 'license' => 'required',
                 'password' => 'required|min:6',
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif',
+                'email' => 'required'
             ]);
             // Hash the password
             $input = $request->all();
             $input['password'] = Hash::make($input['password']);
-            if ($request->hasFile('image')) {
-                $image = $request->file('image');
-                $destinationPath = 'driver/';
-                $imageName = $input['name'] . '.' . $image->getClientOriginalExtension();
-                $imagePath = $image->move($destinationPath, $imageName);
-                $input['image'] = $imagePath;
-            }
             $driver = Driver::find($id);
             $driver->update($input);
 
