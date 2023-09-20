@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\City;
+use App\Models\Paytoll;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 
@@ -30,10 +31,13 @@ class HomeController extends Controller
         $unpaidTicket = Ticket::where('status', '0')->get()->count();
         $unpaidCharges = City::where('status', '0')->get()->count();
         $unpaidChargesSum = City::where('status', '0')->sum('price');
-        $unpaidTicketSum = Ticket::where('status', '0')->sum('price');
-        $totalCharges = City::all()->sum('price');
+        $unpaidTollSum = Paytoll::where('status', '0')->sum('price');
+        $unpaid =  $unpaidChargesSum +  $unpaidTollSum;
+        $citycharges = City::all()->sum('price');
+        $tollsCharges = Paytoll::all()->sum('price'); 
+        $totalCharges = $citycharges + $tollsCharges; 
 
         $page = 'dash';
-        return view('home',compact('page','tickets','charges','unpaidTicket','unpaidCharges','totalCharges', 'unpaidChargesSum'));
+        return view('home',compact('page','tickets','charges','unpaidTicket','unpaidCharges','totalCharges', 'unpaid'));
     }
 }

@@ -59,7 +59,7 @@ $ticketCount = $tickets->count();
                         <div class="col-3 home" style="background:  #FF6F73;">
                             <div class="homeText">
                                 <p>Unpaid Charges</p>
-                                <span>£{{ $unpaidChargesSum }}</span>
+                                <span>£{{ $unpaid }}</span>
                             </div>
                         </div>
 

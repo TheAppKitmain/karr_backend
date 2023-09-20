@@ -29,7 +29,7 @@ class PaytollController extends Controller
     {
         $toll = Paytoll::findorFail($id);
         $toll->destory();
-        return redirect()->route('toll')->with('success', 'Toll has been deleted');
+        return redirect()->back()->with('success', 'Toll has been deleted');
     }
     public function paytoll($id)
     {
@@ -38,13 +38,13 @@ class PaytollController extends Controller
         if ($status == '1') {
             return redirect()->route('toll')->with('error', 'Toll is already paid');
         } else if ($status == '0') {
-            $toll->status = 'paid';
+            $toll->status = '1';
             $toll->save();
-            return redirect()->route('toll')->with('success', 'Toll has been payed');
+            return redirect()->back()->with('success', 'Toll has been paid');
         } elseif ($status == 2) {
-            return redirect()->route('toll')->with('error', 'Toll status is disputed');
+            return redirect()->back()->with('error', 'Toll status is disputed');
         } else {
-            return redirect()->route('toll')->with('error', 'Erorr occured.');
+            return redirect()->back()->with('error', 'Erorr occured.');
         }
     }
     public function createToll(Paytoll $toll)

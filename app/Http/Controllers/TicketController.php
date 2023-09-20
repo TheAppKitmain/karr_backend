@@ -24,6 +24,9 @@ class TicketController extends Controller
     {
         $tickets = Ticket::all();
         $tolls = Paytoll::all();
+        foreach ($tolls as $toll) {
+            $toll->selectedDays = json_decode($toll->days);
+        }
         $cities = city::all();
         return view('ticket.index',compact('tickets','tolls','cities'));
     }

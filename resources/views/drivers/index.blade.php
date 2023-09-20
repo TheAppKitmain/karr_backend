@@ -101,7 +101,7 @@ $page = 'driver';
                             <form action="{{ route('drivers.destroy', $driver->id) }}" method="POST">
                                 @csrf
                                 @method('delete')
-                                <button type="submit" style="border:none; cursor: pointer; padding:2px 7px;"><img src="{{ asset('assets/dist/img/bin.png') }}" alt="Delete"></button>
+                                <button type="submit" style="border:none; cursor: pointer; padding:3px 7px;"><img src="{{ asset('assets/dist/img/bin.png') }}" alt="Delete"></button>
                             </form>
                         </td>
                         

@@ -5,25 +5,28 @@ $page = 'ticket';
 
 @extends('layouts.app')
 @section('content')
-<style>
-    .sort{
-        width: 180px;
-        height: 35px;
-        background-color: #F8F8FA;
-        border:1px solid #F8F8FA;
-        border-radius: 10px;
+    <style>
+        .sort {
+            width: 180px;
+            height: 35px;
+            background-color: #F8F8FA;
+            border: 1px solid #F8F8FA;
+            border-radius: 10px;
 
-    }
-    .sort p{
-        margin-left: 10px;
-        font-size: 12px ; 
-        font-family: 'lato';
-        font-weight: 500;
-    } 
-    .sort span{
-        margin-left: 100px;
-    }
-    .dropdown {
+        }
+
+        .sort p {
+            margin-left: 10px;
+            font-size: 12px;
+            font-family: 'lato';
+            font-weight: 500;
+        }
+
+        .sort span {
+            margin-left: 100px;
+        }
+
+        .dropdown {
             position: relative;
             display: inline-block;
         }
@@ -33,7 +36,7 @@ $page = 'ticket';
             position: absolute;
             background-color: #f9f9f9 !important;
             min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
             z-index: 1;
         }
 
@@ -51,12 +54,12 @@ $page = 'ticket';
         .dropdown-content a:hover {
             background-color: #ddd !important;
         }
-</style>
+    </style>
     <section class="create-services-screen">
         <div class="row create-services-screen-left">
             <div class="for-our-services">
                 <div class="sort dropdown">
-                    <p>Sort By<span class="caret"></span></p>
+                    <p>Filter By<span class="caret"></span></p>
                     <div class="dropdown-content">
                         <a href="#" id="showTicketsTable">Tickets</a>
                         <a href="#" id="showCityTable">Charges</a>
@@ -78,7 +81,7 @@ $page = 'ticket';
             <table class="table" id="ticketsTable">
                 <thread>
                     <h4 id="ticketsHeading">Tickets</h4>
-                    <tr>
+                    <tr style="background-color: #F8F8FA">
                         <th>No</th>
                         <th>Name</th>
                         <th>Date</th>
@@ -95,17 +98,17 @@ $page = 'ticket';
                     @foreach ($tickets as $key => $ticket)
                         <tr>
                             <th scope="row">{{ $key + 1 }}</th>
-                            <td>{{$ticket->name}}</td>
-                            <td>{{$ticket->date}}</td>
-                            <td>{{$ticket->pcn}}</td>
-                            <td>{{$ticket->date}}</td>
+                            <td>{{ $ticket->driver->name }}</td>
+                            <td>{{ $ticket->date }}</td>
+                            <td>{{ $ticket->pcn }}</td>
+                            <td>{{ $ticket->date }}</td>
                             <td>{{ $ticket->price }}</td>
                             @can('toll-pay')
                                 @if ($ticket->status == '1')
                                     <td>Paid</td>
                                     <td><a class="btn btn-success" href="{{ route('ticket.pay', $ticket->id) }}">Paid</a></td>
                                 @elseif ($ticket->status == '0')
-                                    <td>UnPaid</td>
+                                    <td>Unpaid</td>
                                     <td><a class="btn btn-danger" href="{{ route('ticket.pay', $ticket->id) }}">Pay</a></td>
                                 @else
                                     <td>Disputed</td>
@@ -116,10 +119,10 @@ $page = 'ticket';
                     @endforeach
                 </tbody>
             </table>
-            <table class="table" id="cityTable">
+            <table class="table" id="cityTable" style="display: none;">
                 <thread>
-                    <h4 id="cityHeading">City Charges</h4>
-                    <tr>
+                    <h4 id="cityHeading" style="display: none;">City Charges</h4>
+                    <tr style="background-color:#F8F8FA;">
                         <th>No</th>
                         <th>City Name</th>
                         <th>Time</th>
@@ -134,30 +137,29 @@ $page = 'ticket';
                     @foreach ($cities as $key => $city)
                         <tr>
                             <th scope="row">{{ $key + 1 }}</th>
-                            <td>{{$city->city}}</td>
-                            <td>{{$city->time}}</td>
+                            <td>{{ $city->city }}</td>
+                            <td>{{ $city->time }}</td>
                             <td>{{ $city->price }}</td>
-                            @can('city-pay')
-                                @if ($city->status == '1')
-                                    <td>Paid</td>
-                                    <td><a class="btn btn-success" href="{{ route('charges.pay', $city->id) }}">Paid</a></td>
-                                @elseif ($city->status == '0')
-                                    <td>UnPaid</td>
-                                    <td><a class="btn btn-danger" href="{{ route('charges.pay', $city->id) }}">Pay</a></td>
-                                @else
-                                    <td>Disputed</td>
-                                    <td><a class="btn btn-primary" href="{{ route('charges.pay', $city->id) }}">Disputed</a>
-                                    </td>
-                                @endif
-                            @endcan
+
+                            @if ($city->status == '1')
+                                <td>Paid</td>
+                                <td><a class="btn btn-success" href="{{ route('charges.pay', $city->id) }}">Paid</a></td>
+                            @elseif ($city->status == 0)
+                                <td>Unpaid</td>
+                                <td><a class="btn btn-danger" href="{{ route('charges.pay', $city->id) }}">Pay</a></td>
+                            @else
+                                <td>Disputed</td>
+                                <td><a class="btn btn-primary" href="{{ route('charges.pay', $city->id) }}">Disputed</a>
+                                </td>
+                            @endif
                     @endforeach
                 </tbody>
             </table>
 
-            <table class="table" id="tollsTable">
+            <table class="table" id="tollsTable" style="display: none;">
                 <thread>
-                    <h4 id="tollsHeading">Tolls</h4> {{-- Initially hidden --}}
-                    <tr>
+                    <h4 id="tollsHeading" style="display: none;">Tolls</h4> {{-- Initially hidden --}}
+                    <tr style="background-color:#F8F8FA;">
                         <th>No</th>
                         <th>Name</th>
                         <th>Days</th>
@@ -172,17 +174,17 @@ $page = 'ticket';
                     @foreach ($tolls as $key => $toll)
                         <tr>
                             <th scope="row">{{ $key + 1 }}</th>
-                            <td>{{$toll->name}}</td>
-                            <td>{{$toll->date}}</td>
-                            <td>{{$toll->pcn}}</td>
-                            <td>{{$toll->date}}</td>
+                            <td>{{ $toll->name }}</td>
+                            <td>
+                                {{ implode(', ', $toll->selectedDays) }}
+                            </td>
                             <td>{{ $toll->price }}</td>
                             @can('toll-pay')
                                 @if ($toll->status == '1')
                                     <td>Paid</td>
                                     <td><a class="btn btn-success" href="{{ route('toll.pay', $toll->id) }}">Paid</a></td>
                                 @elseif ($toll->status == '0')
-                                    <td>UnPaid</td>
+                                    <td>Unpaid</td>
                                     <td><a class="btn btn-danger" href="{{ route('toll.pay', $toll->id) }}">Pay</a></td>
                                 @else
                                     <td>Disputed</td>
@@ -198,34 +200,33 @@ $page = 'ticket';
 
 
     <script>
-        $(document).ready(function () {
-            $("#showTollsTable").click(function () {
+        $(document).ready(function() {
+            $("#showTollsTable").click(function() {
                 $("#tollsTable").show();
                 $("#tollsHeading").show();
                 $("#ticketsHeading").hide();
                 $("#ticketsTable").hide();
                 $("#cityTable").hide();
-                $("#cityHeading").hide(); 
+                $("#cityHeading").hide();
             });
-    
-            $("#showTicketsTable").click(function () {
+
+            $("#showTicketsTable").click(function() {
                 $("#tollsTable").hide();
                 $("#tollsHeading").hide();
                 $("#ticketsHeading").show();
                 $("#ticketsTable").show();
                 $("#cityTable").hide();
-                $("#cityHeading").hide(); 
+                $("#cityHeading").hide();
             });
-    
-            $("#showCityTable").click(function () {
+
+            $("#showCityTable").click(function() {
                 $("#tollsTable").hide();
                 $("#tollsHeading").hide();
                 $("#ticketsHeading").hide();
                 $("#ticketsTable").hide();
                 $("#cityTable").show();
-                $("#cityHeading").show(); 
+                $("#cityHeading").show();
             });
         });
     </script>
 @endsection
-
