@@ -17,17 +17,15 @@ class ApiController extends Controller
 {
     public function login(Request $request)
     {
-        $credentials = $request->only('number', 'password');
-        $driver = Driver::where('number', $credentials['number'])->whereNotNull('car_id')->first();
-
-        if ($driver && Hash::check($credentials['password'], $driver->password)) {
+        $credentials = $request->only('number', 'password', 'email');
+        $driver = Driver::where('email', $credentials['email'])->first();
+        
+        if ($driver && Hash::check($credentials['password'], $driver->password) && $driver->number === $credentials['number']) {
             return response()->json([
                 'status' => true,
                 'message' => 'Login successful',
                 'user' => $driver,
-                'car' => $driver->car->number,
-
-            ],200);
+            ], 200);
         }
         return response()->json([
             'status' => false,
