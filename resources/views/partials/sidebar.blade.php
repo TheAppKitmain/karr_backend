@@ -233,7 +233,8 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-success" id="confirmLogout">Logout</button>
+            <button type="button" class="btn" style="background-color: #8C52FF;
+            color: white;" id="confirmLogout">Logout</button>
           </div>
       </div>
     </div>

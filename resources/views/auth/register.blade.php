@@ -82,7 +82,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AirBNB</title>
+    <title>Signup</title>
     <link rel="stylesheet" href="{{ asset('assets/bootstrap/css/bootstrap.min.css') }}">
 
     <!-- admin style -->
@@ -95,6 +95,12 @@
     <div class="wrapper">
         <section class="sign-up-screen">
             <div class="signup-form">
+                <div class="col-md-12 col-sm-12 col-12">
+                    <div class="welocme-to-login">
+                        <h3>Let's Create Your Account</h3>
+                        <p>It is a long established fact that a reader.</p>
+                    </div>
+                </div>
                 <form method="POST" action="{{ route('register') }}">
                     @csrf
                     <div class="col-md-12 col-sm-12 col-12">
@@ -127,7 +133,7 @@
                         <div class="form-group">
                             <label>Password</label>
                             <input id="password" type="password" placeholder="Password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
+                            <i class="fa fa-eye-slash" aria-hidden="true"></i>
                             @error('password')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -152,7 +158,7 @@
             </div>
             </form>
             <div class="signup-image">
-                <img src="{{ asset('assets/dist/img/signup-img.svg') }}" alt="">
+                <img src="{{ asset('assets/dist/img/signup.png') }}" alt="">
             </div>
         </section>
 

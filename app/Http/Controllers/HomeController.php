@@ -36,8 +36,13 @@ class HomeController extends Controller
         $citycharges = City::all()->sum('price');
         $tollsCharges = Paytoll::all()->sum('price'); 
         $totalCharges = $citycharges + $tollsCharges; 
+        $tolls = Paytoll::all();
+        foreach ($tolls as $toll) {
+            $toll->selectedDays = json_decode($toll->days);
+        }
+        $cities = city::all();
 
         $page = 'dash';
-        return view('home',compact('page','tickets','charges','unpaidTicket','unpaidCharges','totalCharges', 'unpaid'));
+        return view('home',compact('page','tickets','tolls','cities','charges','unpaidTicket','unpaidCharges','totalCharges', 'unpaid'));
     }
 }

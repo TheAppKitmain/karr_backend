@@ -554,6 +554,11 @@ a:focus {
   color: #fff;
   fill: #fff;
 }
+.active.treeview a span,
+.active.treeview a span img {
+  color: #fff;
+  fill: #fff;
+}
 
 li.treeview {
   margin-bottom: 12px;
@@ -1302,6 +1307,8 @@ li.dropdown.tasks-menu img {
 }
 .signup-image img {
   width: 100%;
+  height: 106%;
+  margin-top: -5%;
 }
 
 .login-btn {
@@ -1318,7 +1325,8 @@ li.dropdown.tasks-menu img {
 
 .login-btn button {
   border-radius: 10px;
-  background: var(--primary, #2D927E);
+  border: 1px;
+  background: #8C52FF !important;
   padding: 14px 0;
   color: #fff;
   display: block;
@@ -1348,8 +1356,8 @@ li.dropdown.tasks-menu img {
   font-size: 14px;
   font-weight: 500;
 }
-.alredy-have p span {
-  color: #2D927E;
+.alredy-have p a {
+  color: #8C52FF !important;
   cursor: pointer;
 }
 
@@ -1369,7 +1377,7 @@ li.dropdown.tasks-menu img {
   margin-bottom: 2rem;
 }
 .forgot-password {
-  color: #2D927E;
+  color: #8C52FF !important;
   text-align: right;
   font-size: 14px;
   font-weight: 500;
@@ -3004,6 +3012,7 @@ li.dropdown.tasks-menu img {
 }
 .signup-image img {
   width: 100%;
+  height: 100%;
 }
 
 .login-btn {

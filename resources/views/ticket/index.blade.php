@@ -1,5 +1,6 @@
 <?php
 $page = 'ticket';
+$count = 1;
 ?>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -54,6 +55,11 @@ $page = 'ticket';
         .dropdown-content a:hover {
             background-color: #ddd !important;
         }
+
+        .scroll {
+            display: block;
+            overflow-x: auto;
+        }
     </style>
     <section class="create-services-screen">
         <div class="row create-services-screen-left">
@@ -77,80 +83,90 @@ $page = 'ticket';
                     {{ Session::get('error') }}
                 </div>
             @endif
-            <table class="table" id="AllTable">
-                <thead>
-                    <tr style="background-color: #F8F8FA">
-                        <!-- Define the table headers -->
-                        <th>No.</th>
-                        <th>PCN</th>
-                        <th>Toll Name</th>
-                        <th>Toll Days</th>
-                        <th>City Name</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($tickets as $key => $ticket)
-                        <tr>
-                            <td>{{ $key + 1 }}</td>
-                            <td>{{ $ticket->pcn }}</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            @can('toll-pay')
-                                @if ($ticket->status == '1')
-                                    <td><a class="btn btn-success" href="{{ route('ticket.pay', $ticket->id) }}">Paid</a></td>
-                                @elseif ($ticket->status == '0')
-                                    <td><a class="btn btn-danger" href="{{ route('ticket.pay', $ticket->id) }}">Pay</a></td>
+            <div class="scroll">
+                <table class="table" id="AllTable">
+                    <thead>
+                        <tr style="background-color: #F8F8FA">
+                            <!-- Define the table headers -->
+                            <th>No.</th>
+                            <th>PCN</th>
+                            <th>Name</th>
+                            <th>Time</th>
+                            <th>Issued by</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($tickets as $key => $ticket)
+                            <tr>
+                                <th>{{ $count++ }}</th>
+                                <td>{{ $ticket->pcn }}</td>
+                                <td>{{ $ticket->driver->name }}</td>
+                                <td>{{ $ticket->date }}</td>
+                                <td>{{ $ticket->ticket_issuer }}</td>
+                                <td>{{ $ticket->price }}</td>
+                                @can('toll-pay')
+                                    @if ($ticket->status == '1')
+                                        <td><a class="btn btn-success" href="{{ route('ticket.pay', $ticket->id) }}">Paid</a>
+                                        </td>
+                                    @elseif ($ticket->status == '0')
+                                        <td><a class="btn btn-danger" href="{{ route('ticket.pay', $ticket->id) }}">Pay</a></td>
+                                    @else
+                                        <td><a class="btn btn-primary"
+                                                href="{{ route('ticket.pay', $ticket->id) }}">Disputed</a>
+                                        </td>
+                                    @endif
+                                @endcan
+                            </tr>
+                        @endforeach
+
+                        @foreach ($tolls as $toll)
+                            <tr>
+                                <th>{{ $count++ }}</th>
+                                <td></td>
+                                <td>{{ $toll->name }}</td>
+                                <td>{{ implode(', ', $toll->selectedDays) }}</td>
+                                <td></td>
+                                <td>{{ $toll->price }}</td>
+                                @can('toll-pay')
+                                    @if ($toll->status == '1')
+                                        <td><a class="btn btn-success" href="{{ route('toll.pay', $toll->id) }}">Paid</a></td>
+                                    @elseif ($toll->status == '0')
+                                        <td><a class="btn btn-danger" href="{{ route('toll.pay', $toll->id) }}">Pay</a></td>
+                                    @else
+                                        <td><a class="btn btn-primary" href="{{ route('toll.pay', $ticket->id) }}">Disputed</a>
+                                        </td>
+                                    @endif
+                                @endcan
+                            </tr>
+                        @endforeach
+
+                        @foreach ($cities as $city)
+                            <tr>
+                                <th>{{ $count++ }}</th>
+                                <td></td>
+                                <td>{{ $city->city }}</td>
+                                <td>{{ $city->time }}</td>
+                                <td></td>
+                                <td>{{ $city->price }}</td>
+                                @if ($city->status == '1')
+                                    <td><a class="btn btn-success" href="{{ route('charges.pay', $city->id) }}">Paid</a>
+                                    </td>
+                                @elseif ($city->status == 0)
+                                    <td><a class="btn btn-danger" href="{{ route('charges.pay', $city->id) }}">Pay</a></td>
                                 @else
-                                    <td><a class="btn btn-primary" href="{{ route('ticket.pay', $ticket->id) }}">Disputed</a>
+                                    <td><a class="btn btn-primary"
+                                            href="{{ route('charges.pay', $city->id) }}">Disputed</a>
                                     </td>
                                 @endif
-                            @endcan
-                        </tr>
-                    @endforeach
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
-                    @foreach ($tolls as $toll)
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td>{{ $toll->name }}</td>
-                            <td>{{ implode(', ', $toll->selectedDays) }}</td>
-                            <td></td>
-                            @can('toll-pay')
-                                @if ($toll->status == '1')
-                                    <td><a class="btn btn-success" href="{{ route('toll.pay', $toll->id) }}">Paid</a></td>
-                                @elseif ($toll->status == '0')
-                                    <td><a class="btn btn-danger" href="{{ route('toll.pay', $toll->id) }}">Pay</a></td>
-                                @else
-                                    <td><a class="btn btn-primary" href="{{ route('toll.pay', $ticket->id) }}">Disputed</a>
-                                    </td>
-                                @endif
-                            @endcan
-                        </tr>
-                    @endforeach
-
-                    @foreach ($cities as $city)
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>{{ $city->city }}</td>
-                            @if ($city->status == '1')
-                                <td><a class="btn btn-success" href="{{ route('charges.pay', $city->id) }}">Paid</a></td>
-                            @elseif ($city->status == 0)
-                                <td><a class="btn btn-danger" href="{{ route('charges.pay', $city->id) }}">Pay</a></td>
-                            @else
-                                <td><a class="btn btn-primary" href="{{ route('charges.pay', $city->id) }}">Disputed</a>
-                                </td>
-                            @endif
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-
-
+            <div class="scroll">
             <table class="table" id="ticketsTable" style="display: none;">
                 <thread>
                     <h4 id="ticketsHeading" style="display:none; ">Tickets</h4>
@@ -192,6 +208,8 @@ $page = 'ticket';
                     @endforeach
                 </tbody>
             </table>
+            </div>
+            <div class="scroll">
             <table class="table" id="cityTable" style="display: none;">
                 <thread>
                     <h4 id="cityHeading" style="display: none;">City Charges</h4>
@@ -228,7 +246,8 @@ $page = 'ticket';
                     @endforeach
                 </tbody>
             </table>
-
+            </div>
+            <div class="scroll">
             <table class="table" id="tollsTable" style="display: none;">
                 <thread>
                     <h4 id="tollsHeading" style="display: none;">Tolls</h4> {{-- Initially hidden --}}
@@ -268,6 +287,7 @@ $page = 'ticket';
                     @endforeach
                 </tbody>
             </table>
+            </div>
         </div>
     </section>
 

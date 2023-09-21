@@ -105,7 +105,7 @@
                     <div class="col-md-12 col-sm-12 col-12">
                         <div class="form-group">
                             <label>Email</label>
-                            <input id="email" type="email"
+                            <input id="email" type="email" placeholder="Email"
                                 class="form-control @error('email') is-invalid @enderror" name="email"
                                 value="{{ old('email') }}" required autocomplete="email" autofocus>
                         </div>
@@ -133,7 +133,7 @@
                 </form>
             </div>
             <div class="signup-image">
-                <img src="{{ asset('assets/dist/img/login-img.svg') }}">
+                <img src="{{ asset('assets/dist/img/signin.png') }}">
             </div>
         </section>
 
