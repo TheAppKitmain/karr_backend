@@ -5,29 +5,35 @@ $page = 'driver';
 @section('content')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
 
-<style>
-    .edit{
-        /* background-color: #F8F8FA; */
-        width: 150px;
-        height: 40px;
-        border-radius: 10px;
-        /* align-content: center; */
-    }
-    .edit a{
-        background-color: #F8F8FA;
-        float: left;
-        padding: 2px;
-        /* margin-right: 2px 5px; */
-        width: 50px;
-    
-    }
+    <style>
+        .edit {
+            /* background-color: #F8F8FA; */
+            width: 150px;
+            height: 40px;
+            border-radius: 10px;
+            /* align-content: center; */
+        }
 
-    .edit a img{
-        padding: 2px;
-        align-items: center;
-        margin-left: 7px;
-    }
-</style>
+        .edit a {
+            background-color: #F8F8FA;
+            float: left;
+            padding: 2px;
+            /* margin-right: 2px 5px; */
+            width: 50px;
+
+        }
+
+        .edit a img {
+            padding: 2px;
+            align-items: center;
+            margin-left: 7px;
+        }
+
+        .scroll {
+            display: block;
+            overflow-x: auto;
+        }
+    </style>
     <section class="create-services-screen">
         <div class="row create-services-screen-left">
             <div class="col-lg-12">
@@ -87,7 +93,7 @@ $page = 'driver';
                         <th scope="row">{{ $key + 1 }}</th>
                         <td>{{ $driver->name }}</td>
                         <td>{{ $driver->number }}</td>
-                        <td>{{$driver->email}}</td>
+                        <td>{{ $driver->email }}</td>
                         <td>{{ $driver->license }}</td>
                         {{-- @can('driver-edit')
                             <td>
@@ -96,15 +102,16 @@ $page = 'driver';
                             </td>
                         @endcan --}}
                         @can('driver-delete')
-                        <td class="edit">
-                            <a href="{{ route('drivers.edit', $driver->id) }}"><img src="{{ asset('assets/dist/img/eye.png') }}" alt="Edit"></a>
-                            <form action="{{ route('drivers.destroy', $driver->id) }}" method="POST">
-                                @csrf
-                                @method('delete')
-                                <button type="submit" style="border:none; cursor: pointer; padding:3px 7px;"><img src="{{ asset('assets/dist/img/bin.png') }}" alt="Delete"></button>
-                            </form>
-                        </td>
-                        
+                            <td class="edit">
+                                <a href="{{ route('drivers.edit', $driver->id) }}"><img
+                                        src="{{ asset('assets/dist/img/eye.png') }}" alt="Edit"></a>
+                                <form action="{{ route('drivers.destroy', $driver->id) }}" method="POST">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" style="border:none; cursor: pointer; padding:3px 7px;"><img
+                                            src="{{ asset('assets/dist/img/bin.png') }}" alt="Delete"></button>
+                                </form>
+                            </td>
                         @endcan
                         {{-- <td>
                             <div class="dropdown">

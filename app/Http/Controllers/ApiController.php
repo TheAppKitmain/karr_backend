@@ -19,7 +19,7 @@ class ApiController extends Controller
     {
         $credentials = $request->only('number', 'password', 'email');
         $driver = Driver::where('email', $credentials['email'])->first();
-        
+
         if ($driver && Hash::check($credentials['password'], $driver->password) && $driver->number === $credentials['number']) {
             return response()->json([
                 'status' => true,
@@ -69,6 +69,17 @@ class ApiController extends Controller
                 'errors' => $validator->errors(),
             ]);
         }
+        $existingData = DB::table('city_driver')
+            ->where('city_id', $cityId)
+            ->where('driver_id', $driverId)
+            ->first();
+
+        if ($existingData) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Data already exists for the provided IDs'
+            ], 200);
+        }
         DB::table('city_driver')->insert([
             'city_id' => $cityId,
             'driver_id' => $driverId,
@@ -76,7 +87,8 @@ class ApiController extends Controller
         ]);
         return response()->json([
             'status' => true,
-            'message' => 'IDs stored successfully'], 200);
+            'message' => 'IDs stored successfully'
+        ], 200);
     }
 
 
@@ -93,7 +105,7 @@ class ApiController extends Controller
             return response()->json([
                 'message' => 'No toll found',
                 'status' => false,
-            ],200);
+            ], 200);
         }
     }
 
@@ -116,6 +128,17 @@ class ApiController extends Controller
 
             ]);
         }
+        $existingData = DB::table('driver_paytoll')
+            ->where('paytoll_id', $tollId)
+            ->where('driver_id', $driverId)
+            ->first();
+
+        if ($existingData) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Data already exists for the provided IDs'
+            ], 200);
+        }
         DB::table('driver_paytoll')->insert([
             'paytoll_id' => $tollId,
             'driver_id' => $driverId,
@@ -123,7 +146,8 @@ class ApiController extends Controller
         ]);
         return response()->json([
             'status' => true,
-            'message' => 'IDs stored successfully'], 200);
+            'message' => 'IDs stored successfully'
+        ], 200);
     }
     public function ticket(Request $request)
     {
@@ -163,7 +187,8 @@ class ApiController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Tickets found',
-                'tickets' => $tickets], 200);
+                'tickets' => $tickets
+            ], 200);
         }
     }
 }
