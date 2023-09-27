@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('name');
             $table->json('days'); // Store days as a JSON array
             $table->string('price');
-            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }

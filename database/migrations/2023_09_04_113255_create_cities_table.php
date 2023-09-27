@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('city');
             $table->string('time');
             $table->string('area');
-            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Paytoll;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use function PHPUnit\Framework\returnValueMap;
 
@@ -33,15 +34,14 @@ class PaytollController extends Controller
     }
     public function paytoll($id)
     {
-        $toll = Paytoll::find($id);
+        $toll = DB::table('driver_paytoll')->where('paytoll_id', $id)->first();
         $status = $toll->status;
-        if ($status == '1') {
+        if ($toll == '1') {
             return redirect()->route('toll')->with('error', 'Toll is already paid');
         } else if ($status == '0') {
-            $toll->status = '1';
-            $toll->save();
+            DB::table('driver_paytoll')->where('paytoll_id', $id)->update(array('status' => 1));
             return redirect()->back()->with('success', 'Toll has been paid');
-        } elseif ($status == 2) {
+        } elseif ($status == '2') {
             return redirect()->back()->with('error', 'Toll status is disputed');
         } else {
             return redirect()->back()->with('error', 'Erorr occured.');
@@ -56,21 +56,17 @@ class PaytollController extends Controller
         try {
             $data = $request->validate([
                 'name' => 'required|string',
-                'price' => 'required|integer',
+                'price' => 'required',
                 'days' => 'required|array',
                 'status' => 'boolean',
             ]);
 
-            // Retrieve existing tolls with the same name
+
             $existingTolls = Paytoll::where('name', $data['name'])->get();
 
-            // Check if any existing toll has overlapping days with the new toll
             foreach ($existingTolls as $existingToll) {
-                // Convert JSON days arrays to sets for easy comparison
                 $existingDays = collect(json_decode($existingToll->days));
                 $newDays = collect($data['days']);
-
-                // Check if there are overlapping days (intersection of sets is not empty)
                 if (!$existingDays->intersect($newDays)->isEmpty()) {
                     return redirect()->route('toll.create')->with('error', 'Toll with the same name already exists with overlapping days.');
                 }
@@ -97,35 +93,31 @@ class PaytollController extends Controller
         try {
             $data = $request->validate([
                 'name' => 'required|string',
-                'price' => 'required|integer',
+                'price' => 'required',
                 'days' => 'required|array',
                 'status' => 'boolean',
             ]);
-        
+
             $toll = Paytoll::find($id);
-        
-            // Check if there are overlapping days with other tolls of the same name
+
+
             $existingTolls = Paytoll::where('name', $data['name'])
-                ->where('id', '<>', $id) // Exclude the current toll being updated
+                ->where('id', '<>', $id)
                 ->get();
-        
+
             foreach ($existingTolls as $existingToll) {
-                // Convert JSON days arrays to sets for easy comparison
                 $existingDays = collect(json_decode($existingToll->days));
                 $newDays = collect($data['days']);
-        
-                // Check if there are overlapping days
+
                 if (!$existingDays->intersect($newDays)->isEmpty()) {
                     return redirect()->route('toll.edit', $id)->with('error', 'Toll with the same name already exists with overlapping days.');
                 }
             }
-            // If no overlapping days are found, update the toll
             $toll->update($data);
             return redirect()->route('toll')->with('success', 'Toll has been updated successfully.');
         } catch (\Exception $e) {
-            // Log the exception for debugging
 
-            return back()->with('error','Failed to update toll. Please try again.');
+            return back()->with('error', 'Failed to update toll. Please try again.');
         }
     }
     public function delete($id)

@@ -25,7 +25,7 @@ $page = 'toll';
                             </div>
                             <div class="form-group">
                                 <label>Charges</label>
-                                <input type="number" name="price" placeholder="Charges" class="form-control">
+                                <input type="float" name="price" placeholder="Charges" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label>Days</label>

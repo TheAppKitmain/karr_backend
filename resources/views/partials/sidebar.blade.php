@@ -1,5 +1,6 @@
 <aside class="main-sidebar">
     <section class="sidebar">
+        <div class="menu_content">
         <ul class="sidebar-menu">
 
             <li class="treeview <?php if ($page == 'dash') {
@@ -213,6 +214,7 @@
             </li>
             
         </ul>
+        </div>
     </section>
     <!-- /.sidebar -->
 </aside>

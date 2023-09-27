@@ -15,7 +15,9 @@
     <!-- admin style -->
     <link rel="stylesheet" href="{{asset('assets/dist/css/style.css')}}">
     <link rel="stylesheet" href="{{asset('assets/dist/css/responsive.css')}}">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
@@ -85,6 +87,7 @@
         </div>
     </div>
     <script src="{{asset('assets/bootstrap/js/bootstrap.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/dist/css/script.js')}}"></script>
     <script>
         $(document).ready(function () {
           $('#show-hidden-menu').click(function () {

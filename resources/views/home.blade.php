@@ -148,9 +148,9 @@ $count = 1;
                                             @elseif ($toll->status == '0')
                                                 <td><a class="btn btn-danger" href="{{ route('toll.pay', $toll->id) }}">Pay</a>
                                                 </td>
-                                            @else
+                                            @elseif ($toll->status == '2')
                                                 <td><a class="btn btn-primary"
-                                                        href="{{ route('toll.pay', $ticket->id) }}">Disputed</a>
+                                                        href="{{ route('toll.pay', $toll->id) }}">Disputed</a>
                                                 </td>
                                             @endif
                                         @endcan
