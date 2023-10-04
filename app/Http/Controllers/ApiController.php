@@ -53,12 +53,14 @@ class ApiController extends Controller
     }
     public function driverCharge(Request $request)
     {
-        $cityId = $request->input('city_id');
+        $cityids = $request->input('city_id');
         $driverId = $request->input('driver_id');
+        $date = $request->input('date');
         $notes = $request->input('notes');
 
         $validator = Validator::make($request->all(), [
-            'city_id' => 'required|exists:cities,id',
+            'city_id' => 'required|array',
+            'city_id.*' => 'required|exists:cities,id',
             'driver_id' => 'required|exists:drivers,id',
         ]);
 
@@ -69,22 +71,25 @@ class ApiController extends Controller
                 'errors' => $validator->errors(),
             ]);
         }
-        $existingData = DB::table('city_driver')
-            ->where('city_id', $cityId)
-            ->where('driver_id', $driverId)
-            ->first();
+        foreach ($cityids as $cityId) {
+            $existingData = DB::table('city_driver')
+                ->where('city_id', $cityId)
+                ->where('driver_id', $driverId)
+                ->first();
 
-        if ($existingData) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Data already exists for the provided IDs'
-            ], 200);
+            if ($existingData) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Data already exists for the provided IDs'
+                ], 200);
+            }
+            DB::table('city_driver')->insert([
+                'city_id' => $cityId,
+                'driver_id' => $driverId,
+                'date' => $date,
+                'notes' => $notes,
+            ]);
         }
-        DB::table('city_driver')->insert([
-            'city_id' => $cityId,
-            'driver_id' => $driverId,
-            'notes' => $notes,
-        ]);
         return response()->json([
             'status' => true,
             'message' => 'IDs stored successfully'
@@ -111,12 +116,15 @@ class ApiController extends Controller
 
     public function driverToll(Request $request)
     {
-        $tollId = $request->input('paytoll_id');
+        $tollIds = $request->input('paytoll_id'); // Assuming the input field is named 'paytoll_ids' as an array.
         $driverId = $request->input('driver_id');
+        $date = $request->input('date');
+        $way = $request->input('way');
         $notes = $request->input('notes');
 
         $validator = Validator::make($request->all(), [
-            'paytoll_id' => 'required|exists:paytolls,id',
+            'paytoll_id' => 'required|array',
+            'paytoll_id.*' => 'required|exists:paytolls,id', // Validate each 'paytoll_id' in the array.
             'driver_id' => 'required|exists:drivers,id',
         ]);
 
@@ -125,30 +133,38 @@ class ApiController extends Controller
                 'message' => 'Validation failed',
                 'errors' => $validator->errors(),
                 'status' => false
-
             ]);
         }
-        $existingData = DB::table('driver_paytoll')
-            ->where('paytoll_id', $tollId)
-            ->where('driver_id', $driverId)
-            ->first();
 
-        if ($existingData) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Data already exists for the provided IDs'
-            ], 200);
+        foreach ($tollIds as $tollId) {
+            $existingData = DB::table('driver_paytoll')
+                ->where('paytoll_id', $tollId)
+                ->where('driver_id', $driverId)
+                ->first();
+
+            if ($existingData) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Data already exists for the provided IDs'
+                ], 200);
+            }
+
+            // Insert the record for the current 'paytoll_id' and 'driverId'.
+            DB::table('driver_paytoll')->insert([
+                'paytoll_id' => $tollId,
+                'driver_id' => $driverId,
+                'way' => $way,
+                'date' => $date,
+                'notes' => $notes,
+            ]);
         }
-        DB::table('driver_paytoll')->insert([
-            'paytoll_id' => $tollId,
-            'driver_id' => $driverId,
-            'notes' => $notes,
-        ]);
+
         return response()->json([
             'status' => true,
             'message' => 'IDs stored successfully'
         ], 200);
     }
+
     public function ticket(Request $request)
     {
         try {

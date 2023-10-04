@@ -15,6 +15,8 @@ return new class extends Migration
             $table->unsignedBigInteger('driver_id');
             $table->unsignedBigInteger('paytoll_id');
             $table->string('notes')->nullable();
+            $table->string('date');
+            $table->string('way');
             $table->tinyInteger('status')->default(0);
             $table->primary(['driver_id', 'paytoll_id']);
         });

@@ -64,6 +64,7 @@ $count = 1;
     <section class="create-services-screen">
         <div class="row create-services-screen-left">
             <div class="for-our-services">
+                <a href="#" id="selectAllCheckboxItems">Pay multiple Tickets</a>
                 <div class="sort dropdown">
                     <p>Filter By<span class="caret"></span></p>
                     <div class="dropdown-content">
@@ -88,6 +89,7 @@ $count = 1;
                     <thead>
                         <tr style="background-color: #F8F8FA">
                             <!-- Define the table headers -->
+                            <th>Check</th>
                             <th>No.</th>
                             <th>PCN</th>
                             <th>Name</th>
@@ -100,6 +102,8 @@ $count = 1;
                     <tbody>
                         @foreach ($tickets as $key => $ticket)
                             <tr>
+                                <td><input type="checkbox" class="table-checkbox" data-table="tickets" name="ticket_ids[]" value="{{$ticket->id}}"></td>
+                                <!-- ... Rest of the table row ... -->
                                 <th>{{ $count++ }}</th>
                                 <td>{{ $ticket->pcn }}</td>
                                 <td>{{ $ticket->driver->name }}</td>
@@ -123,6 +127,8 @@ $count = 1;
 
                         @foreach ($tolls as $toll)
                             <tr>
+                                <td><input type="checkbox" class="table-checkbox" data-table="tolls" name="toll_ids[]" value="{{$toll->id}}"></td>
+                                <!-- ... Rest of the table row ... -->
                                 <th>{{ $count++ }}</th>
                                 <td></td>
                                 <td>{{ $toll->name }}</td>
@@ -144,6 +150,8 @@ $count = 1;
 
                         @foreach ($cities as $city)
                             <tr>
+                                <td><input type="checkbox" class="table-checkbox" data-table="city" name="city_ids[]" value="{{$city->id}}"></td>
+                                <!-- ... Rest of the table row ... -->
                                 <th>{{ $count++ }}</th>
                                 <td></td>
                                 <td>{{ $city->city }}</td>
@@ -171,6 +179,7 @@ $count = 1;
                     <thread>
                         <h4 id="ticketsHeading" style="display:none; ">Tickets</h4>
                         <tr style="background-color: #F8F8FA">
+                            <th>Check</th>
                             <th>No</th>
                             <th>Name</th>
                             <th>Date</th>
@@ -186,6 +195,8 @@ $count = 1;
                     <tbody>
                         @foreach ($tickets as $key => $ticket)
                             <tr>
+                                <td><input type="checkbox" name="" id="" value="{{$ticket->id}}"></td>
+                                <!-- ... Rest of the table row ... -->
                                 <th scope="row">{{ $key + 1 }}</th>
                                 <td>{{ $ticket->driver->name }}</td>
                                 <td>{{ $ticket->date }}</td>
@@ -217,6 +228,7 @@ $count = 1;
                     <thread>
                         <h4 id="cityHeading" style="display: none;">City Charges</h4>
                         <tr style="background-color:#F8F8FA;">
+                            <th>Check</th>
                             <th>No</th>
                             <th>City Name</th>
                             <th>Time</th>
@@ -230,6 +242,7 @@ $count = 1;
                     <tbody>
                         @foreach ($cities as $key => $city)
                             <tr>
+                                <td><input type="checkbox" id="vehicle1" id="check" name="ids[]" value="{{$city->id}}"></td>
                                 <th scope="row">{{ $key + 1 }}</th>
                                 <td>{{ $city->city }}</td>
                                 <td>{{ $city->time }}</td>
@@ -257,6 +270,7 @@ $count = 1;
                     <thread>
                         <h4 id="tollsHeading" style="display: none;">Tolls</h4> {{-- Initially hidden --}}
                         <tr style="background-color:#F8F8FA;">
+                            <th>Check</th>
                             <th>No</th>
                             <th>Name</th>
                             <th>Days</th>
@@ -270,6 +284,7 @@ $count = 1;
                     <tbody>
                         @foreach ($tolls as $key => $toll)
                             <tr>
+                                <td><input type="checkbox" id="vehicle1" id="check" name="ids[]" value="{{$toll->id}}"></td>
                                 <th scope="row">{{ $key + 1 }}</th>
                                 <td>{{ $toll->name }}</td>
                                 <td>
@@ -330,4 +345,45 @@ $count = 1;
             });
         });
     </script>
+<script>
+    $(document).ready(function() {
+        // When the "Pay multiple Tickets" anchor tag is clicked
+        $('#selectAllCheckboxItems').click(function(event) {
+            event.preventDefault(); // Prevent the default link behavior
+
+            var selectedIds = {};
+            
+            // Iterate through all checkboxes with the "table-checkbox" class
+            $('.table-checkbox:checked').each(function() {
+                var table = $(this).data('table');
+                var id = $(this).val();
+                
+                // Add the ID to the corresponding table's array
+                if (!selectedIds[table]) {
+                    selectedIds[table] = [];
+                }
+                selectedIds[table].push(id);
+            });
+
+            if (Object.keys(selectedIds).length > 0) {
+                // Convert the selectedIds object into a JSON string and encode it
+                var encodedIds = encodeURIComponent(JSON.stringify(selectedIds));
+
+                // Construct the URL with selected IDs as a query parameter
+                var url = "{{ route('bulk') }}?ids=" + encodedIds;
+
+                // Redirect to the constructed URL
+                window.location.href = url;
+            } else {
+                // Handle the case when no items are selected
+                alert('No items are selected.');
+            }
+        });
+    });
+</script>
+
+
+
+
+    
 @endsection

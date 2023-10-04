@@ -61,14 +61,14 @@ $count = 1;
                         <div class="home" style="background:  #FFB400;">
                             <div class="homeText">
                                 <p>Total Charges</p>
-                                <span>£{{ $totalCharges }}</span>
+                                <span>£ {{ $totalCharges }}</span>
                             </div>
 
                         </div>
                         <div class="home" style="background:  #FF6F73;">
                             <div class="homeText">
                                 <p>Unpaid Charges</p>
-                                <span>£{{ $unpaid }}</span>
+                                <span>£ {{ $unpaid }}</span>
                             </div>
                         </div>
 

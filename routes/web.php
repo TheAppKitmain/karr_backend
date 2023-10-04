@@ -81,3 +81,7 @@ Route::delete('/charges/delete/{id}',[TicketController::class, 'cityDelete'])->n
 Route::get('/city.charges/{id}',[TicketController::class, 'cityEdit'])->name('charges.edit');
 Route::put('/charges/update/{id}',[TicketController::class,'cityUpdate'])->name('charges.update');
 
+//Stripe payment
+Route::post('/payment/{id}',[TicketController::class, 'stripe'])->name('payment');
+Route::get('/bulk',[TicketController::class, 'selectMultiple'])->name('bulk');
+Route::post('/bulkpayment',[TicketController::class, 'bulkStripe'])->name('bulkStripe');

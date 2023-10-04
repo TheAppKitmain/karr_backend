@@ -36,7 +36,6 @@ $page = 'driver';
     </style>
     <section class="create-services-screen">
         <div class="row create-services-screen-left">
-            <div class="col-lg-12">
                 <div class="for-our-services">
                     <h3>All Drivers</h3>
                     @can('driver-create')
@@ -59,61 +58,61 @@ $page = 'driver';
                         </a>
                     @endcan
                 </div>
-            </div>
-            <table class="table">
-                <thread>
-                    @if (Session::has('success'))
-                        <div class="alert alert-success">
-                            {{ Session::get('success') }}
-                        </div>
-                    @endif
-                    @if (Session::has('error'))
-                        <div class="alert alert-danger">
-                            {{ Session::get('error') }}
-                        </div>
-                    @endif
-                    <tr style="background: #F8F8FA">
-                        <th>No</th>
-                        <th>Name</th>
-                        <th>Number</th>
-                        <th>Email</th>
-                        <th>Plate Number</th>
-                        {{-- @can('driver-edit')
+            <div class="scroll">
+                <table class="table">
+                    <thread>
+                        @if (Session::has('success'))
+                            <div class="alert alert-success">
+                                {{ Session::get('success') }}
+                            </div>
+                        @endif
+                        @if (Session::has('error'))
+                            <div class="alert alert-danger">
+                                {{ Session::get('error') }}
+                            </div>
+                        @endif
+                        <tr style="background: #F8F8FA">
+                            <th>No</th>
+                            <th>Name</th>
+                            <th>Number</th>
+                            <th>Email</th>
+                            <th>Plate Number</th>
+                            {{-- @can('driver-edit')
                             <th>Update</th>
                         @endcan
                         @can('driver-delete')
                             <th>Delete</th>
                         @endcan --}}
-                        <th>Views</th>
-                    </tr>
-                </thread>
+                            <th>Views</th>
+                        </tr>
+                    </thread>
 
-                @foreach ($drivers as $key => $driver)
-                    <tr>
-                        <th scope="row">{{ $key + 1 }}</th>
-                        <td>{{ $driver->name }}</td>
-                        <td>{{ $driver->number }}</td>
-                        <td>{{ $driver->email }}</td>
-                        <td>{{ $driver->license }}</td>
-                        {{-- @can('driver-edit')
+                    @foreach ($drivers as $key => $driver)
+                        <tr>
+                            <th scope="row">{{ $key + 1 }}</th>
+                            <td>{{ $driver->name }}</td>
+                            <td>{{ $driver->number }}</td>
+                            <td>{{ $driver->email }}</td>
+                            <td>{{ $driver->license }}</td>
+                            {{-- @can('driver-edit')
                             <td>
                                 <a class="btn btn-success" href="{{ route('drivers.edit', $driver->id) }}">Update</a>
 
                             </td>
                         @endcan --}}
-                        @can('driver-delete')
-                            <td class="edit">
-                                <a href="{{ route('drivers.edit', $driver->id) }}"><img
-                                        src="{{ asset('assets/dist/img/eye.png') }}" alt="Edit"></a>
-                                <form action="{{ route('drivers.destroy', $driver->id) }}" method="POST">
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit" style="border:none; cursor: pointer; padding:3px 7px;"><img
-                                            src="{{ asset('assets/dist/img/bin.png') }}" alt="Delete"></button>
-                                </form>
-                            </td>
-                        @endcan
-                        {{-- <td>
+                            @can('driver-delete')
+                                <td class="edit">
+                                    <a href="{{ route('drivers.edit', $driver->id) }}"><img
+                                            src="{{ asset('assets/dist/img/eye.png') }}" alt="Edit"></a>
+                                    <form action="{{ route('drivers.destroy', $driver->id) }}" method="POST">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" style="border:none; cursor: pointer; padding:3px 7px;"><img
+                                                src="{{ asset('assets/dist/img/bin.png') }}" alt="Delete"></button>
+                                    </form>
+                                </td>
+                            @endcan
+                            {{-- <td>
                             <div class="dropdown">
                                 <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -141,9 +140,10 @@ $page = 'driver';
                         </td> --}}
 
 
-                    </tr>
-                @endforeach
-            </table>
+                        </tr>
+                    @endforeach
+                </table>
+            </div>
         </div>
     </section>
 @endsection

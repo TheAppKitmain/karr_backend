@@ -35,12 +35,15 @@ class PaytollController extends Controller
     public function paytoll($id)
     {
         $toll = DB::table('driver_paytoll')->where('paytoll_id', $id)->first();
+        $find = Paytoll::find($id);
+        $price = $find->price;
+        $type = $toll->paytoll_id;
         $status = $toll->status;
-        if ($toll == '1') {
-            return redirect()->route('toll')->with('error', 'Toll is already paid');
-        } else if ($status == '0') {
-            DB::table('driver_paytoll')->where('paytoll_id', $id)->update(array('status' => 1));
-            return redirect()->back()->with('success', 'Toll has been paid');
+        $name = 'tl';
+        if ($status == '0') {
+            return view('ticket.stripe', compact('type','price','name'));
+        } else if ($status == '1') {
+            return redirect()->route('tickets')->with('error', 'Toll is already paid');
         } elseif ($status == '2') {
             return redirect()->back()->with('error', 'Toll status is disputed');
         } else {
