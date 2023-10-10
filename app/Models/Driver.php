@@ -12,7 +12,7 @@ class Driver extends Model
     protected $fillable =
     [
         'name', 'number', 'license', 'password',
-        'email',
+        'email', 'user_id',
     ];
     public function car()
     {
@@ -26,8 +26,13 @@ class Driver extends Model
     {
         return $this->belongsToMany(City::class);
     }
-    public function ticket()
+    public function user()
     {
-        return $this->belongsTo(Ticket::class);
+        return $this->belongsTo(User::class);
+    }
+    
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class);
     }
 }

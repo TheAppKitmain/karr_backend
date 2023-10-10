@@ -4,6 +4,7 @@ use App\Http\Controllers\CarController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\PaytollController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\superAdminController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Artisan;
@@ -20,17 +21,6 @@ Auth::routes();
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource('roles', RoleController::class);
 
-// Routes for Users
-Route::get('/users', [UserController::class, 'index'])->name('users.index');
-Route::get('/user/create', [UserController::class, 'create'])->name('users.create');
-Route::get('/users/{user}', [UserController::class, 'edit'])->name('users.edit');
-Route::post('/users/store', [UserController::class, 'store'])->name('users.store');
-Route::delete('/users{user}', [UserController::class, 'delete'])->name('users.destroy');
-Route::put('users/update/{user}', [UserController::class, 'update'])->name('users.update');
-Route::get('/settings/{id}',[UserController::class, 'setting'])->name('settings');
-
-
-
 // Routes for cars
 Route::get('/cars', [CarController::class, 'index'])->name('cars.index');
 Route::get('/cars/{id}', [CarController::class, 'edit'])->name('cars.edit');
@@ -38,8 +28,6 @@ Route::get('/cars/create/list', [CarController::class, 'create'])->name('cars.cr
 Route::post('/cars/store', [CarController::class, 'store'])->name('cars.store');
 Route::delete('/cars/{car}', [CarController::class, 'delete'])->name('cars.destroy');
 Route::put('/cars/update/{car}', [CarController::class, 'update'])->name('cars.update');
-
-
 
 
 // Routes for drivers
@@ -85,3 +73,30 @@ Route::put('/charges/update/{id}',[TicketController::class,'cityUpdate'])->name(
 Route::post('/payment/{id}',[TicketController::class, 'stripe'])->name('payment');
 Route::get('/bulk',[TicketController::class, 'selectMultiple'])->name('bulk');
 Route::post('/bulkpayment',[TicketController::class, 'bulkStripe'])->name('bulkStripe');
+
+// Card Enter
+
+Route::post('/card',[PaytollController::class, 'card'])->name('card');
+Route::delete('/card/{id}', [PaytollController::class, 'cardDelete'])->name('card.delete');
+
+
+//-------------------------------------Super Admin Routes---------------------------------------------------
+
+
+// Routes for Users
+Route::get('/users', [UserController::class, 'index'])->name('users.index');
+Route::get('/user/create', [UserController::class, 'create'])->name('users.create');
+Route::get('/users/{user}', [UserController::class, 'edit'])->name('users.edit');
+Route::post('/users/store', [UserController::class, 'store'])->name('users.store');
+Route::delete('/users{user}', [UserController::class, 'delete'])->name('users.destroy');
+Route::put('users/update/{user}', [UserController::class, 'update'])->name('users.update');
+Route::get('/settings/{id}',[UserController::class, 'setting'])->name('settings');
+
+// Routes for all tickets
+
+Route::get('/all-tickets', [superAdminController::class, 'totalTickets'])->name('admin.tickets');
+Route::get('admin/{id}/{name}', [superAdminController::class, 'adminPay'])->name('admin.pay');
+Route::get('/marked-pay', [superAdminController::class, 'markedPay'])->name('marked.pay');
+Route::get('/user-details/{id}', [superAdminController::class, 'adminData'])->name('admin.details');
+
+

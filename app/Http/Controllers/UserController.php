@@ -24,10 +24,12 @@ class UserController extends Controller
     public function index()
     {
 
-        $adminEmail = 'superadmin@gmail.com';
-        $data = User::where('email', '!=', $adminEmail)->get();
-    
-        return view('users.index', ['users' => $data],compact('data'));
+        $adminData = Role::where('name', 'admin')->first();
+        if($adminData)
+        {
+            $data = $adminData->users;
+            return view('superAdmin.adminList', ['users' => $data],compact('data'));
+        }
     }
 
     public function create()

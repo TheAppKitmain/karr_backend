@@ -48,6 +48,11 @@ class PermissionTableSeeder extends Seeder
             'charges-delete',
             'charges-edit',
             'charges-pay',
+         //PERMISSIONS FOR SUPER ADMIN
+            'admin-ticket',
+            'admin-list',
+            'admin-tolls',
+            'admin-pay',
   
 
         ];

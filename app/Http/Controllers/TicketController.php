@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Card;
 use App\Models\City;
 use App\Models\Paytoll;
 use App\Models\Ticket;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Session;
 use Stripe;
@@ -25,15 +27,17 @@ class TicketController extends Controller
     }
     public function index()
     {
-        $tickets = Ticket::all();
-        $cities = DB::table('cities')
-            ->join('city_driver', 'cities.id', '=', 'city_driver.city_id')
-            ->select('cities.*', 'city_driver.*')
-            ->get();
-        $tolls = DB::table('paytolls')
-            ->join('driver_paytoll', 'paytolls.id', '=', 'driver_paytoll.paytoll_id')
-            ->select('paytolls.*', 'driver_paytoll.*')
-            ->get();
+        $userId = Auth::user()->id;
+        $tickets = Ticket::whereHas('driver.user', function ($query) use ($userId) {
+            $query->where('id', $userId);
+        })->get();
+        $cities = City::whereHas('drivers.user', function ($query) use ($userId) {
+            $query->where('id', $userId);
+        })->get();
+        // dd($cities);
+        $tolls = Paytoll::whereHas('drivers.user', function ($query) use ($userId) {
+            $query->where('id', $userId);
+        })->get();
         foreach ($tolls as $toll) {
             $toll->selectedDays = json_decode($toll->days);
         }
@@ -45,11 +49,11 @@ class TicketController extends Controller
         $ticket->delete();
         return redirect()->route('tickets')->with('success', 'Ticket has been deleted');
     }
-    
-    
+
+
     // *************************** Functions for City Charges *******************************************
-    
-    
+
+
     public function city()
     {
         $charges = City::all();
@@ -101,11 +105,11 @@ class TicketController extends Controller
             $input = $request->all();
             $city = City::find($id);
             $city->update($input);
-            
+
             return redirect()->route('city')->with('success', 'City charges has been updated successfully.');
         } catch (\Exception $e) {
             // Log the exception for debugging
-            
+
             return back()->with('error', 'Failed to update charges. Please try again.');
         }
     }
@@ -116,12 +120,13 @@ class TicketController extends Controller
     {
         $city = DB::table('city_driver')->where('city_id', $id)->first();
         $find = City::find($id);
+        $collection = Card::all();
         $price = $find->price;
         $name = 'ct';
         $type = $city->city_id;
         $status = $city->status;
         if ($status == '0') {
-           return view('ticket.stripe', compact('type','price', 'name'));
+            return view('ticket.stripe', compact('type', 'price', 'name', 'collection'));
         } else if ($status == '1') {
             return redirect()->route('tickets')->with('error', 'City Charges is paid');
         } elseif ($status == '2') {
@@ -136,13 +141,14 @@ class TicketController extends Controller
     {
         $ticket = Ticket::find($id);
         $status = $ticket->status;
+        $collection = Card::all();
         $name = 'tk';
         $type = $ticket->id;
         $price = $ticket->price;
         if ($status == 0) {
-            return view('ticket.stripe',compact('type','price', 'name'));
+            return view('ticket.stripe', compact('type', 'price', 'name', 'collection'));
         } else if ($status == 1) {
-         return redirect()->route('tickets')->with('error', 'Ticket is paid');
+            return redirect()->route('tickets')->with('error', 'Ticket is paid');
         } else {
             return redirect()->route('tickets')->with('error', 'Ticket status is disputed');
         }
@@ -162,24 +168,18 @@ class TicketController extends Controller
                 "source" => $request->stripeToken,
                 "description" => "Test payment for KARR."
             ]);
-            if($name == 'tk')
-            {
+            if ($name == 'tk') {
                 $ticket = Ticket::find($id);
                 $ticket->status = 1;
                 $ticket->save();
                 return back()->with('success', 'Payment successful!');
-            }
-            else if($name == 'tl')
-            {
+            } else if ($name == 'tl') {
                 DB::table('driver_paytoll')->where('paytoll_id', $id)->update(array('status' => 1));
                 return back()->with('success', 'Payment successful!');
-            }
-            else if ($name == 'ct')
-            {
+            } else if ($name == 'ct') {
                 DB::table('city_driver')->where('city_id', $id)->update(array('status' => '1'));
                 return back()->with('success', 'Payment successful!');
             }
-
         } catch (Exception $e) {
             return back()->with('error', 'Error Occured');
         }
@@ -188,54 +188,65 @@ class TicketController extends Controller
     public function selectMultiple(Request $request)
     {
         $encodedIds = $request->input('ids');
-    
+
         // Decode the JSON-encoded IDs and convert them back to an array
         $selectedIds = json_decode(urldecode($encodedIds), true);
-    
+
         // Initialize the total price and arrays for IDs
         $totalPrice = 0;
         $tids = [];
         $lids = [];
         $cids = [];
-    
+
         // Process the selected IDs for each table
         foreach ($selectedIds as $table => $ids) {
             foreach ($ids as $id) {
                 $item = null;
-    
+
                 // Determine the model based on the table name
                 switch ($table) {
                     case 'tickets':
                         $item = Ticket::find($id);
                         $tid = $item->id;
-                        $tids[] = $tid;
-                        break;
+                        if ($item->status == '1') {
+                            return back()->with('error', 'selected ticket is already paid');
+                        } else {
+                            $tids[] = $tid;
+                            break;
+                        }
                     case 'tolls':
                         $item = PayToll::find($id);
                         $toll = DB::table('driver_paytoll')->where('paytoll_id', $id)->first();
-                        $lid = $toll->paytoll_id;
-                        $lids[] = $lid;
-                        break;
+                        if ($toll->status == '1') {
+                            return back()->with('error', 'selected ticket is already paid');
+                        } else {
+                            $lid = $toll->paytoll_id;
+                            $lids[] = $lid;
+                            break;
+                        }
                     case 'city':
                         $item = City::find($id);
                         $city = DB::table('city_driver')->where('city_id', $id)->first();
                         $cid = $city->city_id;
-                        $cids[] = $cid;
-                        break;
-                    // Add more cases for other tables if needed
+                        if ($city->status == '1') {
+                            return back()->with('error', 'selected ticket is already paid');
+                        } else {
+                            $cids[] = $cid;
+                            break;
+                        }
+                        // Add more cases for other tables if needed
                 }
-    
+
                 if ($item) {
                     $totalPrice += $item->price;
                 }
             }
         }
-    
-        //  dd($tids,$cids, $lids);
-    
-        return view('ticket.bulk', compact('totalPrice', 'tids', 'lids', 'cids'));
+        $collection = Card::all();
+
+        return view('ticket.bulk', compact('totalPrice', 'tids', 'lids', 'cids', 'collection'));
     }
-    
+
     public function bulkStripe(Request $request)
     {
         $amount = $request->price * 100;
@@ -249,19 +260,16 @@ class TicketController extends Controller
         $cidsJson = $request->input('cids');
         $cids = json_decode($cidsJson, true);
         $tidsJson = $request->input('tids');
-        $tids = json_decode( $tidsJson, true);
+        $tids = json_decode($tidsJson, true);
         $lidsJson = $request->input('lids');
-        $lids = json_decode( $lidsJson, true);
-        foreach ($lids as $lid)
-        {
+        $lids = json_decode($lidsJson, true);
+        foreach ($lids as $lid) {
             DB::table('driver_paytoll')->where('paytoll_id', $lid)->update(array('status' => 1));
         }
-        foreach ($cids as $cid)
-        {
+        foreach ($cids as $cid) {
             DB::table('city_driver')->where('city_id', $cid)->update(array('status' => 1));
         }
-        foreach($tids as $tid)
-        {
+        foreach ($tids as $tid) {
             $ticket = Ticket::find($tid);
             $ticket->status = 1;
             $ticket->save();
@@ -269,5 +277,4 @@ class TicketController extends Controller
         // dd($cids,$lids,$tids);
         return redirect()->route('tickets')->with('success', 'Payment has been done');
     }
-
 }

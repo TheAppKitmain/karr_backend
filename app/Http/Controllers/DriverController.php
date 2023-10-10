@@ -8,6 +8,7 @@ use App\Models\Ticket;
 use Exception;
 use Illuminate\Http\Request;
 use Hash;
+use Illuminate\Support\Facades\Auth;
 
 class DriverController extends Controller
 {
@@ -17,13 +18,25 @@ class DriverController extends Controller
         $this->middleware('permission:driver-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:driver-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:driver-delete', ['only' => ['destroy']]);
-        $this->middleware('permission:driver-assign', ['only' => ['assignDriver','assignCar']]);
+        $this->middleware('permission:driver-assign', ['only' => ['assignDriver', 'assignCar']]);
         $this->middleware('permission:driver-unassign', ['only' => ['unassign']]);
     }
     public function index()
     {
-        $drivers = Driver::all();
-        return view('drivers.index', compact('drivers'));
+        $id = Auth::user()->id;
+        $user = Auth::user();
+        $roles = $user->roles;
+
+        // For Super Admins
+        if ($roles->contains('name', 'Super Admin')) {
+            $drivers = Driver::all();
+            return view('drivers.index', compact('drivers'));
+        }
+        // For Admin
+        elseif ($roles->contains('name', 'Admin')) {
+            $drivers = Driver::where('user_id', $id)->get();
+            return view('drivers.index', compact('drivers'));
+        }
     }
     public function create()
     {
@@ -43,17 +56,18 @@ class DriverController extends Controller
                 'license' => 'required|string',
                 'number' => 'required|string',
                 'password' => 'required|min:6',
-                'email' => 'required'
+                'email' => 'required',
+                'user_id' => 'required',
             ]);
-            
+
             $input = $request->all();
-            
+
             // Hash the password
             $input['password'] = Hash::make($input['password']);
-            
+
             // Create the driver
             Driver::create($input);
-            
+
             return redirect()->route('drivers.index')->with('success', 'Driver created successfully.');
         } catch (\Exception $e) {
             // Log the exception for debugging
@@ -139,12 +153,12 @@ class DriverController extends Controller
     {
         $driver = Driver::find($id);
         $charges = $driver->cities;
-        return view('charges.drivercharge', compact('driver','charges'));
+        return view('charges.drivercharge', compact('driver', 'charges'));
     }
     public function driverTicket($id)
-    { 
+    {
         $tickets = Ticket::where('driver_id', $id)->get();
-    
+
         return view('ticket.driverTicket', compact('tickets'));
     }
 }

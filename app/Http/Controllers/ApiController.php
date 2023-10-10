@@ -168,19 +168,35 @@ class ApiController extends Controller
     public function ticket(Request $request)
     {
         try {
-            $validateData = $request->validate([
+            $validator = Validator::make($request->all(), [
+                'driver_id' => 'required|exists:drivers,id',
                 'pcn' => 'required',
                 'date' => 'required',
                 'price' => 'required',
                 'ticket_issuer' => 'required',
-                'driver_id' => 'required|exists:drivers,id',
-
             ]);
-            Ticket::create($validateData);
-            return response()->json([
-                'mesage' => 'ticket is stored',
-                'status' => true,
-            ], 201);
+            if ($validator->fails()) {
+                return response()->json([
+                    'message' => 'Validation failed',
+                    'errors' => $validator->errors(),
+                    'status' => false
+                ]);
+            } else {
+                $validateData = $request->validate([
+                    'pcn' => 'required',
+                    'date' => 'required',
+                    'price' => 'required',
+                    'ticket_issuer' => 'required',
+                    'driver_id' => 'required|exists:drivers,id',
+
+                ]);
+
+                Ticket::create($validateData);
+                return response()->json([
+                    'mesage' => 'ticket is stored',
+                    'status' => true,
+                ], 201);
+            }
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'ticket data is not stored',
@@ -206,5 +222,8 @@ class ApiController extends Controller
                 'tickets' => $tickets
             ], 200);
         }
+    }
+    public function carResponse(Request $request)
+    {
     }
 }

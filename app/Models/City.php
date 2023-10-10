@@ -14,9 +14,8 @@ class City extends Model
         'time',
         'price',
     ];
-    public function driver()
+    public function drivers()
     {
         return $this->belongsToMany(Driver::class);
     }
-
 }

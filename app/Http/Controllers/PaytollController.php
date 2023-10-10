@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Car;
+use App\Models\Card;
 use App\Models\Paytoll;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -37,11 +39,12 @@ class PaytollController extends Controller
         $toll = DB::table('driver_paytoll')->where('paytoll_id', $id)->first();
         $find = Paytoll::find($id);
         $price = $find->price;
+        $collection = Card::all();
         $type = $toll->paytoll_id;
         $status = $toll->status;
         $name = 'tl';
         if ($status == '0') {
-            return view('ticket.stripe', compact('type','price','name'));
+            return view('ticket.stripe', compact('type', 'price', 'name','collection'));
         } else if ($status == '1') {
             return redirect()->route('tickets')->with('error', 'Toll is already paid');
         } elseif ($status == '2') {
@@ -63,7 +66,6 @@ class PaytollController extends Controller
                 'days' => 'required|array',
                 'status' => 'boolean',
             ]);
-
 
             $existingTolls = Paytoll::where('name', $data['name'])->get();
 
@@ -128,5 +130,36 @@ class PaytollController extends Controller
         $toll = Paytoll::find($id);
         $toll->delete();
         return redirect()->route('toll')->with('success', 'Toll has been deleted Successfully');
+    }
+
+    //************************************* Card Save ********************************************/
+
+    public function card(Request $request)
+    {
+        try {
+            $count = Card::all()->count();
+            if ($count < 3) {
+                $data = $request->validate([
+                    'name' => 'required|max:255',
+                    'card' => 'required|integer',
+                    'cvc' => 'required',
+                    'mon' => 'required|max:2',
+                    'year' => 'required|max:4',
+                    'user_id' => 'required',
+                ]);
+                Card::create($data);
+                return back()->with('success', 'Card is added successfully');
+            } else {
+                return back()->with('error', 'Already 3 cards are added');
+            }
+        } catch (\Exception $e) {
+            return back()->with('error', 'Oops card is not added');
+        }
+    }
+    public function cardDelete($id)
+    {
+        $card = Card::find($id);
+        $card->destory();
+        return back()->with('success', 'Card is delete successfully');
     }
 }

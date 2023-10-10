@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('license')->unique();
             $table->string('password');
             $table->string('email');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
