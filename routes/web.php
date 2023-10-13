@@ -95,7 +95,7 @@ Route::get('/settings/{id}',[UserController::class, 'setting'])->name('settings'
 // Routes for all tickets
 
 Route::get('/all-tickets', [superAdminController::class, 'totalTickets'])->name('admin.tickets');
-Route::get('admin/{id}/{name}', [superAdminController::class, 'adminPay'])->name('admin.pay');
+Route::get('admin/{id}/{name}/{d_id}', [superAdminController::class, 'adminPay'])->name('admin.pay');
 Route::get('/marked-pay', [superAdminController::class, 'markedPay'])->name('marked.pay');
 Route::get('/user-details/{id}', [superAdminController::class, 'adminData'])->name('admin.details');
 

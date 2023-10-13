@@ -32,7 +32,7 @@ class HomeController extends Controller
         $userId = Auth::user()->id;
         $roles = $user->roles;
     //---------------------- For Super Admins---------------------------------------------
-        if ($roles->contains('name', 'Super Admin')) {
+        if($roles->contains('name', 'Super Admin') || $roles->contains('name', 'S Admin')) {
            
             $tickets = Ticket::orderBy('id', 'desc')->take(3)->get();
             $charges = City::all()->count();
@@ -41,37 +41,36 @@ class HomeController extends Controller
             $unpaidCharges = DB::table('city_driver')->where('status', '0');
 
             $unpaidChargesSum = DB::table('cities')
-                ->join('city_driver', 'cities.id', '=', 'city_driver.city_id')
-                ->where('city_driver.status', 0)
+                ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
+                ->where('city__drivers.status', 0)
                 ->sum('cities.price');
 
             $unpaidTollSum = DB::table('paytolls')
-                ->join('driver_paytoll', 'paytolls.id', '=', 'driver_paytoll.paytoll_id')
-                ->where('driver_paytoll.status', 0)
+                ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
+                ->where('paytoll__drivers.status', 0)
                 ->sum('paytolls.price');
 
             $unpaid =  $unpaidChargesSum +  $unpaidTollSum;
 
             $citycharges = DB::table('cities')
-                ->join('city_driver', 'cities.id', '=', 'city_driver.city_id')
+                ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
                 ->sum('cities.price');
             $tollsCharges =  DB::table('paytolls')
-                ->join('driver_paytoll', 'paytolls.id', '=', 'driver_paytoll.paytoll_id')
+                ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
                 ->sum('paytolls.price');
 
             $totalCharges = $citycharges + $tollsCharges;
 
             $tolls = DB::table('paytolls')
-                ->join('driver_paytoll', 'paytolls.id', '=', 'driver_paytoll.paytoll_id')
-                ->select('paytolls.*', 'driver_paytoll.*')->orderBy('id', 'desc')->take(3)->get();
+                ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
+                ->select('paytolls.*', 'paytoll__drivers.*')->orderBy('paytoll_id', 'desc')->take(3)->get();
 
-    
             foreach ($tolls as $toll) {
                 $toll->selectedDays = json_decode($toll->days);
             }
             $cities = DB::table('cities')
-                ->join('city_driver', 'cities.id', '=', 'city_driver.city_id')
-                ->select('cities.*', 'city_driver.*')->orderBy('id', 'desc')->take(3)->get();
+                ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
+                ->select('cities.*', 'city__drivers.*')->orderBy('city_id', 'desc')->take(3)->get();
     
             // dd($cities);
     
@@ -88,40 +87,50 @@ class HomeController extends Controller
                 $query->where('id', $userId);
             })->get();
 
-            $tolls = Paytoll::whereHas('drivers.user', function ($query) use ($userId) {
-                $query->where('id', $userId);
+
+            $tolls = Paytoll::with('tollDrivers')->whereHas('tollDrivers', function ($query) use ($userId) {
+                $query->whereHas('driver.user', function ($query) use ($userId) {
+                    $query->where('users.id', $userId);
+                });
             })->get();
+    
             foreach ($tolls as $toll) {
                 $toll->selectedDays = json_decode($toll->days);
             }
-
-            // dd($tolls);
-            $cities = City::whereHas('drivers.user', function ($query) use ($userId) {
-                $query->where('id', $userId);
+    
+            $cities = City::with('cityDrivers')->whereHas('cityDrivers', function ($query) use ($userId) {
+                $query->whereHas('driver.user', function ($query) use ($userId) {
+                    $query->where('users.id', $userId);
+                });
             })->get();
+            
+            //  dd($cities);
 
             $charges = City::all()->count();
             $unpaidTicket =  Ticket::whereHas('driver.user', function ($query) use ($userId) {
                 $query->where('id', $userId)->where('status', '0');
             })->count();
 
-            $unpaidCharges = DB::table('city_driver')->where('status', '0');
+            $unpaidCharges = DB::table('city__drivers')->where('status', '0');
 
-            $unpaidChargesSum = City::whereHas('drivers.user', function ($query) use ($userId) {
-                $query->where('id', $userId)->where('status', '0');
+            $unpaidChargesSum =  City::whereHas('cityDrivers.driver.user', function ($query) use ($userId) {
+                $query->where('users.id', $userId)->where('status', '0');
             })->sum('price');
-            $unpaidTollSum = Paytoll::whereHas('drivers.user', function ($query) use ($userId) {
-                $query->where('id', $userId)->where('status', '0');
+            
+           
+
+            $unpaidTollSum = Paytoll::whereHas('tollDrivers.driver.user', function ($query) use ($userId) {
+                $query->where('users.id', $userId)->where('status', '0');
             })->sum('price');
 
             $unpaid =  $unpaidChargesSum +  $unpaidTollSum;
 
-            $citycharges = City::whereHas('drivers.user', function ($query) use ($userId) {
-                $query->where('id', $userId);
+            $citycharges = City::whereHas('cityDrivers.driver.user', function ($query) use ($userId) {
+                $query->where('users.id', $userId);
             })->sum('price');
 
-            $tollsCharges = Paytoll::whereHas('drivers.user', function ($query) use ($userId) {
-                $query->where('id', $userId);
+            $tollsCharges =Paytoll::whereHas('tollDrivers.driver.user', function ($query) use ($userId) {
+                $query->where('users.id', $userId);
             })->sum('price');
 
             $totalCharges = $citycharges + $tollsCharges;

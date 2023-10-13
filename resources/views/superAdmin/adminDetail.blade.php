@@ -130,10 +130,16 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
                                     <tbody>
                                         @foreach ($tollData as $toll)
                                             <tr>
-                                                <td>{{ $toll->drivers->first()->name }}</td>
+                                                <td>{{ $toll->tollDrivers->first()->driver->name }}</td>
                                                 <td>{{ $toll->name }}</td>
                                                 <td>{{ $toll->price }}</td>
-                                                <td>{{ $toll->status }}</td>
+                                                <td>
+                                                    @if ($toll->tollDrivers->first()->status == 0)
+                                                        <span class="badge badge-danger">Unpaid</span>
+                                                    @elseif ($toll->tollDrivers->first()->status == 1)
+                                                        <span class="badge badge-success">Paid</span>
+                                                    @endif
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -159,10 +165,16 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
                                     <tbody>
                                         @foreach ($cityData as $city)
                                             <tr>
-                                                <td>{{ $city->drivers->first()->name }}</td>
+                                                <td>{{ $city->cityDrivers->first()->driver->name }}</td>
                                                 <td>{{ $city->area }}</td>
                                                 <td>{{ $city->price }}</td>
-                                                <td>{{ $city->status }}</td>
+                                                <td>
+                                                    @if ($city->cityDrivers->first()->status == 0)
+                                                        <span class="badge badge-danger">Unpaid</span>
+                                                    @elseif ($city->cityDrivers->first()->status == 1)
+                                                        <span class="badge badge-success">Paid</span>
+                                                    @endif
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -187,7 +199,7 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
                                         @foreach ($bank as $card)
                                             <tr>
                                                 <td>{{ $card->name }}</td>
-                                                <td>{{ $card->number }}</td>
+                                                <td>{{ $card->card }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>

@@ -8,14 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Paytoll extends Model
 {
     use HasFactory;
-    protected $fillable = 
+    protected $fillable =
     [
-        'name', 'time', 'price','day',
+        'name', 'time', 'price', 'day',
     ];
     public function drivers()
     {
         return $this->belongsToMany(Driver::class);
     }
-    
-
+    public function tollDrivers()
+    {
+        return $this->hasMany(Paytoll_Driver::class, 'paytoll_id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

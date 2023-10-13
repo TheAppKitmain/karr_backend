@@ -36,7 +36,7 @@ class PaytollController extends Controller
     }
     public function paytoll($id)
     {
-        $toll = DB::table('driver_paytoll')->where('paytoll_id', $id)->first();
+        $toll = DB::table('paytoll__drivers')->where('paytoll_id', $id)->first();
         $find = Paytoll::find($id);
         $price = $find->price;
         $collection = Card::all();

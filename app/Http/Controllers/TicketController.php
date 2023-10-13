@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Card;
 use App\Models\City;
+use App\Models\City_Driver;
 use App\Models\Paytoll;
+use App\Models\Paytoll_Driver;
 use App\Models\Ticket;
 use Exception;
 use Illuminate\Http\Request;
@@ -31,16 +33,25 @@ class TicketController extends Controller
         $tickets = Ticket::whereHas('driver.user', function ($query) use ($userId) {
             $query->where('id', $userId);
         })->get();
-        $cities = City::whereHas('drivers.user', function ($query) use ($userId) {
-            $query->where('id', $userId);
+
+
+        $tolls = Paytoll::with('tollDrivers')->whereHas('tollDrivers', function ($query) use ($userId) {
+            $query->whereHas('driver.user', function ($query) use ($userId) {
+                $query->where('users.id', $userId);
+            });
         })->get();
-        // dd($cities);
-        $tolls = Paytoll::whereHas('drivers.user', function ($query) use ($userId) {
-            $query->where('id', $userId);
-        })->get();
+
         foreach ($tolls as $toll) {
             $toll->selectedDays = json_decode($toll->days);
         }
+
+        $cities = City::with('cityDrivers')->whereHas('cityDrivers', function ($query) use ($userId) {
+            $query->whereHas('driver.user', function ($query) use ($userId) {
+                $query->where('users.id', $userId);
+            });
+        })->get();
+
+        // return $cities;
         return view('ticket.index', compact('tickets', 'tolls', 'cities'));
     }
     public function ticketDelete($id)
@@ -174,6 +185,7 @@ class TicketController extends Controller
                 $ticket->save();
                 return back()->with('success', 'Payment successful!');
             } else if ($name == 'tl') {
+                dd($id);
                 DB::table('driver_paytoll')->where('paytoll_id', $id)->update(array('status' => 1));
                 return back()->with('success', 'Payment successful!');
             } else if ($name == 'ct') {
@@ -216,8 +228,9 @@ class TicketController extends Controller
                         }
                     case 'tolls':
                         $item = PayToll::find($id);
-                        $toll = DB::table('driver_paytoll')->where('paytoll_id', $id)->first();
-                        if ($toll->status == '1') {
+                        $toll = Paytoll_Driver::where('paytoll_id', $id)->first();
+                        // return $toll;
+                        if ($toll->status == 1) {
                             return back()->with('error', 'selected ticket is already paid');
                         } else {
                             $lid = $toll->paytoll_id;
@@ -226,7 +239,7 @@ class TicketController extends Controller
                         }
                     case 'city':
                         $item = City::find($id);
-                        $city = DB::table('city_driver')->where('city_id', $id)->first();
+                        $city = City_Driver::where('city_id', $id)->first();
                         $cid = $city->city_id;
                         if ($city->status == '1') {
                             return back()->with('error', 'selected ticket is already paid');
@@ -264,10 +277,16 @@ class TicketController extends Controller
         $lidsJson = $request->input('lids');
         $lids = json_decode($lidsJson, true);
         foreach ($lids as $lid) {
-            DB::table('driver_paytoll')->where('paytoll_id', $lid)->update(array('status' => 1));
+            $toll = Paytoll_Driver::where('paytoll_id', $lid)->first();
+            $toll->status = 1;
+            $toll->save();
+
+            // DB::table('driver_paytoll')->where('paytoll_id', $lid)->update(array('status' => 1));
         }
         foreach ($cids as $cid) {
-            DB::table('city_driver')->where('city_id', $cid)->update(array('status' => 1));
+            $city = City_Driver::where('city_id', $cid)->first();
+            $city->status = 1;
+            $city->save();
         }
         foreach ($tids as $tid) {
             $ticket = Ticket::find($tid);

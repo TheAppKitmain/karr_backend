@@ -3,6 +3,7 @@ $page = 'driver';
 ?>
 @extends('layouts.app')
 @section('content')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <section class="content-header">
         <div class="back-button">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none"
@@ -30,41 +31,55 @@ $page = 'driver';
                             @endif
                             <div class="col-lg-6 col-md-6 form-group">
                                 <label>Driver Name</label>
-                                <input type="text" name="name" placeholder="Name" class="form-control" value="{{$driver->name}}">
+                                <input type="text" name="name" placeholder="Name" class="form-control"
+                                    value="{{ $driver->name }}">
                             </div>
                             <div class="col-lg-6 col-md-6 form-group">
                                 <label>Driver Number</label>
-                                <input type="number" name="number" placeholder="Number" class="form-control" value="{{$driver->number}}" >
+                                <input type="number" name="number" placeholder="Number" class="form-control"
+                                    value="{{ $driver->number }}">
                             </div>
                             <div class="col-lg-6 col-md-6 form-group">
                                 <label>Driver Email</label>
-                                <input type="email" name="email" placeholder="Email" class="form-control" value="{{$driver->email}}">
+                                <input type="email" name="email" placeholder="Email" class="form-control"
+                                    value="{{ $driver->email }}">
 
                             </div>
                             <div class="col-lg-6 col-md-6 form-group">
                                 <label>Driver Password</label>
-                                <input type="password" name="password" placeholder="Password" class="form-control" >
+                                <input type="password" name="password" id="password" placeholder="Password"
+                                    class="form-control">
                             </div>
                             <div class="col-lg-6 col-md-6 form-group">
                                 <label>Confirm Password</label>
-                                <input type="confirm-password" name="password" placeholder="Password" class="form-control" >
+                                <input type="password" name="confirm_password" id="confirm_password" class="form-control" />
+                                <span id='message'></span>
                             </div>
                             <div class="col-lg-6 col-md-6 form-group">
                                 <label>License Plate Number</label>
-                                <input type="text" name="license" placeholder="License" class="form-control" value="{{$driver->license}}">
+                                <input type="text" name="license" placeholder="License" class="form-control"
+                                    value="{{ $driver->license }}">
                             </div>
                         </div>
                 </div>
             </div>
-            <div class="add-btn" style="margin-right: 4rem;" >
+            <div class="add-btn" style="margin-right: 4rem;">
                 <a href="{{ route('drivers.index') }}">
                     Cancel </a>
-                <button type="submit" class="btn btn-success">Save Driver</button>
+                <button type="submit" id="submit_button" class="btn btn-success">Save Driver</button>
             </div>
             </form>
         </div>
     </section>
-
+    <script>
+        $('#password, #confirm_password').on('keyup', function() {
+            if ($('#password').val() == $('#confirm_password').val()) {
+                $('#message').html('Matching').css('color', 'green');
+                $('#submit_button').prop('disabled', false);
+            } else {
+                $('#message').html('Not Matching').css('color', 'red');
+                $('#submit_button').prop('disabled', true);
+            }
+        });
+    </script>
 @endsection
-
-

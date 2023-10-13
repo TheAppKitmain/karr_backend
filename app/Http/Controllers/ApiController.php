@@ -72,7 +72,7 @@ class ApiController extends Controller
             ]);
         }
         foreach ($cityids as $cityId) {
-            $existingData = DB::table('city_driver')
+            $existingData = DB::table('city__drivers')
                 ->where('city_id', $cityId)
                 ->where('driver_id', $driverId)
                 ->first();
@@ -83,7 +83,7 @@ class ApiController extends Controller
                     'message' => 'Data already exists for the provided IDs'
                 ], 200);
             }
-            DB::table('city_driver')->insert([
+            DB::table('city__drivers')->insert([
                 'city_id' => $cityId,
                 'driver_id' => $driverId,
                 'date' => $date,
@@ -137,7 +137,7 @@ class ApiController extends Controller
         }
 
         foreach ($tollIds as $tollId) {
-            $existingData = DB::table('driver_paytoll')
+            $existingData = DB::table('paytoll__drivers')
                 ->where('paytoll_id', $tollId)
                 ->where('driver_id', $driverId)
                 ->first();
@@ -150,7 +150,7 @@ class ApiController extends Controller
             }
 
             // Insert the record for the current 'paytoll_id' and 'driverId'.
-            DB::table('driver_paytoll')->insert([
+            DB::table('paytoll__drivers')->insert([
                 'paytoll_id' => $tollId,
                 'driver_id' => $driverId,
                 'way' => $way,

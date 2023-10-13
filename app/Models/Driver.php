@@ -35,4 +35,13 @@ class Driver extends Model
     {
         return $this->hasMany(Ticket::class);
     }
+    public function cityDrivers()
+    {
+        return $this->hasMany(City_Driver::class);
+    }
+    public function tollDrivers()
+    {
+        return $this->hasMany(Paytoll::class);
+    }
+    
 }

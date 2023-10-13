@@ -1,6 +1,5 @@
 <?php
 $page = 'tickets';
-$count = 1;
 ?>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -90,11 +89,11 @@ $count = 1;
                         <tr style="background-color: #F8F8FA">
                             <!-- Define the table headers -->
                             <th>Check</th>
-                            <th>No.</th>
                             <th>PCN</th>
                             <th>Name</th>
                             <th>Time</th>
                             <th>Issued by</th>
+                            <th>Type</th>
                             <th>Price</th>
                             <th>Status</th>
                         </tr>
@@ -106,24 +105,24 @@ $count = 1;
                                 <td><input type="checkbox" class="table-checkbox" data-table="tickets" name="ticket_ids[]"
                                         value="{{ $ticket->id }}"></td>
                                 <!-- ... Rest of the table row ... -->
-                                <th>{{ $count++ }}</th>
                                 <td>{{ $ticket->pcn }}</td>
                                 <td>{{ $ticket->driver->name }}</td>
                                 <td>{{ $ticket->date }}</td>
                                 <td>{{ $ticket->ticket_issuer }}</td>
+                                <td>Ticket</td>
                                 <td>{{ $ticket->price }}</td>
                                 @can('admin-ticket')
                                     @if ($ticket->status == '1')
                                         <td><a class="btn btn-success"
-                                                href="{{ route('admin.pay', ['id' => $ticket->id, 'name' => $name]) }}">Paid</a>
+                                                href="{{ route('admin.pay', ['id' => $ticket->id, 'd_id' => $ticket->driver_id, 'name' => $name]) }}">Paid</a>
                                         </td>
                                     @elseif ($ticket->status == '0')
                                         <td><a class="btn btn-danger"
-                                            href="{{ route('admin.pay', ['id' => $ticket->id, 'name' => $name]) }}">Pay</a>
+                                                href="{{ route('admin.pay', ['id' => $ticket->id, 'd_id' => $ticket->driver_id, 'name' => $name]) }}">Pay Now</a>
                                         </td>
                                     @elseif ($ticket->status == '2')
                                         <td><a class="btn btn-primary"
-                                            href="{{ route('admin.pay', ['id' => $ticket->id, 'name' => $name]) }}">Disputed</a>
+                                                href="{{ route('admin.pay', ['id' => $ticket->id, 'd_id' => $ticket->driver_id, 'name' => $name]) }}">Disputed</a>
                                         </td>
                                     @endif
                                 @endcan
@@ -134,25 +133,26 @@ $count = 1;
                             <?php $name = 'tl'; ?>
                             <tr>
                                 <td><input type="checkbox" class="table-checkbox" data-table="tolls" name="toll_ids[]"
-                                        value="{{ $toll->id }}"></td>
+                                        value="{{ $toll->paytoll_id }}"></td>
                                 <!-- ... Rest of the table row ... -->
-                                <th>{{ $count++ }}</th>
                                 <td></td>
                                 <td>{{ $toll->name }}</td>
                                 <td>{{ implode(', ', $toll->selectedDays) }}</td>
                                 <td></td>
+                                <td>Toll</td>
                                 <td>{{ $toll->price }}</td>
                                 @can('admin-ticket')
                                     @if ($toll->status == '1')
                                         <td><a class="btn btn-success"
-                                                href="{{ route('admin.pay', ['id' => $toll->paytoll_id, 'name' => $name]) }}">Paid</a></td>
+                                                href="{{ route('admin.pay', ['id' => $toll->paytoll_id, 'd_id' => $toll->driver_id, 'name' => $name]) }}">Paid</a>
+                                        </td>
                                     @elseif ($toll->status == '0')
                                         <td><a class="btn btn-danger"
-                                            href="{{ route('admin.pay', ['id' => $toll->paytoll_id, 'name' => $name]) }}">Pay</a>
+                                                href="{{ route('admin.pay', ['id' => $toll->paytoll_id, 'd_id' => $toll->driver_id, 'name' => $name]) }}">Pay Now</a>
                                         </td>
                                     @elseif($toll->status == '2')
                                         <td><a class="btn btn-primary"
-                                            href="{{ route('admin.pay', ['id' => $toll->paytoll_id, 'name' => $name]) }}">Disputed</a>
+                                                href="{{ route('admin.pay', ['id' => $toll->paytoll_id, 'd_id' => $toll->driver_id, 'name' => $name]) }}">Disputed</a>
                                         </td>
                                     @endif
                                 @endcan
@@ -162,26 +162,30 @@ $count = 1;
                         @foreach ($cities as $city)
                             <?php $name = 'ct'; ?>
                             <tr>
-                                <td><input type="checkbox" class="table-checkbox" data-table="city" name="city_ids[]"
-                                        value="{{ $city->id }}"></td>
+                                <td>
+                                    <input type="checkbox" class="table-checkbox" data-table="city" name="city_ids[]"
+                                        value="{{ $city->city_id }}">
+                                        
+                                </td>
                                 <!-- ... Rest of the table row ... -->
-                                <th>{{ $count++ }}</th>
                                 <td></td>
                                 <td>{{ $city->city }}</td>
                                 <td>{{ $city->time }}</td>
                                 <td></td>
+                                <td>City Charge</td>
                                 <td>{{ $city->price }}</td>
                                 @can('admin-ticket')
                                     @if ($city->status == '1')
                                         <td><a class="btn btn-success"
-                                                href="{{ route('admin.pay', ['id' => $city->id, 'name' => $name]) }}">Paid</a>
+                                                href="{{ route('admin.pay', ['id' => $city->city_id, 'd_id' => $city->driver_id, 'name' => $name]) }}">Paid</a>
                                         </td>
                                     @elseif ($city->status == 0)
                                         <td><a class="btn btn-danger"
-                                                href="{{ route('admin.pay', ['id' => $city->id, 'name' => $name]) }}">Pay</a></td>
+                                                href="{{ route('admin.pay', ['id' => $city->city_id, 'd_id' => $city->driver_id, 'name' => $name]) }}">Pay Now</a>
+                                        </td>
                                     @elseif ($city->status == 2)
                                         <td><a class="btn btn-primary"
-                                                href="{{ route('admin.pay', ['id' => $city->id, 'name' => $name]) }}">Disputed</a>
+                                                href="{{ route('admin.pay', ['id' => $city->city_id, 'd_id' => $city->driver_id, 'name' => $name]) }}">Disputed</a>
                                         </td>
                                     @endcan
                                 @endif
@@ -196,11 +200,11 @@ $count = 1;
                         <tr style="background-color: #F8F8FA">
                             <!-- Define the table headers -->
                             <th>Check</th>
-                            <th>No.</th>
                             <th>PCN</th>
                             <th>Name</th>
                             <th>Time</th>
                             <th>Issued by</th>
+                            <th>Type</th>
                             <th>Price</th>
                             <th>Status</th>
                         </tr>
@@ -211,18 +215,18 @@ $count = 1;
                                 <td><input type="checkbox" class="table-checkbox" data-table="tickets" name="ticket_ids[]"
                                         value="{{ $ticket->id }}"></td>
                                 <!-- ... Rest of the table row ... -->
-                                <th>{{ $count++ }}</th>
                                 <td>{{ $ticket->pcn }}</td>
                                 <td>{{ $ticket->driver->name }}</td>
                                 <td>{{ $ticket->date }}</td>
                                 <td>{{ $ticket->ticket_issuer }}</td>
+                                <td>Ticket</td>
                                 <td>{{ $ticket->price }}</td>
                                 @can('admin-ticket')
                                     @if ($ticket->status == '1')
                                         <td><a class="btn btn-success" href="{{ route('ticket.pay', $ticket->id) }}">Paid</a>
                                         </td>
                                     @elseif ($ticket->status == '0')
-                                        <td><a class="btn btn-danger" href="{{ route('ticket.pay', $ticket->id) }}">Pay</a>
+                                        <td><a class="btn btn-danger" href="{{ route('ticket.pay', $ticket->id) }}">Pay Now</a>
                                         </td>
                                     @elseif ($ticket->status == '2')
                                         <td><a class="btn btn-primary"
@@ -238,18 +242,18 @@ $count = 1;
                                 <td><input type="checkbox" class="table-checkbox" data-table="tolls" name="toll_ids[]"
                                         value="{{ $toll->id }}"></td>
                                 <!-- ... Rest of the table row ... -->
-                                <th>{{ $count++ }}</th>
                                 <td></td>
                                 <td>{{ $toll->name }}</td>
                                 <td>{{ implode(', ', $toll->selectedDays) }}</td>
                                 <td></td>
+                                <td>Toll</td>
                                 <td>{{ $toll->price }}</td>
                                 @can('admin-ticket')
                                     @if ($toll->status == '1')
                                         <td><a class="btn btn-success"
                                                 href="{{ route('toll.pay', $toll->paytoll_id) }}">Paid</a></td>
                                     @elseif ($toll->status == '0')
-                                        <td><a class="btn btn-danger" href="{{ route('toll.pay', $toll->paytoll_id) }}">Pay</a>
+                                        <td><a class="btn btn-danger" href="{{ route('toll.pay', $toll->paytoll_id) }}">Pay Now</a>
                                         </td>
                                     @elseif($toll->status == '2')
                                         <td><a class="btn btn-primary"
@@ -265,22 +269,24 @@ $count = 1;
                                 <td><input type="checkbox" class="table-checkbox" data-table="city" name="city_ids[]"
                                         value="{{ $city->id }}"></td>
                                 <!-- ... Rest of the table row ... -->
-                                <th>{{ $count++ }}</th>
                                 <td></td>
                                 <td>{{ $city->city }}</td>
                                 <td>{{ $city->time }}</td>
                                 <td></td>
+                                <td>City Charge</td>
                                 <td>{{ $city->price }}</td>
-                                @if ($city->status == '1')
-                                    <td><a class="btn btn-success" href="{{ route('charges.pay', $city->id) }}">Paid</a>
-                                    </td>
-                                @elseif ($city->status == 0)
-                                    <td><a class="btn btn-danger" href="{{ route('charges.pay', $city->id) }}">Pay</a></td>
-                                @elseif ($city->status == 2)
-                                    <td><a class="btn btn-primary"
-                                            href="{{ route('charges.pay', $city->id) }}">Disputed</a>
-                                    </td>
-                                @endif
+                                @can('admin-ticket')
+                                    @if ($city->status == '1')
+                                        <td><a class="btn btn-success" href="{{ route('charges.pay', $city->id) }}">Paid</a>
+                                        </td>
+                                    @elseif ($city->status == 0)
+                                        <td><a class="btn btn-danger" href="{{ route('charges.pay', $city->id) }}">Pay Now</a></td>
+                                    @elseif ($city->status == 2)
+                                        <td><a class="btn btn-primary"
+                                                href="{{ route('charges.pay', $city->id) }}">Disputed</a>
+                                        </td>
+                                    @endif
+                                @endcan
                             </tr>
                         @endforeach
                     </tbody>
@@ -292,11 +298,11 @@ $count = 1;
                         <tr style="background-color: #F8F8FA">
                             <!-- Define the table headers -->
                             <th>Check</th>
-                            <th>No.</th>
                             <th>PCN</th>
                             <th>Name</th>
                             <th>Time</th>
                             <th>Issued by</th>
+                            <th>Type</th>
                             <th>Price</th>
                             <th>Status</th>
                         </tr>
@@ -307,18 +313,18 @@ $count = 1;
                                 <td><input type="checkbox" class="table-checkbox" data-table="tickets" name="ticket_ids[]"
                                         value="{{ $ticket->id }}"></td>
                                 <!-- ... Rest of the table row ... -->
-                                <th>{{ $count++ }}</th>
                                 <td>{{ $ticket->pcn }}</td>
                                 <td>{{ $ticket->driver->name }}</td>
                                 <td>{{ $ticket->date }}</td>
                                 <td>{{ $ticket->ticket_issuer }}</td>
+                                <td>Ticket</td>
                                 <td>{{ $ticket->price }}</td>
                                 @can('admin-ticket')
                                     @if ($ticket->status == '1')
                                         <td><a class="btn btn-success" href="{{ route('ticket.pay', $ticket->id) }}">Paid</a>
                                         </td>
                                     @elseif ($ticket->status == '0')
-                                        <td><a class="btn btn-danger" href="{{ route('ticket.pay', $ticket->id) }}">Pay</a>
+                                        <td><a class="btn btn-danger" href="{{ route('ticket.pay', $ticket->id) }}">Pay Now</a>
                                         </td>
                                     @elseif ($ticket->status == '2')
                                         <td><a class="btn btn-primary"
@@ -339,6 +345,7 @@ $count = 1;
                                 <td>{{ $toll->name }}</td>
                                 <td>{{ implode(', ', $toll->selectedDays) }}</td>
                                 <td></td>
+                                <td>Toll</td>
                                 <td>{{ $toll->price }}</td>
                                 @can('admin-ticket')
                                     @if ($toll->status == '1')
@@ -346,7 +353,7 @@ $count = 1;
                                                 href="{{ route('toll.pay', $toll->paytoll_id) }}">Paid</a></td>
                                     @elseif ($toll->status == '0')
                                         <td><a class="btn btn-danger"
-                                                href="{{ route('toll.pay', $toll->paytoll_id) }}">Pay</a></td>
+                                                href="{{ route('toll.pay', $toll->paytoll_id) }}">Pay Now</a></td>
                                     @elseif($toll->status == '2')
                                         <td><a class="btn btn-primary"
                                                 href="{{ route('toll.pay', $ticket->paytoll_id) }}">Disputed</a>
@@ -361,18 +368,18 @@ $count = 1;
                                 <td><input type="checkbox" class="table-checkbox" data-table="city" name="city_ids[]"
                                         value="{{ $city->id }}"></td>
                                 <!-- ... Rest of the table row ... -->
-                                <th>{{ $count++ }}</th>
                                 <td></td>
                                 <td>{{ $city->city }}</td>
                                 <td>{{ $city->time }}</td>
                                 <td></td>
+                                <td>City Charges</td>
                                 <td>{{ $city->price }}</td>
                                 @can('admin-ticket')
                                     @if ($city->status == '1')
                                         <td><a class="btn btn-success" href="{{ route('charges.pay', $city->id) }}">Paid</a>
                                         </td>
                                     @elseif ($city->status == 0)
-                                        <td><a class="btn btn-danger" href="{{ route('charges.pay', $city->id) }}">Pay</a>
+                                        <td><a class="btn btn-danger" href="{{ route('charges.pay', $city->id) }}">Pay Now</a>
                                         </td>
                                     @elseif ($city->status == 2)
                                         <td><a class="btn btn-primary"
