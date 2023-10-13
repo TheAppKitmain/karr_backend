@@ -109,7 +109,7 @@ $page = 'ticket';
                                 <td>{{ $ticket->date }}</td>
                                 <td>{{ $ticket->ticket_issuer }}</td>
                                 <td>Ticket</td>
-                                <td>{{ $ticket->price }}</td>
+                                <td>£{{ $ticket->price }}</td>
                                 @can('toll-pay')
                                     @if ($ticket->status == '1')
                                         <td><a class="btn btn-success" href="{{ route('ticket.pay', $ticket->id) }}">Paid</a>
@@ -136,7 +136,7 @@ $page = 'ticket';
                                 <td>{{ implode(', ', $toll->selectedDays) }}</td>
                                 <td></td>
                                 <td>Tolls</td>
-                                <td>{{ $toll->price }}</td>
+                                <td>£{{ $toll->price }}</td>
                                 @can('toll-pay')
                                     @if ($toll->tollDrivers->first()->status == 1)
                                         <td><a class="btn btn-success" href="{{ route('toll.pay', $toll->id) }}">Paid</a></td>
@@ -159,8 +159,8 @@ $page = 'ticket';
                                 <td>{{ $city->city }}</td>
                                 <td>{{ $city->time }}</td>
                                 <td></td>
-                                <td>City Charges</td>
-                                <td>{{ $city->price }}</td>
+                                <td>Charges</td>
+                                <td>£{{ $city->price }}</td>
                                 @can('toll-pay')
                                     @if ($city->cityDrivers->first()->status == 1)
                                         <td><a class="btn btn-success" href="{{ route('charges.pay', $city->id) }}">Paid</a>
@@ -207,7 +207,7 @@ $page = 'ticket';
                                 <td>{{ $ticket->pcn }}</td>
                                 <td>{{ $ticket->ticket_issuer }}</td>
                                 <td>Ticket</td>
-                                <td>{{ $ticket->price }}</td>
+                                <td>£ {{ $ticket->price }}</td>
                                 @can('toll-pay')
                                     @if ($ticket->status == '1')
                                         <td>Paid</td>
@@ -253,8 +253,8 @@ $page = 'ticket';
                                         value="{{ $city->id }}"></td>
                                 <td>{{ $city->city }}</td>
                                 <td>{{ $city->time }}</td>
-                                <td>{{ $city->price }}</td>
-                                <td>City Charges</td>
+                                <td>£{{ $city->price }}</td>
+                                <td>Charges</td>
                                 @can('toll-pay')
                                     @if ($city->cityDrivers->first()->status == 1)
                                         <td> Paid </td>
@@ -300,7 +300,7 @@ $page = 'ticket';
                                     {{ implode(', ', $toll->selectedDays) }}
                                 </td>
                                 <td>Tolls</td>
-                                <td>{{ $toll->price }}</td>
+                                <td>£ {{ $toll->price }}</td>
                                 @can('toll-pay')
                                     @if ($toll->tollDrivers->first()->status == 1)
                                     <td> Paid </td>

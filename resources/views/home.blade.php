@@ -115,14 +115,14 @@ $count = 1;
                                     <td>{{ $ticket->date }}</td>
                                     <td> Ticket </td>
                                     <td>{{ $ticket->ticket_issuer }}</td>
-                                    <td>{{ $ticket->price }}</td>
+                                    <td>£ {{ $ticket->price }}</td>
                                     @can('toll-pay')
                                         @if ($ticket->status == '1')
                                             <td><a class="btn btn-success"
                                                     href="{{ route('ticket.pay', $ticket->id) }}">Paid</a>
                                             </td>
                                         @elseif ($ticket->status == '0')
-                                            <td><a class="btn btn-danger" href="{{ route('ticket.pay', $ticket->id) }}">Pay</a>
+                                            <td><a class="btn btn-danger" href="{{ route('ticket.pay', $ticket->id) }}">Pay Now</a>
                                             </td>
                                         @else
                                             <td><a class="btn btn-primary"
@@ -156,7 +156,7 @@ $count = 1;
                                     <td>{{ implode(', ', $toll->selectedDays) }}</td>
                                     <td> Tolls </td>
                                     <td></td>
-                                    <td>{{ $toll->price }}</td>
+                                    <td>£ {{ $toll->price }}</td>
 
                                     @can('toll-pay')
                                         @if ($toll->tollDrivers->first()->status == 1)
@@ -198,7 +198,7 @@ $count = 1;
                                     <td>{{ $city->time }}</td>
                                     <td> City Charge </td>
                                     <td></td>
-                                    <td>{{ $city->price }}</td>
+                                    <td>£ {{ $city->price }}</td>
                                     @can('toll-pay')
                                         @if ($city->cityDrivers->first()->status == 1)
                                             <td><a class="btn btn-success"
