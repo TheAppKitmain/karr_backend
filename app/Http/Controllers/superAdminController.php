@@ -175,45 +175,47 @@ class superAdminController extends Controller
 
     public function markedPay(Request $request)
     {
-        $encodedIds = $request->input('ids');
-        $selectedIds = json_decode(urldecode($encodedIds), true);
+        $items = $request->query('items');
+        $selectedItems = json_decode($items);
+        
+        foreach ($selectedItems as $item) {
+            $table = $item->table;
+            $tid = $item->toll_id;
+            $did = $item->driver_id;
+            
+            switch ($table) {
+                case 'tickets':
+                    // dd($id);
+                    $item = Ticket::find($tid);
+                    if ($item->status == '1') {
+                        return back()->with('error', 'selected ticket is already paid');
+                    } else {
+                        $item->status = 1;
+                        $item->save();
+                        break;
+                    }
+                case 'tolls':
+                    $toll = Paytoll_Driver::where('paytoll_id', $tid)->where('driver_id', $did)->first();
+                    // return $toll;
+                    if ($toll->status == 1) {
+                        return back()->with('error', 'selected ticket is already paid');
+                    } else {
 
-        // dd($selectedIds);
-
-        foreach ($selectedIds as $table => $ids) {
-            foreach ($ids as $id) {
-                switch ($table) {
-                    case 'tickets':
-                        $item = Ticket::find($id);
-                        if ($item->status == '1') {
-                            return back()->with('error', 'selected ticket is already paid');
-                        } else {
-                            $item->status = 1;
-                            $item->save();
-                            break;
-                        }
-                    case 'tolls':
-                        $toll = Paytoll_Driver::where('paytoll_id', $id)->first();
-                        // return $toll;
-                        if ($toll->status == 1) {
-                            return back()->with('error', 'selected ticket is already paid');
-                        } else {
-
-                            $toll->status = 1;
-                            $toll->save();
-                            break;
-                        }
-                    case 'city':
-                        $city = City_Driver::where('city_id', $id)->first();
-                        if ($city->status == '1') {
-                            return back()->with('error', 'selected ticket is already paid');
-                        } else {
-                            $city->status = 1;
-                            $city->save();
-                            break;
-                        }
-                }
+                        $toll->status = 1;
+                        $toll->save();
+                        break;
+                    }
+                case 'city':
+                    $city = City_Driver::where('city_id', $tid)->where('driver_id', $did)->first();
+                    if ($city->status == '1') {
+                        return back()->with('error', 'selected ticket is already paid');
+                    } else {
+                        $city->status = 1;
+                        $city->save();
+                        break;
+                    }
             }
+        
         }
         return back()->with('success', 'tickets paid');
     }
