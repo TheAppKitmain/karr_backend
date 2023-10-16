@@ -4,6 +4,14 @@ $page = 'ticket';
 
 @extends('layouts.app')
 @section('content')
+    <style>
+        .button-clicked {
+            background-color: #8C52FF;
+            color: white;
+            border: 1px solid black;
+            height: 30px;
+        }
+    </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <div class="row">
         <section class="create-services-screen">
@@ -14,12 +22,12 @@ $page = 'ticket';
                 PAY
             </button>
             <div class="row create-services-screen-left">
+                {{-- -------------------------------------Stripe Payment form ---------------------------- --}}
                 <div class="col-md-6 col-md-offset-3" id="pay" style="margin-top:60px ">
                     <div class="panel panel-default credit-card-box">
                         <div class="panel-heading display-table">
                             <h3 class="panel-title">Payment Details</h3>
                         </div>
-{{-- ------------ ----------------------Stripe Payment form ---------------------------}}
                         <div class="panel-body">
 
                             @if (Session::has('success'))
@@ -127,6 +135,8 @@ $page = 'ticket';
                     </div>
 
                 </div>
+                {{-- ----------------------------- End stripe Form---------------------------------------- --}}
+                {{-- -------------------------------------Add Card --------------------------------------- --}}
                 <div class="row d-flex justify-content-center" id="add" style="display: none;">
                     <div class="col-md-10 col-lg-8 col-xl-5">
                         <div class="card rounded-3">
@@ -137,49 +147,55 @@ $page = 'ticket';
                                 </div>
                                 <form action="{{ route('card') }}" method="post">
                                     @csrf
-                                    <p class="fw-bold mb-4">Add new card:</p>
-                                    <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                                    <h4 class="mb-2">Add new Card</h4>
+                                    <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                     <div class="form-outline mb-4">
                                         <label class="form-label" for="formControlLgXsd">Cardholder's Name</label>
                                         <input type="text" id="formControlLgXsd" class="form-control form-control-lg"
-                                          placeholder="Anna Doe" name="name" />
-                                      </div>
-                          
-                                      <div class="row mb-4">
+                                            placeholder="Anna Doe" name="name" />
+                                    </div>
+
+                                    <div class="row mb-4">
                                         <div class="col-7">
-                                          <div class="form-outline">
-                                              <label class="form-label" for="formControlLgXM">Card Number</label>
-                                            <input type="text" id="formControlLgXM" class="form-control form-control-lg"
-                                              placeholder="1234 5678 1234 5678" name="card" maxlength="20"/>
-                                          </div>
+                                            <div class="form-outline">
+                                                <label class="form-label" for="formControlLgXM">Card Number</label>
+                                                <input type="text" id="formControlLgXM"
+                                                    class="form-control form-control-lg" placeholder="1234 5678 1234 5678"
+                                                    name="card" maxlength="20" />
+                                            </div>
                                         </div>
                                         <div class="col-3">
-                                          <div class="form-outline">
-                                              <label class="form-label" for="formControlLgExpk">Expire Month</label>
-                                            <input type="test" id="formControlLgExpk" class="form-control form-control-lg"
-                                              placeholder="MM" maxlength="2" name="mon" />
-                                          </div>
-                                          <div class="form-outline">
-                                              <label class="form-label" for="formControlLgExpk">Expire Year</label>
-                                            <input type="test" id="formControlLgExpk" class="form-control form-control-lg"
-                                              placeholder="YYYY" maxlength="4" name="year" min="2020"/>
-                                          </div>
+                                            <div class="form-outline">
+                                                <label class="form-label" for="formControlLgExpk">Expire Month</label>
+                                                <input type="test" id="formControlLgExpk"
+                                                    class="form-control form-control-lg" placeholder="MM" maxlength="2"
+                                                    name="mon" />
+                                            </div>
+                                            <div class="form-outline">
+                                                <label class="form-label" for="formControlLgExpk">Expire Year</label>
+                                                <input type="test" id="formControlLgExpk"
+                                                    class="form-control form-control-lg" placeholder="YYYY"
+                                                    maxlength="4" name="year" min="2020" />
+                                            </div>
                                         </div>
                                         <div class="col-2 mb-3">
-                                          <div class="form-outline">
-                                              <label class="form-label" for="formControlLgcvv">Cvc</label>
-                                            <input type="integer" id="formControlLgcvv" class="form-control form-control-lg"
-                                              placeholder="Cvc" name="cvc" maxlength="4"/>
-                                          </div>
+                                            <div class="form-outline">
+                                                <label class="form-label" for="formControlLgcvv">Cvc</label>
+                                                <input type="integer" id="formControlLgcvv"
+                                                    class="form-control form-control-lg" placeholder="Cvc" name="cvc"
+                                                    maxlength="4" />
+                                            </div>
                                         </div>
-                                      </div>
-                          
-                                      <button class="btn btn-success btn-lg btn-block">Add card</button>
+                                    </div>
+
+                                    <button class="btn btn-success btn-lg btn-block"
+                                        style="background-color: #8C52FF; border: none;">Add card</button>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
+                {{-- ------------------------------------- End Add Card ---------------------------------- --}}
             </div>
         </section>
 
@@ -320,11 +336,25 @@ $page = 'ticket';
         <script>
             $(document).ready(function() {
                 $("#payButton").click(function() {
+                    // Add the CSS class to the clicked button
+                    $(this).addClass('button-clicked');
+
+                    // Remove the CSS class from the other button
+                    $("#addButton").removeClass('button-clicked');
+
+                    // Show/hide elements as needed
                     $("#pay").show();
                     $("#add").hide();
-
                 });
+
                 $("#addButton").click(function() {
+                    // Add the CSS class to the clicked button
+                    $(this).addClass('button-clicked');
+
+                    // Remove the CSS class from the other button
+                    $("#payButton").removeClass('button-clicked');
+
+                    // Show/hide elements as needed
                     $("#add").show();
                     $("#pay").hide();
                 });

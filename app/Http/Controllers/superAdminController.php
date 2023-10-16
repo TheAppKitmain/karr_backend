@@ -43,7 +43,7 @@ class superAdminController extends Controller
 
         $unpaidTickets = Ticket::whereHas('driver.user', function ($query) use ($id) {
             $query->where('id', $id)->where('status', 0);
-        })->count() +Paytoll::whereHas('tollDrivers.driver.user', function ($query) use ($id) {
+        })->count() + Paytoll::whereHas('tollDrivers.driver.user', function ($query) use ($id) {
             $query->where('users.id', $id)->where('status', '0');
         })->count() +   City::whereHas('cityDrivers.driver.user', function ($query) use ($id) {
             $query->where('users.id', $id)->where('status', '0');
@@ -80,15 +80,27 @@ class superAdminController extends Controller
 
     public function totalTickets()
     {
-        $tickets = Ticket::all();
+
+        $tickets = DB::table('tickets')
+        ->join('drivers', 'tickets.driver_id', '=', 'drivers.id')
+        ->join('users', 'drivers.user_id', '=', 'users.id')
+        ->select('tickets.*' ,'drivers.name as driver', 'users.name as user_name')
+        ->get();
+
         $cities = DB::table('cities')
-            ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
-            ->select('cities.*', 'city__drivers.*')->get();
+        ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
+        ->join('drivers', 'city__drivers.driver_id', '=', 'drivers.id')
+        ->join('users', 'drivers.user_id', '=', 'users.id')
+        ->select('cities.*', 'city__drivers.*', 'users.name as user_name')
+        ->get();
 
         $tolls = DB::table('paytolls')
-            ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
-            ->select('paytolls.*', 'paytoll__drivers.*')
-            ->get();
+        ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
+        ->join('drivers', 'paytoll__drivers.driver_id', '=', 'drivers.id')
+        ->join('users', 'drivers.user_id', '=', 'users.id')
+        ->select('paytolls.*', 'paytoll__drivers.*', 'users.name as user_name')
+        ->get();
+    
         foreach ($tolls as $toll) {
             $toll->selectedDays = json_decode($toll->days);
         }
@@ -147,16 +159,14 @@ class superAdminController extends Controller
                 return back()->with('success', 'Ticket has been paid');
             }
         } elseif ($name == 'tl') {
-            $toll =Paytoll_Driver::where('paytoll_id', $id)
-            ->where('driver_id', $d_id)
-            ->first();
+            $toll = Paytoll_Driver::where('paytoll_id', $id)
+                ->where('driver_id', $d_id)
+                ->first();
             if ($toll->status == 0) {
                 $toll->status = 1;
                 $toll->save();
                 return back()->with('success', 'Toll has been paid');
-
-            } 
-            elseif ($toll->status == 1) {
+            } elseif ($toll->status == 1) {
                 return back()->with('error', 'Toll has been already paid');
             }
         } elseif ($name == 'ct') {
@@ -166,7 +176,6 @@ class superAdminController extends Controller
                 $city->status = 1;
                 $city->save();
                 return back()->with('success', 'City Charges has been paid');
-
             } elseif ($city->status == 1) {
                 return back()->with('error', 'City charges has been already paid');
             }
@@ -177,12 +186,12 @@ class superAdminController extends Controller
     {
         $items = $request->query('items');
         $selectedItems = json_decode($items);
-        
+
         foreach ($selectedItems as $item) {
             $table = $item->table;
             $tid = $item->toll_id;
             $did = $item->driver_id;
-            
+
             switch ($table) {
                 case 'tickets':
                     // dd($id);
@@ -215,8 +224,41 @@ class superAdminController extends Controller
                         break;
                     }
             }
-        
         }
         return back()->with('success', 'tickets paid');
+    }
+    public function unpaid($id, $name, $d_id)
+    {
+        if ($name == 'tk') {
+            $ticket = Ticket::find($id);
+            if ($ticket->status == 0) {
+                return back()->with('error', 'Ticket is already unpaid');
+            } elseif ($ticket->status == 1) {
+                $ticket->status = 0;
+                $ticket->save();
+                return back()->with('success', 'Ticket has been marked unpaid');
+            }
+        } elseif ($name == 'tl') {
+            $toll = Paytoll_Driver::where('paytoll_id', $id)
+                ->where('driver_id', $d_id)
+                ->first();
+            if ($toll->status == 1) {
+                $toll->status = 0;
+                $toll->save();
+                return back()->with('success', 'Toll has been marked unpaid');
+            } elseif ($toll->status == 1) {
+                return back()->with('error', 'Toll has been already unpaid');
+            }
+        } elseif ($name == 'ct') {
+            $city = City_Driver::where('city_id', $id)->where('driver_id', $d_id)->first();
+            // return $city;
+            if ($city->status == 1) {
+                $city->status = 0;
+                $city->save();
+                return back()->with('success', 'City Charges has been  marked unpaid');
+            } elseif ($city->status == 1) {
+                return back()->with('error', 'City charges has been already unpaid');
+            }
+        }
     }
 }

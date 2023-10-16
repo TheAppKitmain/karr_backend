@@ -101,6 +101,9 @@ $count = 1;
                                 <th>Name</th>
                                 <th>Time</th>
                                 <th>Type</th>
+                                @can('admin-ticket')
+                                    <th>Business </th>
+                                @endcan
                                 <th>Issued by</th>
                                 <th>Price</th>
                                 <th>Status</th>
@@ -111,11 +114,14 @@ $count = 1;
                                 <?php $name = 'tk'; ?>
                                 <tr>
                                     <td>{{ $ticket->pcn }}</td>
-                                    <td>{{ $ticket->driver->name }}</td>
+                                    <td>{{ $ticket->driver }}</td>
                                     <td>{{ $ticket->date }}</td>
                                     <td> Ticket </td>
+                                    @can('admin-ticket')
+                                        <td>{{ $ticket->user_name }}</td>
+                                    @endcan
                                     <td>{{ $ticket->ticket_issuer }}</td>
-                                    <td>£ {{ $ticket->price }}</td>
+                                    <td>£ {{ number_format($ticket->price, 2) }}</td>
                                     @can('toll-pay')
                                         @if ($ticket->status == '1')
                                             <td><a class="btn btn-success"
@@ -157,8 +163,11 @@ $count = 1;
                                     <td>{{ $toll->name }}</td>
                                     <td>{{ implode(', ', $toll->selectedDays) }}</td>
                                     <td> Tolls </td>
+                                    @can('admin-ticket')
+                                        <td>{{ $toll->user_name }}</td>
+                                    @endcan
                                     <td></td>
-                                    <td>£ {{ $toll->price }}</td>
+                                    <td>£ {{ number_format($toll->price, 2) }}</td>
 
                                     @can('toll-pay')
                                         @if ($toll->tollDrivers->first()->status == 1)
@@ -204,15 +213,19 @@ $count = 1;
                                     <td>{{ $city->city }}</td>
                                     <td>{{ $city->time }}</td>
                                     <td> City Charge </td>
+                                    @can('admin-ticket')
+                                        <td>{{ $city->user_name }}</td>
+                                    @endcan
                                     <td></td>
-                                    <td>£ {{ $city->price }}</td>
+                                    <td>£ {{ number_format($city->price, 2) }}</td>
                                     @can('toll-pay')
                                         @if ($city->cityDrivers->first()->status == 1)
                                             <td><a class="btn btn-success"
                                                     href="{{ route('charges.pay', ['id' => $city->cityDrivers->first()->city_id, 'd_id' => $city->cityDrivers->first()->driver_id]) }}">Paid</a>
                                             </td>
                                         @elseif ($city->cityDrivers->first()->status == 0)
-                                            <td><a class="btn btn-danger" href="{{ route('charges.pay', ['id' => $city->cityDrivers->first()->city_id, 'd_id' => $city->cityDrivers->first()->driver_id]) }}">Pay
+                                            <td><a class="btn btn-danger"
+                                                    href="{{ route('charges.pay', ['id' => $city->cityDrivers->first()->city_id, 'd_id' => $city->cityDrivers->first()->driver_id]) }}">Pay
                                                     Now</a>
                                             </td>
                                         @else

@@ -34,7 +34,11 @@ class HomeController extends Controller
     //---------------------- For Super Admins---------------------------------------------
         if($roles->contains('name', 'Super Admin') || $roles->contains('name', 'S Admin')) {
            
-            $tickets = Ticket::orderBy('id', 'desc')->take(3)->get();
+            $tickets = DB::table('tickets')
+            ->join('drivers', 'tickets.driver_id', '=', 'drivers.id')
+            ->join('users', 'drivers.user_id', '=', 'users.id')
+            ->select('tickets.*' ,'drivers.name as driver', 'users.name as user_name')
+            ->orderByDesc('id')->take(3)->get();
             $charges = City::all()->count();
 
             $unpaidTicket = Ticket::where('status', '0')->get()->count();
@@ -62,15 +66,23 @@ class HomeController extends Controller
             $totalCharges = $citycharges + $tollsCharges;
 
             $tolls = DB::table('paytolls')
-                ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
-                ->select('paytolls.*', 'paytoll__drivers.*')->orderBy('paytoll_id', 'desc')->take(3)->get();
-
+            ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
+            ->join('drivers', 'paytoll__drivers.driver_id', '=', 'drivers.id')
+            ->join('users', 'drivers.user_id', '=', 'users.id')
+            ->select('paytolls.*', 'paytoll__drivers.*', 'users.name as user_name')
+            ->orderByDesc('paytoll_id')->take(3)->get();
+        
+            
+                // return $cities;
             foreach ($tolls as $toll) {
                 $toll->selectedDays = json_decode($toll->days);
             }
             $cities = DB::table('cities')
-                ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
-                ->select('cities.*', 'city__drivers.*')->orderBy('city_id', 'desc')->take(3)->get();
+            ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
+            ->join('drivers', 'city__drivers.driver_id', '=', 'drivers.id')
+            ->join('users', 'drivers.user_id', '=', 'users.id')
+            ->select('cities.*', 'city__drivers.*', 'users.name as user_name')
+            ->orderByDesc('city_id')->take(3)->get();
     
             // dd($cities);
     
