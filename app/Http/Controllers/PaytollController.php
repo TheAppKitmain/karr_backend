@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Car;
 use App\Models\Card;
 use App\Models\Paytoll;
+use App\Models\Paytoll_Driver;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -34,23 +35,24 @@ class PaytollController extends Controller
         $toll->destory();
         return redirect()->back()->with('success', 'Toll has been deleted');
     }
-    public function paytoll($id)
+    public function paytoll($id,$did)
     {
-        $toll = DB::table('paytoll__drivers')->where('paytoll_id', $id)->first();
-        $find = Paytoll::find($id);
-        $price = $find->price;
-        $collection = Card::all();
-        $type = $toll->paytoll_id;
-        $status = $toll->status;
+        $type = Paytoll_Driver::where('paytoll_id', $id)->where('driver_id', $did)->first();
         $name = 'tl';
-        if ($status == '0') {
-            return view('ticket.stripe', compact('type', 'price', 'name','collection'));
-        } else if ($status == '1') {
-            return redirect()->route('tickets')->with('error', 'Toll is already paid');
-        } elseif ($status == '2') {
-            return redirect()->back()->with('error', 'Toll status is disputed');
-        } else {
-            return redirect()->back()->with('error', 'Erorr occured.');
+        $toll  = Paytoll::find($id);
+        $price = $toll->price;
+        $collection = Card::all();
+        if ($type->status == '0') {
+            return view('ticket.stripe', compact('type', 'name', 'collection', 'price'));
+        } 
+        else if ($type->status == '1') {
+            return redirect()->route('tickets')->with('error', 'City Charges is paid');
+        } 
+        elseif ($type->status == '2') {
+            return redirect()->back()->with('error', 'City Charges has disputed status');
+        } 
+        else {
+            return redirect()->back()->with('error', 'Error occured');
         }
     }
     public function createToll(Paytoll $toll)

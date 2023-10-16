@@ -108,7 +108,7 @@ $count = 1;
                         </thead>
                         <tbody>
                             @foreach ($tickets as $key => $ticket)
-                            <?php $name = 'tk'; ?>
+                                <?php $name = 'tk'; ?>
                                 <tr>
                                     <td>{{ $ticket->pcn }}</td>
                                     <td>{{ $ticket->driver->name }}</td>
@@ -122,7 +122,8 @@ $count = 1;
                                                     href="{{ route('ticket.pay', $ticket->id) }}">Paid</a>
                                             </td>
                                         @elseif ($ticket->status == '0')
-                                            <td><a class="btn btn-danger" href="{{ route('ticket.pay', $ticket->id) }}">Pay Now</a>
+                                            <td><a class="btn btn-danger" href="{{ route('ticket.pay', $ticket->id) }}">Pay
+                                                    Now</a>
                                             </td>
                                         @else
                                             <td><a class="btn btn-primary"
@@ -137,7 +138,8 @@ $count = 1;
                                             </td>
                                         @elseif ($ticket->status == '0')
                                             <td><a class="btn btn-danger"
-                                                    href="{{ route('admin.pay', ['id' => $ticket->id, 'd_id' => $ticket->driver_id,'name' => $name]) }}">Pay Now</a>
+                                                    href="{{ route('admin.pay', ['id' => $ticket->id, 'd_id' => $ticket->driver_id, 'name' => $name]) }}">Pay
+                                                    Now</a>
                                             </td>
                                         @else
                                             <td><a class="btn btn-primary"
@@ -149,7 +151,7 @@ $count = 1;
                             @endforeach
 
                             @foreach ($tolls as $toll)
-                            <?php $name = 'tl'; ?>
+                                <?php $name = 'tl'; ?>
                                 <tr>
                                     <td></td>
                                     <td>{{ $toll->name }}</td>
@@ -160,29 +162,34 @@ $count = 1;
 
                                     @can('toll-pay')
                                         @if ($toll->tollDrivers->first()->status == 1)
-                                            <td><a class="btn btn-success" href="{{ route('toll.pay', $toll->id) }}">Paid</a>
+                                            <td><a class="btn btn-success"
+                                                    href="{{ route('toll.pay', ['id' => $toll->tollDrivers->first()->paytoll_id, 'd_id' => $toll->tollDrivers->first()->driver_id]) }}">Paid</a>
                                             </td>
                                         @elseif ($toll->tollDrivers->first()->status == 0)
-                                            <td><a class="btn btn-danger" href="{{ route('toll.pay', $toll->id) }}">Pay Now</a>
+                                            <td><a class="btn btn-danger"
+                                                    href="{{ route('toll.pay', ['id' => $toll->tollDrivers->first()->paytoll_id, 'd_id' => $toll->tollDrivers->first()->driver_id]) }}">
+                                                    Pay Now</a>
                                             </td>
                                         @elseif ($toll->tollDrivers->first()->status == 2)
                                             <td><a class="btn btn-primary"
-                                                    href="{{ route('toll.pay', $toll->id) }}">Disputed</a>
+                                                    href="{{ route('toll.pay', ['id' => $toll->tollDrivers->first()->paytoll_id, 'd_id' => $toll->tollDrivers->first()->driver_id]) }}">
+                                                    Disputed</a>
                                             </td>
                                         @endif
                                     @endcan
                                     @can('admin-ticket')
                                         @if ($toll->status == '1')
                                             <td><a class="btn btn-success"
-                                                    href="{{ route('admin.pay', ['id' => $toll->paytoll_id,'d_id' =>$toll->driver_id , 'name' => $name]) }}">Paid</a>
+                                                    href="{{ route('admin.pay', ['id' => $toll->paytoll_id, 'd_id' => $toll->driver_id, 'name' => $name]) }}">Paid</a>
                                             </td>
                                         @elseif ($toll->status == '0')
                                             <td><a class="btn btn-danger"
-                                                    href="{{ route('admin.pay', ['id' => $toll->paytoll_id,'d_id' =>$toll->driver_id , 'name' => $name]) }}">Pay Now</a>
+                                                    href="{{ route('admin.pay', ['id' => $toll->paytoll_id, 'd_id' => $toll->driver_id, 'name' => $name]) }}">Pay
+                                                    Now</a>
                                             </td>
                                         @elseif ($toll->status == '2')
                                             <td><a class="btn btn-primary"
-                                                    href="{{ route('admin.pay', ['id' => $toll->paytoll_id, 'd_id' =>$toll->driver_id ,'name' => $name]) }}">Disputed</a>
+                                                    href="{{ route('admin.pay', ['id' => $toll->paytoll_id, 'd_id' => $toll->driver_id, 'name' => $name]) }}">Disputed</a>
                                             </td>
                                         @endif
                                     @endcan
@@ -191,7 +198,7 @@ $count = 1;
                             @endforeach
 
                             @foreach ($cities as $city)
-                            <?php $name = 'ct'; ?>
+                                <?php $name = 'ct'; ?>
                                 <tr>
                                     <td></td>
                                     <td>{{ $city->city }}</td>
@@ -202,28 +209,31 @@ $count = 1;
                                     @can('toll-pay')
                                         @if ($city->cityDrivers->first()->status == 1)
                                             <td><a class="btn btn-success"
-                                                    href="{{ route('charges.pay', $city->id) }}">Paid</a>
+                                                    href="{{ route('charges.pay', ['id' => $city->cityDrivers->first()->city_id, 'd_id' => $city->cityDrivers->first()->driver_id]) }}">Paid</a>
                                             </td>
                                         @elseif ($city->cityDrivers->first()->status == 0)
-                                            <td><a class="btn btn-danger" href="{{ route('charges.pay', $city->id) }}">Pay Now</a>
+                                            <td><a class="btn btn-danger" href="{{ route('charges.pay', ['id' => $city->cityDrivers->first()->city_id, 'd_id' => $city->cityDrivers->first()->driver_id]) }}">Pay
+                                                    Now</a>
                                             </td>
                                         @else
                                             <td><a class="btn btn-primary"
-                                                    href="{{ route('charges.pay', $city->id) }}">Disputed</a>
+                                                    href="{{ route('charges.pay', ['id' => $city->cityDrivers->first()->city_id, 'd_id' => $city->cityDrivers->first()->driver_id]) }}">Disputed</a>
                                             </td>
                                         @endif
                                     @endcan
                                     @can('admin-ticket')
                                         @if ($city->status == '1')
                                             <td><a class="btn btn-success"
-                                                   href="{{ route('admin.pay', ['id' => $city->city_id,'d_id' =>$city->driver_id , 'name' => $name]) }}">Paid</a>
+                                                    href="{{ route('admin.pay', ['id' => $city->city_id, 'd_id' => $city->driver_id, 'name' => $name]) }}">Paid</a>
                                             </td>
                                         @elseif ($city->status == 0)
-                                            <td><a class="btn btn-danger"href="{{ route('admin.pay', ['id' => $city->city_id,'d_id' =>$city->driver_id , 'name' => $name]) }}">Pay Now</a>
+                                            <td><a
+                                                    class="btn btn-danger"href="{{ route('admin.pay', ['id' => $city->city_id, 'd_id' => $city->driver_id, 'name' => $name]) }}">Pay
+                                                    Now</a>
                                             </td>
                                         @else
                                             <td><a class="btn btn-primary"
-                                                   href="{{ route('admin.pay', ['id' => $city->city_id,'d_id' => $city->driver_id , 'name' => $name]) }}">Disputed</a>
+                                                    href="{{ route('admin.pay', ['id' => $city->city_id, 'd_id' => $city->driver_id, 'name' => $name]) }}">Disputed</a>
                                             </td>
                                         @endif
                                     @endcan

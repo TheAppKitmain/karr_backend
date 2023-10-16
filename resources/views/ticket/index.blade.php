@@ -139,11 +139,17 @@ $page = 'ticket';
                                 <td>£{{ $toll->price }}</td>
                                 @can('toll-pay')
                                     @if ($toll->tollDrivers->first()->status == 1)
-                                        <td><a class="btn btn-success" href="{{ route('toll.pay', $toll->id) }}">Paid</a></td>
+                                        <td><a class="btn btn-success"
+                                                href="{{ route('toll.pay', ['id' => $toll->tollDrivers->first()->paytoll_id, 'd_id' => $toll->tollDrivers->first()->driver_id]) }}">Paid</a>
+                                        </td>
                                     @elseif ($toll->tollDrivers->first()->status == 0)
-                                        <td><a class="btn btn-danger" href="{{ route('toll.pay', $toll->id) }}">Pay Now</a></td>
+                                        <td><a class="btn btn-danger"
+                                                href="{{ route('toll.pay', ['id' => $toll->tollDrivers->first()->paytoll_id, 'd_id' => $toll->tollDrivers->first()->driver_id]) }}">Pay
+                                                Now</a>
+                                        </td>
                                     @elseif($toll->tollDrivers->first()->status == 2)
-                                        <td><a class="btn btn-primary" href="{{ route('toll.pay', $toll->id) }}">Disputed</a>
+                                        <td><a class="btn btn-primary"
+                                                href="{{ route('toll.pay', ['id' => $toll->tollDrivers->first()->paytoll_id, 'd_id' => $toll->tollDrivers->first()->driver_id]) }}">Disputed</a>
                                         </td>
                                     @endif
                                 @endcan
@@ -163,13 +169,16 @@ $page = 'ticket';
                                 <td>£{{ $city->price }}</td>
                                 @can('toll-pay')
                                     @if ($city->cityDrivers->first()->status == 1)
-                                        <td><a class="btn btn-success" href="{{ route('charges.pay', $city->id) }}">Paid</a>
+                                        <td><a class="btn btn-success"
+                                                href="{{ route('charges.pay', ['id' => $city->cityDrivers->first()->city_id, 'd_id' => $city->cityDrivers->first()->driver_id]) }}">Paid</a>
                                         </td>
                                     @elseif ($city->cityDrivers->first()->status == 0)
-                                        <td><a class="btn btn-danger" href="{{ route('charges.pay', $city->id) }}">Pay Now</a></td>
+                                        <td><a class="btn btn-danger"
+                                                href="{{ route('charges.pay', ['id' => $city->cityDrivers->first()->city_id, 'd_id' => $city->cityDrivers->first()->driver_id]) }}">Pay
+                                                Now</a></td>
                                     @elseif ($city->cityDrivers->first()->status == 2)
                                         <td><a class="btn btn-primary"
-                                                href="{{ route('charges.pay', $city->id) }}">Disputed</a>
+                                                href="{{ route('charges.pay', ['id' => $city->cityDrivers->first()->city_id, 'd_id' => $city->cityDrivers->first()->driver_id]) }}">Disputed</a>
                                         </td>
                                     @endif
                                 @endcan
@@ -257,16 +266,16 @@ $page = 'ticket';
                                 <td>Charges</td>
                                 @can('toll-pay')
                                     @if ($city->cityDrivers->first()->status == 1)
-                                        <td> Paid </td>
-                                        <td><a class="btn btn-success" href="{{ route('charges.pay', $city->id) }}">Paid</a>
+                                        <td><a class="btn btn-success"
+                                                href="{{ route('charges.pay', ['id' => $city->cityDrivers->first()->city_id, 'd_id' => $city->cityDrivers->first()->driver_id]) }}">Paid</a>
                                         </td>
                                     @elseif ($city->cityDrivers->first()->status == 0)
-                                        <td> Unpaid</td>
-                                        <td><a class="btn btn-danger" href="{{ route('charges.pay', $city->id) }}">Pay Now</a></td>
+                                        <td><a class="btn btn-danger"
+                                                href="{{ route('charges.pay', ['id' => $city->cityDrivers->first()->city_id, 'd_id' => $city->cityDrivers->first()->driver_id]) }}">Pay
+                                                Now</a></td>
                                     @elseif ($city->cityDrivers->first()->status == 2)
-                                        <td> Disputed</td>
                                         <td><a class="btn btn-primary"
-                                                href="{{ route('charges.pay', $city->id) }}">Disputed</a>
+                                                href="{{ route('charges.pay', ['id' => $city->cityDrivers->first()->city_id, 'd_id' => $city->cityDrivers->first()->driver_id]) }}">Disputed</a>
                                         </td>
                                     @endif
                                 @endcan
@@ -303,15 +312,20 @@ $page = 'ticket';
                                 <td>£ {{ $toll->price }}</td>
                                 @can('toll-pay')
                                     @if ($toll->tollDrivers->first()->status == 1)
-                                    <td> Paid </td>
-                                        <td><a class="btn btn-success" href="{{ route('toll.pay', $toll->id) }}">Paid</a>
+                                        <td> Paid </td>
+                                        <td><a class="btn btn-success"
+                                                href="{{ route('toll.pay', ['id' => $toll->tollDrivers->first()->paytoll_id, 'd_id' => $toll->tollDrivers->first()->driver_id]) }}">Paid</a>
                                         </td>
                                     @elseif ($toll->tollDrivers->first()->status == 0)
-                                    <td> Unpaid</td>
-                                        <td><a class="btn btn-danger" href="{{ route('toll.pay', $toll->id) }}">Pay Now</a></td>
+                                        <td> Unpaid</td>
+                                        <td><a class="btn btn-danger"
+                                                href="{{ route('toll.pay', ['id' => $toll->tollDrivers->first()->paytoll_id, 'd_id' => $toll->tollDrivers->first()->driver_id]) }}">Pay
+                                                Now</a>
+                                        </td>
                                     @elseif($toll->tollDrivers->first()->status == 2)
-                                    <td> Disputed </td>
-                                        <td><a class="btn btn-primary" href="{{ route('toll.pay', $toll->id) }}">Disputed</a>
+                                        <td> Disputed </td>
+                                        <td><a class="btn btn-primary"
+                                                href="{{ route('toll.pay', ['id' => $toll->tollDrivers->first()->paytoll_id, 'd_id' => $toll->tollDrivers->first()->driver_id]) }}">Disputed</a>
                                         </td>
                                     @endif
                                 @endcan

@@ -19,10 +19,8 @@ $page = 'ticket';
                         <div class="panel-heading display-table">
                             <h3 class="panel-title">Payment Details</h3>
                         </div>
-
+{{-- ------------ ----------------------Stripe Payment form ---------------------------}}
                         <div class="panel-body">
-
-
 
                             @if (Session::has('success'))
                                 <div class="alert alert-success">
@@ -34,7 +32,7 @@ $page = 'ticket';
                                     {{ Session::get('error') }}
                                 </div>
                             @endif
-                            <form role="form" action="{{ route('payment', $type) }}" method="post"
+                            <form role="form" action="{{ route('payment', $type->id) }}" method="post"
                                 class="require-validation" data-cc-on-file="false"
                                 data-stripe-publishable-key="{{ env('STRIPE_KEY') }}" id="payment-form">
 

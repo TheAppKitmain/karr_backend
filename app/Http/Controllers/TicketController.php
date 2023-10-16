@@ -51,7 +51,7 @@ class TicketController extends Controller
             });
         })->get();
 
-        // return $cities;
+        //  return $cities;
         return view('ticket.index', compact('tickets', 'tolls', 'cities'));
     }
     public function ticketDelete($id)
@@ -127,35 +127,38 @@ class TicketController extends Controller
 
     // *************************** Functions for Payment *******************************************
 
-    public function paycharges($id)
+    public function paycharges($id, $did)
     {
-        $city = DB::table('city_driver')->where('city_id', $id)->first();
-        $find = City::find($id);
-        $collection = Card::all();
-        $price = $find->price;
+
+        $type = City_Driver::where('city_id', $id)->where('driver_id', $did)->first();
         $name = 'ct';
-        $type = $city->city_id;
-        $status = $city->status;
-        if ($status == '0') {
-            return view('ticket.stripe', compact('type', 'price', 'name', 'collection'));
-        } else if ($status == '1') {
+        $city  = City::find($id);
+        $price = $city->price;
+        // dd($type);
+        $collection = Card::all();
+        if ($type->status == '0') {
+            return view('ticket.stripe', compact('type', 'name', 'collection', 'price'));
+        } 
+        else if ($type->status == '1') {
             return redirect()->route('tickets')->with('error', 'City Charges is paid');
-        } elseif ($status == '2') {
+        } 
+        elseif ($type->status == '2') {
             return redirect()->back()->with('error', 'City Charges has disputed status');
-        } else {
+        } 
+        else {
             return redirect()->back()->with('error', 'Error occured');
         }
+
     }
 
 
     public function payticket($id)
     {
-        $ticket = Ticket::find($id);
-        $status = $ticket->status;
+        $type = Ticket::find($id);
+        $status = $type->status;
         $collection = Card::all();
         $name = 'tk';
-        $type = $ticket->id;
-        $price = $ticket->price;
+        $price = $type->price;
         if ($status == 0) {
             return view('ticket.stripe', compact('type', 'price', 'name', 'collection'));
         } else if ($status == 1) {
@@ -185,11 +188,15 @@ class TicketController extends Controller
                 $ticket->save();
                 return back()->with('success', 'Payment successful!');
             } else if ($name == 'tl') {
-                dd($id);
-                DB::table('driver_paytoll')->where('paytoll_id', $id)->update(array('status' => 1));
+                // dd($id);
+                $toll = Paytoll_Driver::find($id);
+                $toll->status = 1;
+                $toll->save();
                 return back()->with('success', 'Payment successful!');
             } else if ($name == 'ct') {
-                DB::table('city_driver')->where('city_id', $id)->update(array('status' => '1'));
+                $city = City_Driver::find($id);
+                $city->status = 1;
+                $city->save();
                 return back()->with('success', 'Payment successful!');
             }
         } catch (Exception $e) {

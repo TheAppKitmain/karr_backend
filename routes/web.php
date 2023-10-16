@@ -48,7 +48,7 @@ Route::get('/driver/ticket/{id}',[DriverController::class,'driverTicket'])->name
 
 //Pay Toll Routes
 Route::get('/toll', [PaytollController::class, 'index'])->name('toll');
-Route::get('/pay/{id}', [PaytollController::class, 'paytoll'])->name('toll.pay');
+Route::get('/pay/{id}/{d_id}', [PaytollController::class, 'paytoll'])->name('toll.pay');
 Route::get('toll/create',[PaytollController::class, 'createToll'])->name('toll.create');
 Route::post('/toll/store',[PaytollController::class,'storeToll'])->name('toll.store');
 Route::get('/toll/edit/{id}',[PaytollController::class, 'editToll'])->name('toll.edit');
@@ -62,7 +62,7 @@ Route::get('/ticket/pay/{id}',[TicketController::class, 'payticket'])->name('tic
 
 //City Charges
 Route::get('/charges', [TicketController::class, 'city'])->name('city');
-Route::get('/charges/pay/{id}',[TicketController::class, 'paycharges'])->name('charges.pay');
+Route::get('/charges/pay/{id}/{d_id}',[TicketController::class, 'paycharges'])->name('charges.pay');
 Route::get('/charges/create',[TicketController::class,'cityCreate'])->name('charges.create');
 Route::post('/charges/store',[TicketController::class,'cityStore'])->name('charges.store');
 Route::delete('/charges/delete/{id}',[TicketController::class, 'cityDelete'])->name('charges.destroy');
