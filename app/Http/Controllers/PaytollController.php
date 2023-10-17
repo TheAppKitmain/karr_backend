@@ -7,6 +7,7 @@ use App\Models\Card;
 use App\Models\Paytoll;
 use App\Models\Paytoll_Driver;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 use function PHPUnit\Framework\returnValueMap;
@@ -41,7 +42,7 @@ class PaytollController extends Controller
         $name = 'tl';
         $toll  = Paytoll::find($id);
         $price = $toll->price;
-        $collection = Card::all();
+        $collection = Card::where('user_id', Auth::user()->id);
         if ($type->status == '0') {
             return view('ticket.stripe', compact('type', 'name', 'collection', 'price'));
         } 

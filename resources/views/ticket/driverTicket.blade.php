@@ -36,7 +36,8 @@ $page = 'driver';
                         <tr>
                             <th scope="row">{{ $key + 1 }}</th>
                             <th>{{$ticket->driver->name}}</th>
-                            <td>{{ $ticket->price }}</td>
+                            <td>£ {{ number_format($ticket->price,2) }}</td>
+                            
 
                             @can('toll-pay')
                                 @if ($ticket->status == '1')

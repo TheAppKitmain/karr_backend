@@ -135,7 +135,7 @@ class TicketController extends Controller
         $city  = City::find($id);
         $price = $city->price;
         // dd($type);
-        $collection = Card::all();
+        $collection = Card::where('user_id', Auth::user()->id)->get();
         if ($type->status == '0') {
             return view('ticket.stripe', compact('type', 'name', 'collection', 'price'));
         } 
@@ -156,7 +156,7 @@ class TicketController extends Controller
     {
         $type = Ticket::find($id);
         $status = $type->status;
-        $collection = Card::all();
+        $collection = Card::where('user_id', Auth::user()->id)->get();
         $name = 'tk';
         $price = $type->price;
         if ($status == 0) {

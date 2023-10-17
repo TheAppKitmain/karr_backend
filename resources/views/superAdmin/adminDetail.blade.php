@@ -59,14 +59,14 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
                 <div class="home" style="background:  #FFB400;">
                     <div class="homeText">
                         <p>Unpaid Amount</p>
-                        <span>£{{ $unpaidCharges }}</span>
+                        <span>£{{ number_format($unpaidCharges,2) }}</span>
                     </div>
 
                 </div>
                 <div class="home" style="background:  #FF6F73;">
                     <div class="homeText">
                         <p>Total Amount</p>
-                        <span>£{{ $totalCharges }}</span>
+                        <span>£{{ number_format($totalCharges,2) }}</span>
                     </div>
                 </div>
 
@@ -97,7 +97,7 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
                                             <tr>
                                                 <td>{{ $ticket->driver->name }}</td>
                                                 <td>{{ $ticket->pcn }}</td>
-                                                <td>£ {{ $ticket->price }}</td>
+                                                <td>£ {{ number_format($ticket->price,2) }}</td>
                                                 <td>
                                                     @if ($ticket->status == 0)
                                                         <span class="badge badge-danger">Unpaid</span>
@@ -132,7 +132,7 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
                                             <tr>
                                                 <td>{{ $toll->tollDrivers->first()->driver->name }}</td>
                                                 <td>{{ $toll->name }}</td>
-                                                <td>£ {{ $toll->price }}</td>
+                                                <td>£ {{ number_format($toll->price,2) }}</td>
                                                 <td>
                                                     @if ($toll->tollDrivers->first()->status == 0)
                                                         <span class="badge badge-danger">Unpaid</span>
@@ -167,7 +167,7 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
                                             <tr>
                                                 <td>{{ $city->cityDrivers->first()->driver->name }}</td>
                                                 <td>{{ $city->area }}</td>
-                                                <td>£ {{ $city->price }}</td>
+                                                <td>£ {{ number_format($city->price,2) }}</td>
                                                 <td>
                                                     @if ($city->cityDrivers->first()->status == 0)
                                                         <span class="badge badge-danger">Unpaid</span>

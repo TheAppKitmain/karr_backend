@@ -156,7 +156,8 @@ $page = 'tickets';
                                 @can('admin-ticket')
                                     @if ($toll->status == '1')
                                         <td><a class="btn btn-success"
-                                                href="{{ route('admin.unpaid', ['id' => $toll->paytoll_id, 'd_id' => $toll->driver_id, 'name' => $name]) }}">Mark unpaid</a>
+                                                href="{{ route('admin.unpaid', ['id' => $toll->paytoll_id, 'd_id' => $toll->driver_id, 'name' => $name]) }}">Mark
+                                                unpaid</a>
                                         </td>
                                     @elseif ($toll->status == '0')
                                         <td><a class="btn btn-danger"
@@ -190,7 +191,8 @@ $page = 'tickets';
                                 <td>£ {{ number_format($city->price, 2) }}</td> @can('admin-ticket')
                                     @if ($city->status == '1')
                                         <td><a class="btn btn-success"
-                                                href="{{ route('admin.unpaid', ['id' => $city->city_id, 'd_id' => $city->driver_id, 'name' => $name]) }}">Mark unpaid</a>
+                                                href="{{ route('admin.unpaid', ['id' => $city->city_id, 'd_id' => $city->driver_id, 'name' => $name]) }}">Mark
+                                                unpaid</a>
                                         </td>
                                     @elseif ($city->status == 0)
                                         <td><a class="btn btn-danger"
@@ -226,7 +228,7 @@ $page = 'tickets';
                     <tbody>
                         @foreach ($unpaidTickets as $key => $ticket)
                             <tr>
-                                <td><input type="checkbox" class="table-checkbox" data-table="tickets" name="ticket_ids[]"
+                                <td><input type="checkbox" class="" data-table="" name=""
                                         value="{{ $ticket->id }}"></td>
                                 <!-- ... Rest of the table row ... -->
                                 <td>{{ $ticket->pcn }}</td>
@@ -237,7 +239,8 @@ $page = 'tickets';
                                 <td>£ {{ number_format($ticket->price, 2) }}</td> @can('admin-ticket')
                                     @if ($ticket->status == '1')
                                         <td><a class="btn btn-success"
-                                                href="{{ route('admin.pay', ['id' => $ticket->id, 'd_id' => $ticket->driver_id, 'name' => $name]) }}">Mark unpaid</a>
+                                                href="{{ route('admin.pay', ['id' => $ticket->id, 'd_id' => $ticket->driver_id, 'name' => $name]) }}">Mark
+                                                unpaid</a>
                                         </td>
                                     @elseif ($ticket->status == '0')
                                         <td><a class="btn btn-danger"
@@ -256,9 +259,7 @@ $page = 'tickets';
                         @foreach ($unpaidTolls as $toll)
                             <tr>
                                 <td>
-                                    <input type="checkbox" class="table-checkbox" data-table="tolls"
-                                        data-toll-id="{{ $toll->paytoll_id }}" data-driver-id="{{ $toll->driver_id }}"
-                                        name="selected_items[]" value="{{ $toll->paytoll_id }}">
+                                    <input type="checkbox" class="" data-table="" name="" value="">
 
                                 </td>
                                 <!-- ... Rest of the table row ... -->
@@ -270,7 +271,8 @@ $page = 'tickets';
                                 <td>£ {{ number_format($toll->price, 2) }}</td> @can('admin-ticket')
                                     @if ($toll->status == '1')
                                         <td><a class="btn btn-success"
-                                                href="{{ route('admin.unpaid', ['id' => $toll->paytoll_id, 'd_id' => $toll->driver_id, 'name' => $name]) }}">Mark unpaid</a>
+                                                href="{{ route('admin.unpaid', ['id' => $toll->paytoll_id, 'd_id' => $toll->driver_id, 'name' => $name]) }}">Mark
+                                                unpaid</a>
                                         </td>
                                     @elseif ($toll->status == '0')
                                         <td><a class="btn btn-danger"
@@ -288,19 +290,20 @@ $page = 'tickets';
 
                         @foreach ($unpaidCharges as $city)
                             <tr>
-                                <td><input type="checkbox" class="table-checkbox" data-table="city" name="city_ids[]"
-                                        value="{{ $city->city_id }}"></td>
+                                <td><input type="checkbox" class="" data-table="" name="" value=""></td>
                                 <!-- ... Rest of the table row ... -->
                                 <td></td>
                                 <td>{{ $city->city }}</td>
                                 <td>{{ $city->time }}</td>
                                 <td></td>
                                 <td>Charges</td>
-                                <td>£ {{ number_format($city->price, 2) }}</td> @can('admin-ticket')
+                                <td>£ {{ number_format($city->price, 2) }}</td>
+                                @can('admin-ticket')
                                     @if ($city->status == '1')
                                         <td>
                                             <a class="btn btn-success"
-                                                href="{{ route('admin.unpaid', ['id' => $city->city_id, 'd_id' => $city->driver_id, 'name' => $name]) }}">Mark unpaid</a>
+                                                href="{{ route('admin.unpaid', ['id' => $city->city_id, 'd_id' => $city->driver_id, 'name' => $name]) }}">Mark
+                                                unpaid</a>
                                         </td>
                                     @elseif ($city->status == 0)
                                         <td><a class="btn btn-danger"

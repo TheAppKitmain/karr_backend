@@ -37,6 +37,10 @@ $count = 1;
             display: block;
             overflow-x: auto;
         }
+
+        table td {
+            font-size: 13px;
+        }
     </style>
     <section class="support-screen">
         <div class="row">
@@ -61,14 +65,14 @@ $count = 1;
                         <div class="home" style="background:  #FFB400;">
                             <div class="homeText">
                                 <p>Total Charges</p>
-                                <span>£ {{ $totalCharges }}</span>
+                                <span>£ {{ number_format($totalCharges, 2) }}</span>
                             </div>
 
                         </div>
                         <div class="home" style="background:  #FF6F73;">
                             <div class="homeText">
                                 <p>Unpaid Charges</p>
-                                <span>£ {{ $unpaid }}</span>
+                                <span>£ {{ number_format($unpaid, 2) }}</span>
                             </div>
                         </div>
 
@@ -114,12 +118,18 @@ $count = 1;
                                 <?php $name = 'tk'; ?>
                                 <tr>
                                     <td>{{ $ticket->pcn }}</td>
-                                    <td>{{ $ticket->driver }}</td>
+                                    @can('admin-ticket')
+                                        <td>{{ $ticket->driver }}</td>
+                                    @endcan
+                                    @can('toll-pay')
+                                    <td>{{ $ticket->driver->name }}</td>
+                                    @endcan
                                     <td>{{ $ticket->date }}</td>
                                     <td> Ticket </td>
                                     @can('admin-ticket')
                                         <td>{{ $ticket->user_name }}</td>
                                     @endcan
+
                                     <td>{{ $ticket->ticket_issuer }}</td>
                                     <td>£ {{ number_format($ticket->price, 2) }}</td>
                                     @can('toll-pay')
@@ -140,7 +150,8 @@ $count = 1;
                                     @can('admin-ticket')
                                         @if ($ticket->status == '1')
                                             <td><a class="btn btn-success"
-                                                    href="{{ route('admin.pay', ['id' => $ticket->id, 'd_id' => $ticket->driver_id, 'name' => $name]) }}">Paid</a>
+                                                    href="{{ route('admin.unpaid', ['id' => $ticket->id, 'd_id' => $ticket->driver_id, 'name' => $name]) }}">Mark
+                                                    unpaid</a>
                                             </td>
                                         @elseif ($ticket->status == '0')
                                             <td><a class="btn btn-danger"
@@ -189,7 +200,8 @@ $count = 1;
                                     @can('admin-ticket')
                                         @if ($toll->status == '1')
                                             <td><a class="btn btn-success"
-                                                    href="{{ route('admin.pay', ['id' => $toll->paytoll_id, 'd_id' => $toll->driver_id, 'name' => $name]) }}">Paid</a>
+                                                    href="{{ route('admin.unpaid', ['id' => $toll->paytoll_id, 'd_id' => $toll->driver_id, 'name' => $name]) }}">Mark
+                                                    unpaid</a>
                                             </td>
                                         @elseif ($toll->status == '0')
                                             <td><a class="btn btn-danger"
@@ -237,7 +249,8 @@ $count = 1;
                                     @can('admin-ticket')
                                         @if ($city->status == '1')
                                             <td><a class="btn btn-success"
-                                                    href="{{ route('admin.pay', ['id' => $city->city_id, 'd_id' => $city->driver_id, 'name' => $name]) }}">Paid</a>
+                                                    href="{{ route('admin.unpaid', ['id' => $city->city_id, 'd_id' => $city->driver_id, 'name' => $name]) }}">Mark
+                                                    unpaid</a>
                                             </td>
                                         @elseif ($city->status == 0)
                                             <td><a
