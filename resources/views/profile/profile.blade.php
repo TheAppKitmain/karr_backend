@@ -8,7 +8,7 @@ $page = 'setting';
             <div class="col-lg-8 col-md-8 col-sm-12">
                 <div class="welcome-screen-left">
                     <div class="welcome-inner-content">
-                        <h3>edit profile</h3>
+                        <h3>Edit Profile</h3>
                         <p>You can edit your profile and save once complete</p>
                     </div>
                     <form action="{{ route('users.update', $user->id) }}" method="POST">
@@ -59,18 +59,18 @@ $page = 'setting';
             <div class="col-lg-4 col-md-4 col-sm-12">
                 <div class="welcome-screen-right">
                     <div class="quick-review-contant">
-                        <h3>Change password</h3>
+                        <h3>Change Password</h3>
                         <p>Update your password with new strong password?</p>
                     </div>
                     <div class="welcome-screen-form">
                         <div class="form-group">
-                            <label>password</label>
+                            <label>Password</label>
                             <input type="password" name="password" placeholder="Password" class="form-control">
                         </div>
 
 
                         <div class="form-group">
-                            <label>confirm password</label>
+                            <label>Confirm password</label>
                             <input type="password" name="confirm-password" placeholder="Confirm Password"
                                 class="form-control">
                         </div>

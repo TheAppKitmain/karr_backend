@@ -40,8 +40,8 @@ $page = 'ticket';
             z-index: 1;
         }
 
-        .dropdown:hover .dropdown-content {
-            display: block;
+        .dropdown-content {
+            display: none;
         }
 
         .dropdown-content a {
@@ -59,7 +59,8 @@ $page = 'ticket';
             display: block;
             overflow-x: auto;
         }
-        .table td{
+
+        .table td {
             font-size: 13px;
         }
     </style>
@@ -68,8 +69,8 @@ $page = 'ticket';
             <div class="for-our-services">
                 <a href="#" id="selectAllCheckboxItems">Pay multiple Tickets</a>
                 <div class="sort dropdown">
-                    <p>Filter By<span class="caret"></span></p>
-                    <div class="dropdown-content">
+                    <p id="dropdown-toggle">Filter By<span class="caret"></span></p>
+                    <div class="dropdown-content" id="dropdown-content">
                         <a href="#" id="showTicketsTable">Tickets</a>
                         <a href="#" id="showCityTable">Charges</a>
                         <a href="#" id="showTollsTable">Tolls</a>
@@ -142,12 +143,17 @@ $page = 'ticket';
                                 <td>£ {{ number_format($toll->price, 2) }}</td>
                                 @can('toll-pay')
                                     @if ($toll->tollDrivers->first()->status == 1)
-                                        <td><a class="btn btn-success" href="{{ route('toll.pay',['id' => $toll->tollDrivers->first()->paytoll_id, 'd_id' => $toll->tollDrivers->first()->driver_id] ) }}">Paid</a></td>
+                                        <td><a class="btn btn-success"
+                                                href="{{ route('toll.pay', ['id' => $toll->tollDrivers->first()->paytoll_id, 'd_id' => $toll->tollDrivers->first()->driver_id]) }}">Paid</a>
+                                        </td>
                                     @elseif ($toll->tollDrivers->first()->status == 0)
-                                        <td><a class="btn btn-danger" href="{{ route('toll.pay',['id' => $toll->tollDrivers->first()->paytoll_id, 'd_id' => $toll->tollDrivers->first()->driver_id ]) }}">Pay Now</a>
+                                        <td><a class="btn btn-danger"
+                                                href="{{ route('toll.pay', ['id' => $toll->tollDrivers->first()->paytoll_id, 'd_id' => $toll->tollDrivers->first()->driver_id]) }}">Pay
+                                                Now</a>
                                         </td>
                                     @elseif($toll->tollDrivers->first()->status == 2)
-                                        <td><a class="btn btn-primary" href="{{ route('toll.pay',['id' => $toll->tollDrivers->first()->paytoll_id, 'd_id' => $toll->tollDrivers->first()->driver_id ]) }}">Disputed</a>
+                                        <td><a class="btn btn-primary"
+                                                href="{{ route('toll.pay', ['id' => $toll->tollDrivers->first()->paytoll_id, 'd_id' => $toll->tollDrivers->first()->driver_id]) }}">Disputed</a>
                                         </td>
                                     @endif
                                 @endcan
@@ -264,17 +270,17 @@ $page = 'ticket';
                                 <td>Charges</td>
                                 @can('toll-pay')
                                     @if ($city->cityDrivers->first()->status == 1)
-                                    <td>Paid</td>
+                                        <td>Paid</td>
                                         <td><a class="btn btn-success"
                                                 href="{{ route('charges.pay', ['id' => $city->cityDrivers->first()->city_id, 'd_id' => $city->cityDrivers->first()->driver_id]) }}">Paid</a>
                                         </td>
                                     @elseif ($city->cityDrivers->first()->status == 0)
-                                    <td>Unpaid</td>
+                                        <td>Unpaid</td>
                                         <td><a class="btn btn-danger"
                                                 href="{{ route('charges.pay', ['id' => $city->cityDrivers->first()->city_id, 'd_id' => $city->cityDrivers->first()->driver_id]) }}">Pay
                                                 Now</a></td>
                                     @elseif ($city->cityDrivers->first()->status == 2)
-                                    <td>Disputed</td>
+                                        <td>Disputed</td>
                                         <td><a class="btn btn-primary"
                                                 href="{{ route('charges.pay', ['id' => $city->cityDrivers->first()->city_id, 'd_id' => $city->cityDrivers->first()->driver_id]) }}">Disputed</a>
                                         </td>
@@ -314,15 +320,19 @@ $page = 'ticket';
                                 @can('toll-pay')
                                     @if ($toll->tollDrivers->first()->status == 1)
                                         <td> Paid </td>
-                                        <td><a class="btn btn-success" href="{{ route('toll.pay',['id' => $toll->tollDrivers->first()->paytoll_id, 'd_id' => $toll->tollDrivers->first()->driver_id ]) }}">Paid</a>
+                                        <td><a class="btn btn-success"
+                                                href="{{ route('toll.pay', ['id' => $toll->tollDrivers->first()->paytoll_id, 'd_id' => $toll->tollDrivers->first()->driver_id]) }}">Paid</a>
                                         </td>
                                     @elseif ($toll->tollDrivers->first()->status == 0)
                                         <td> Unpaid</td>
-                                        <td><a class="btn btn-danger" href="{{ route('toll.pay',['id' => $toll->tollDrivers->first()->paytoll_id, 'd_id' => $toll->tollDrivers->first()->driver_id ]) }}">Pay Now</a>
+                                        <td><a class="btn btn-danger"
+                                                href="{{ route('toll.pay', ['id' => $toll->tollDrivers->first()->paytoll_id, 'd_id' => $toll->tollDrivers->first()->driver_id]) }}">Pay
+                                                Now</a>
                                         </td>
                                     @elseif($toll->tollDrivers->first()->status == 2)
                                         <td> Disputed </td>
-                                        <td><a class="btn btn-primary" href="{{ route('toll.pay',['id' => $toll->tollDrivers->first()->paytoll_id, 'd_id' => $toll->tollDrivers->first()->driver_id ]) }}">Disputed</a>
+                                        <td><a class="btn btn-primary"
+                                                href="{{ route('toll.pay', ['id' => $toll->tollDrivers->first()->paytoll_id, 'd_id' => $toll->tollDrivers->first()->driver_id]) }}">Disputed</a>
                                         </td>
                                     @endif
                                 @endcan
@@ -401,6 +411,24 @@ $page = 'ticket';
                     alert('No items are selected.');
                 }
             });
+        });
+        var dropdownToggle = document.getElementById("dropdown-toggle");
+        var dropdownContent = document.getElementById("dropdown-content");
+
+        // Add a click event listener to the toggle button
+        dropdownToggle.addEventListener("click", function() {
+            if (dropdownContent.style.display === "block") {
+                dropdownContent.style.display = "none";
+            } else {
+                dropdownContent.style.display = "block";
+            }
+        });
+
+        // Close the dropdown if the user clicks outside of it
+        window.addEventListener("click", function(event) {
+            if (event.target !== dropdownToggle && event.target !== dropdownContent) {
+                dropdownContent.style.display = "none";
+            }
         });
     </script>
 @endsection

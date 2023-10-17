@@ -35,18 +35,18 @@ $page = 'driver';
                                     value="{{ $driver->name }}">
                             </div>
                             <div class="col-lg-6 col-md-6 form-group">
-                                <label>Driver Number</label>
+                                <label>Mobile Number</label>
                                 <input type="number" name="number" placeholder="Number" class="form-control"
                                     value="{{ $driver->number }}">
                             </div>
                             <div class="col-lg-6 col-md-6 form-group">
-                                <label>Driver Email</label>
+                                <label>Email</label>
                                 <input type="email" name="email" placeholder="Email" class="form-control"
                                     value="{{ $driver->email }}">
 
                             </div>
                             <div class="col-lg-6 col-md-6 form-group">
-                                <label>Driver Password</label>
+                                <label>Password</label>
                                 <input type="password" name="password" id="password" placeholder="Password"
                                     class="form-control">
                             </div>

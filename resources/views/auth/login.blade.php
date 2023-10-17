@@ -89,15 +89,25 @@
 
 
 </head>
+<style>
+    .log {
+        width: 130px;
+        height: auto;
+        position: absolute;
+        top: 8px;
+        left: 16px;
+    }
+</style>
 
 <body class="skin-blue">
     <div class="wrapper">
         <section class="sign-up-screen">
+            <img src="{{ asset('assets/dist/img/logo.jpeg') }}" alt="logo" class="log">
             <div class="signup-form">
                 <div class="col-md-12 col-sm-12 col-12">
                     <div class="welocme-to-login">
                         <h3>Welcome back!</h3>
-                        <p>It is a long established fact that a reader.</p>
+                        <p> Log in to your account or Sign Up below.</p>
                     </div>
                 </div>
                 <form method="POST" action="{{ route('login') }}">
@@ -118,7 +128,9 @@
                     <div class="col-md-12 col-sm-12 col-12">
                         <div class="form-group">
                             <label>Password</label>
-                            <input id="password" type="password" placeholder="Password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                            <input id="password" type="password" placeholder="Password"
+                                class="form-control @error('password') is-invalid @enderror" name="password" required
+                                autocomplete="current-password">
                             <p class="forgot-password">Forgot password?</p>
                         </div>
                     </div>
@@ -127,13 +139,13 @@
                             <button type="submit">Login</button>
                         </div>
                         <div class="alredy-have">
-                            <p>Don’t have an account? <span> <a href="{{route('register')}}">Sign Up</a></span></p>
+                            <p>Don’t have an account? <span> <a href="{{ route('register') }}">Sign Up</a></span></p>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="signup-image">
-                <img src="{{ asset('assets/dist/img/signin.png') }}">
+                <img src="{{ asset('assets/dist/img/signin.jpg') }}">
             </div>
         </section>
 

@@ -10,18 +10,18 @@
         <div class="navbar-custom-menu">
             {{-- <i class="bx bx-menu" id="sidebarOpen"></i> --}}
             <ul class="nav navbar-nav">
-                <li class="nav-item dropdown-toggle.btn-success">
+                {{-- <li class="nav-item dropdown-toggle.btn-success">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                    {{ Auth::user()->name }}
-                </a>
-            </li>
-            <li class="dropdown tasks-menu">
-                <img src="{{asset('assets/dist/img/notification.svg')}}">
-            </li>
-            <li class="dropdown user user-menu">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <img src="{{asset('assets/dist/img/profile.svg')}}" class="user-image" alt="User Image">
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        {{ Auth::user()->name }}
+                    </a>
+                </li> --}}
+                {{-- <li class="dropdown tasks-menu">
+                    <img src="{{ asset('assets/dist/img/notification.svg') }}">
+                </li> --}}
+                <li class="dropdown user user-menu">
+                    <a href="{{ route('settings', Auth::user()->id) }}">
+                        <img src="{{ asset('assets/dist/img/users.svg') }}" class="user-image" alt="User Image">
 
                     </a>
 

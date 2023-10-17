@@ -67,7 +67,7 @@ $page = 'user';
             <div class="col-lg-8 col-md-8 col-sm-12">
                 <div class="welcome-screen-left">
                     <div class="welcome-inner-content">
-                        <h3>edit profile</h3>
+                        <h3>Edit profile</h3>
                     </div>
                     <form action="{{ route('users.update', $user->id) }}" method="POST">
                         @csrf

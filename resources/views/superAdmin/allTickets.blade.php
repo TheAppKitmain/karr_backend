@@ -40,8 +40,8 @@ $page = 'tickets';
             z-index: 1;
         }
 
-        .dropdown:hover .dropdown-content {
-            display: block;
+        .dropdown-content {
+            display: none;
         }
 
         .dropdown-content a {
@@ -69,8 +69,8 @@ $page = 'tickets';
             <div class="for-our-services">
                 <a href="#" id="selectAllCheckboxItems">Pay multiple Tickets</a>
                 <div class="sort dropdown">
-                    <p>Filter By<span class="caret"></span></p>
-                    <div class="dropdown-content">
+                    <p id="dropdown-toggle">Filter By<span class="caret"></span></p>
+                    <div class="dropdown-content" id="dropdown-content">
                         <a href="#" id="showPaidTable">Paid</a>
                         <a href="#" id="showUnpaidTable">Unpaid</a>
                     </div>
@@ -476,6 +476,24 @@ $page = 'tickets';
                     alert('No items are selected.');
                 }
             });
+        });
+        var dropdownToggle = document.getElementById("dropdown-toggle");
+        var dropdownContent = document.getElementById("dropdown-content");
+
+        // Add a click event listener to the toggle button
+        dropdownToggle.addEventListener("click", function() {
+            if (dropdownContent.style.display === "block") {
+                dropdownContent.style.display = "none";
+            } else {
+                dropdownContent.style.display = "block";
+            }
+        });
+
+        // Close the dropdown if the user clicks outside of it
+        window.addEventListener("click", function(event) {
+            if (event.target !== dropdownToggle && event.target !== dropdownContent) {
+                dropdownContent.style.display = "none";
+            }
         });
     </script>
 @endsection

@@ -16,7 +16,7 @@ $page = 'driver';
                     fill="#2D927E"></path>
             </svg>
         </a>
-            <h3>add new Driver</h3>
+            <h3>Add new Driver</h3>
         </div>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
@@ -36,16 +36,16 @@ $page = 'driver';
                                 <input type="text" name="name" placeholder="Name" class="form-control">
                             </div>
                             <div class="col-lg-6 col-md-6 form-group">
-                                <label>Driver Number</label>
+                                <label>Mobile Number</label>
                                 <input type="number" name="number" placeholder="Number" class="form-control">
                             </div>
                             <div class="col-lg-6 col-md-6 form-group">
-                                <label>Driver Email</label>
+                                <label>Email</label>
                                 <input type="email" name="email" placeholder="Email" class="form-control">
 
                             </div>
                             <div class="col-lg-6 col-md-6 form-group">
-                                <label>Driver Password</label>
+                                <label>Password</label>
                                 <input type="password" name="password" placeholder="Password" class="form-control">
                             </div>
                             <div class="col-lg-6 col-md-6 form-group">

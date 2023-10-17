@@ -371,7 +371,8 @@ a:focus {
   font-size: 20px;
   line-height: 50px;
   text-align: center;
-  width: 230px;
+  margin-left: 15px;
+  width: 200 px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   padding: 0 15px;
   font-weight: 300;
@@ -546,7 +547,7 @@ a:focus {
   font-size: 15px;
   font-weight: 500;
   line-height: normal;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 
 .active.treeview a span,
@@ -1071,7 +1072,7 @@ li.dropdown.tasks-menu img {
   color: #2d927e;
   border-radius: 8px;
   padding: 10px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   font-size: 14px;
 }
 .create_success_property .modal-footer .thanks-btn {
@@ -1080,7 +1081,7 @@ li.dropdown.tasks-menu img {
   border-radius: 8px;
   padding: 10px;
   color: #fff;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   font-size: 14px;
 }
 .create_success_property .modal-content {
@@ -1107,7 +1108,7 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 24px;
   font-weight: 700;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 /*
  * Component: Form
@@ -1126,7 +1127,7 @@ li.dropdown.tasks-menu img {
   font-weight: 600;
   line-height: normal;
   margin: 0;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 
 .property-form {
@@ -1138,7 +1139,7 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 14px;
   font-weight: 500;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 
 .property-form .form-group input {
@@ -1166,7 +1167,7 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 18px;
   font-weight: 600;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   margin: 0;
 }
 
@@ -1228,7 +1229,7 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 15px;
   font-weight: 500;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   opacity: 0.699999988079071;
 }
 
@@ -1345,7 +1346,7 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 12px;
   font-weight: 500;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .alredy-have {
   margin-top: 1rem;
@@ -1366,7 +1367,7 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 24px;
   font-weight: 700;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .welocme-to-login p {
   color: #000;
@@ -1381,7 +1382,7 @@ li.dropdown.tasks-menu img {
   text-align: right;
   font-size: 14px;
   font-weight: 500;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   margin-top: 4px;
 }
 
@@ -1396,7 +1397,7 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 20px;
   font-weight: 700;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   margin-top: 0;
 }
 .welcome-inner-content p {
@@ -1424,7 +1425,7 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 14px;
   font-weight: 500;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .welcome-screen-form .form-group textarea {
   border-radius: 10px;
@@ -1446,7 +1447,7 @@ li.dropdown.tasks-menu img {
   text-align: center;
   border-radius: 10px;
   color: #F8F8FA;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   font-size: 14px;
 }
 .add-btn a {
@@ -1457,7 +1458,7 @@ li.dropdown.tasks-menu img {
   background:  #F8F8FA !important;
   color: black !important;
   margin-right: 10px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   font-size: 14px;
   width: 20px;
 }
@@ -1468,7 +1469,7 @@ li.dropdown.tasks-menu img {
   border-radius: 10px;
   background: #8C52FF !important;
   color: #fff;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   font-size: 14px;
 }
 .add-btn {
@@ -1488,7 +1489,7 @@ li.dropdown.tasks-menu img {
 }
 .quick-text h3 {
   color: #fff;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   text-align: center;
   font-size: 20px;
 }
@@ -1502,7 +1503,7 @@ li.dropdown.tasks-menu img {
 .quick-text p {
   text-align: center;
   color: #fff;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   font-size: 13px;
 }
 .explore-btn {
@@ -1515,7 +1516,7 @@ li.dropdown.tasks-menu img {
   padding: 12px 40px;
   font-size: 15px;
   border-radius: 10px;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
  font-weight: 500;
 }
 
@@ -1531,14 +1532,14 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 20px;
   font-weight: 700;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   margin-top: 0;
 }
 .quick-review-contant h3 {
   color: #000;
   font-size: 20px;
   font-weight: 700;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .quick-review-contant p {
   color: #acacac;
@@ -1554,13 +1555,13 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 14px;
   font-weight: 500;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .guest-screen-form label {
   color: #000;
   font-size: 14px;
   font-weight: 500;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .guest-screen-form {
   margin-top: 40px;
@@ -1603,7 +1604,7 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 20px;
   font-weight: 700;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .guest-content p {
   color: #000;
@@ -1623,7 +1624,7 @@ li.dropdown.tasks-menu img {
   font-size: 16px;
   color: #2d927e;
   font-weight: 500;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .edit-delete-btn .delete {
   border: 1px solid #F00;
@@ -1632,7 +1633,7 @@ li.dropdown.tasks-menu img {
   color: #F00;
   font-size: 16px;
   font-weight: 500;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 
 .for-guest-screen .border-both{
@@ -1657,7 +1658,7 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 20px;
   font-weight: 700;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .for-our-guest a {
   border-radius: 10px;
@@ -1666,7 +1667,7 @@ li.dropdown.tasks-menu img {
   color: var(--white, #FFF);
   font-size: 16px;
   font-weight: 500;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   display: flex;
   align-items: center;
   column-gap: 10px;
@@ -1679,7 +1680,7 @@ li.dropdown.tasks-menu img {
   color: var(--white, #FFF);
   font-size: 16px;
   font-weight: 500;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   display: flex;
   align-items: center;
   column-gap: 10px;
@@ -1697,7 +1698,7 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 20px;
   font-weight: 700;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .services-content p {
   color: #000;
@@ -1713,7 +1714,7 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 24px;
   font-weight: 700;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .create-services-screen .edit-delete-btn {
   display: flex;
@@ -1738,7 +1739,7 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 20px;
   font-weight: 700;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .for-our-services a {
   border-radius: 10px;
@@ -1747,7 +1748,7 @@ li.dropdown.tasks-menu img {
   color: var(--white, #FFF);
   font-size: 16px;
   font-weight: 500;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   display: flex;
   align-items: center;
   column-gap: 10px;
@@ -1880,7 +1881,7 @@ p{
   color: #000;
   font-size: 14px;
   font-weight: 500;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .content-wrapper,
 .right-side {
@@ -2268,7 +2269,7 @@ a:focus {
   font-size: 15px;
   font-weight: 500;
   line-height: normal;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 
 .active.treeview a span,
@@ -2788,7 +2789,7 @@ li.dropdown.tasks-menu img {
   color: #2d927e;
   border-radius: 8px;
   padding: 10px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   font-size: 14px;
 }
 .create_success_property .modal-footer .thanks-btn {
@@ -2797,7 +2798,7 @@ li.dropdown.tasks-menu img {
   border-radius: 8px;
   padding: 10px;
   color: #fff;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   font-size: 14px;
 }
 .create_success_property .modal-content {
@@ -2824,7 +2825,7 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 24px;
   font-weight: 700;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 /*
  * Component: Form
@@ -2843,7 +2844,7 @@ li.dropdown.tasks-menu img {
   font-weight: 600;
   line-height: normal;
   margin: 0;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 
 .property-form {
@@ -2855,7 +2856,7 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 14px;
   font-weight: 500;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 
 .property-form .form-group input {
@@ -2883,7 +2884,7 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 18px;
   font-weight: 600;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   margin: 0;
 }
 
@@ -2937,7 +2938,7 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 15px;
   font-weight: 500;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   opacity: 0.699999988079071;
 }
 
@@ -3043,7 +3044,7 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 12px;
   font-weight: 500;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .alredy-have {
   margin-top: 1rem;
@@ -3064,7 +3065,7 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 24px;
   font-weight: 700;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .welocme-to-login p {
   color: #000;
@@ -3079,7 +3080,7 @@ li.dropdown.tasks-menu img {
   text-align: right;
   font-size: 14px;
   font-weight: 500;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   margin-top: 4px;
 }
 
@@ -3094,7 +3095,7 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 20px;
   font-weight: 700;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   margin-top: 0;
 }
 
@@ -3115,7 +3116,7 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 14px;
   font-weight: 500;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .welcome-screen-form .form-group textarea {
   border-radius: 10px;
@@ -3138,7 +3139,7 @@ li.dropdown.tasks-menu img {
   text-align: center;
   border-radius: 10px;
   color: #2D927E;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   font-size: 14px;
 }
 .add-btn a {
@@ -3148,7 +3149,7 @@ li.dropdown.tasks-menu img {
   border-radius: 10px;
   background: #2d927e;
   color: #fff;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   font-size: 14px;
 }
 .add-btn {
@@ -3168,7 +3169,7 @@ li.dropdown.tasks-menu img {
 }
 .quick-text h3 {
   color: #fff;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   text-align: center;
   font-size: 20px;
 }
@@ -3182,7 +3183,7 @@ li.dropdown.tasks-menu img {
 .quick-text p {
   text-align: center;
   color: #fff;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   font-size: 13px;
 }
 .explore-btn {
@@ -3195,7 +3196,7 @@ li.dropdown.tasks-menu img {
   padding: 12px 40px;
   font-size: 15px;
   border-radius: 10px;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
  font-weight: 500;
 }
 
@@ -3215,14 +3216,14 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 20px;
   font-weight: 700;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   margin-top: 0;
 }
 .quick-review-contant h3 {
   color: #000;
   font-size: 20px;
   font-weight: 700;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .quick-review-contant p {
   color: #000;
@@ -3238,13 +3239,13 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 14px;
   font-weight: 500;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .guest-screen-form label {
   color: #000;
   font-size: 14px;
   font-weight: 500;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 
 .guest-screen-form:nth-child(3) {
@@ -3258,7 +3259,7 @@ li.dropdown.tasks-menu img {
   height: 50px;
   text-indent: 5px;
   font-size: 14px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .guest-screen-left .edit-delete-btn form {
     display: contents !important;
@@ -3300,7 +3301,7 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 20px;
   font-weight: 700;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   padding-bottom:20px;
 }
 .guest-content p {
@@ -3322,7 +3323,7 @@ li.dropdown.tasks-menu img {
   font-size: 16px;
   color: #2d927e;
   font-weight: 500;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .edit-delete-btn .delete {
   border: 1px solid #F00;
@@ -3331,7 +3332,7 @@ li.dropdown.tasks-menu img {
   color: #F00;
   font-size: 16px;
   font-weight: 500;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 
 .for-guest-screen .border-both{
@@ -3369,7 +3370,7 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 20px;
   font-weight: 700;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .for-our-guest a {
   border-radius: 10px;
@@ -3378,7 +3379,7 @@ li.dropdown.tasks-menu img {
   color: var(--white, #FFF);
   font-size: 16px;
   font-weight: 500;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   display: flex;
   align-items: center;
   column-gap: 10px;
@@ -3396,7 +3397,7 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 20px;
   font-weight: 700;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .services-content p {
   color: #000;
@@ -3412,7 +3413,7 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 24px;
   font-weight: 700;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .create-services-screen .edit-delete-btn {
   display: flex;
@@ -3437,7 +3438,7 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 20px;
   font-weight: 700;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .for-our-services a {
   border-radius: 10px;
@@ -3446,7 +3447,7 @@ li.dropdown.tasks-menu img {
   color: var(--white, #FFF);
   font-size: 16px;
   font-weight: 500;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   display: flex;
   align-items: center;
   column-gap: 10px;
@@ -3464,7 +3465,7 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 20px;
   font-weight: 700;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .contact-host-content p {
   color: #000;
@@ -3484,7 +3485,7 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 24px;
   font-weight: 700;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .contact-host-screen .edit-delete-btn {
   display: flex;
@@ -3511,7 +3512,7 @@ li.dropdown.tasks-menu img {
   color: #000;
   font-size: 20px;
   font-weight: 700;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   /*margin-bottom:15px;*/
 }
 .for-our-contact-host p {
@@ -3530,7 +3531,7 @@ li.dropdown.tasks-menu img {
   color: var(--white, #FFF);
   font-size: 16px;
   font-weight: 500;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   display: flex;
   align-items: center;
   column-gap: 10px;
@@ -3601,7 +3602,7 @@ li.dropdown.tasks-menu img {
   text-align: center;
   font-size: 18px;
   font-weight: 700;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .people-faq-content p {
   color: #000;
@@ -3616,7 +3617,7 @@ li.dropdown.tasks-menu img {
   color: var(--white, #FFF);
   font-size: 14px;
   font-weight: 600;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   border-radius: 10px;
 }
 
@@ -3676,7 +3677,7 @@ display: block;
   color: red!important;
   font-size: 14px!important;
   font-weight: normal!important;
-  text-transform:none!important;
+  /* text-transform:none!important; */
 }
 .edit-delete-btn {
     display: flex;
@@ -3693,7 +3694,7 @@ display: block;
     font-size: 15px;
     font-weight: 500;
     line-height: normal;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
 }
 .treeview a span svg path {
     fill: #000;
@@ -3723,7 +3724,7 @@ display: block;
     font-size: 13px;
     color: #2d927e;
     font-weight: 500;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
 }
 .edit-delete-btn .delete {
     border: 1px solid #F00;
@@ -3732,7 +3733,7 @@ display: block;
     color: #F00;
     font-size: 13px;
     font-weight: 500;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     cursor:pointer;
 }
 .for-our-guest a {
@@ -3742,7 +3743,7 @@ display: block;
     color: var(--white, #FFF);
     font-size: 13px;
     font-weight: 500;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     display: flex;
     align-items: center;
     column-gap: 10px;
@@ -3762,7 +3763,7 @@ display: block;
     font-size: 12px;
     font-weight: 500;
     line-height: normal;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
 }
 .property-form .form-group input {
     border-radius: 10px;
@@ -3770,7 +3771,7 @@ display: block;
     height: 50px;
     text-indent: 5px;
     box-shadow: none;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
 }
 .property-form .form-group textarea {
     border-radius: 10px;
@@ -3778,7 +3779,7 @@ display: block;
     text-indent: 5px;
     padding: 15px;
     box-shadow: none;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
 }
 
 .btn.btn-primary.add-more-btn {
@@ -3794,7 +3795,7 @@ display: block;
     border-radius: 10px;
     background: #2d927e;
     color: #fff;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     font-size: 14px;
 }
 
