@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\City;
+use App\Models\City_Driver;
 use App\Models\Driver;
 use App\Models\Paytoll;
+use App\Models\Paytoll_Driver;
 use App\Models\Ticket;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -225,5 +227,36 @@ class ApiController extends Controller
     }
     public function carResponse(Request $request)
     {
+    }
+    public function recentActivity(Request $request)
+    {
+        $id = $request->input('driver_id');
+        $driver = Driver::find($id);
+
+        if ($driver === null) {
+            return response()->json([
+                'message' => 'No Driver found for this driver_id',
+                'status' => false,
+            ]);
+        }
+
+        $tickets = Ticket::where('driver_id', $id)->get();
+        $tolls = Paytoll_Driver::where('driver_id', $id)->get();
+        $city = City_Driver::where('driver_id', $id)->get();
+
+        if ($tickets->isEmpty() && $tolls->isEmpty() && $city->isEmpty()) {
+            return response()->json([
+                'message' => 'No data found for this driver',
+                'status' => true,
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Data found for this driver',
+                'tickets' => $tickets,
+                'tolls' => $tolls,
+                'charges' => $city,
+                'status' => true,
+            ]);
+        }
     }
 }

@@ -25,3 +25,4 @@ Route::post('/driver/city',[ApiController::class,'driverCharge']);
 Route::post('/driver/toll',[ApiController::class,'driverToll']);
 Route::post('/ticket', [ApiController::class, 'ticket']);
 Route::post('/driver/ticket', [ApiController::class, 'driverTicket']);
+Route::post('/recent/activity',[ApiController::class, 'recentActivity']);
