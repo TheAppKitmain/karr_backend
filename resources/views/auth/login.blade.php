@@ -90,20 +90,19 @@
 
 </head>
 <style>
-    .log {
-        width: 130px;
-        height: auto;
-        position: absolute;
-        top: 8px;
-        left: 16px;
+    .signup-form img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
     }
 </style>
 
 <body class="skin-blue">
     <div class="wrapper">
         <section class="sign-up-screen">
-            <img src="{{ asset('assets/dist/img/logo.jpeg') }}" alt="logo" class="log">
             <div class="signup-form">
+                <img src="{{ asset('assets/dist/img/logo.svg') }}" class="d-flex" width="100px" height="100px"
+                    alt="logo">
                 <div class="col-md-12 col-sm-12 col-12">
                     <div class="welocme-to-login">
                         <h3>Welcome back!</h3>

@@ -73,7 +73,7 @@ class DriverController extends Controller
             // Log the exception for debugging
             \Log::error('Failed to create driver: ' . $e->getMessage());
 
-            return back()->with('error', 'Failed to create driver. Please try again.');
+            return back()->with('error', $e.'Failed to create driver. Please try again.');
         }
     }
 

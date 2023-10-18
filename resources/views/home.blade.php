@@ -9,9 +9,9 @@ $count = 1;
         .home {
             float: left;
             margin: 5px;
-            width: 170px;
+            width: 150px;
             border-radius: 10px;
-            height: 100px;
+            height: 80px;
         }
 
         .homeText {
@@ -23,14 +23,17 @@ $count = 1;
 
         .homeText p {
             color: #ffffff;
-            font-size: 15px
+            font-size: 13px
         }
 
         .homeText span {
-            font-family: lato;
+            font-family: 'lato';
             font-weight: 700;
-            font-size: 20px;
+            font-size: 15px;
 
+        }
+        span{
+            margin-top: 10px;
         }
 
         .scroll {
@@ -65,14 +68,14 @@ $count = 1;
                         <div class="home" style="background:  #FFB400;">
                             <div class="homeText">
                                 <p>Total Charges</p>
-                                <span>£ {{ number_format($totalCharges, 2) }}</span>
+                                <span>£{{ number_format($totalCharges, 2) }}</span>
                             </div>
 
                         </div>
                         <div class="home" style="background:  #FF6F73;">
                             <div class="homeText">
                                 <p>Unpaid Charges</p>
-                                <span>£ {{ number_format($unpaid, 2) }}</span>
+                                <span>£{{ number_format($unpaid, 2) }}</span>
                             </div>
                         </div>
 

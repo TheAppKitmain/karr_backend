@@ -127,7 +127,7 @@
                                     d="M23.8344 11.8408L20.5745 9.13145V3.05779C20.5745 2.91894 20.5299 2.80476 20.4403 2.71539C20.3515 2.62612 20.2373 2.58149 20.0981 2.58149H17.24C17.101 2.58149 16.9869 2.62612 16.8974 2.71539C16.8082 2.80476 16.7637 2.919 16.7637 3.05779V5.9606L13.1315 2.92369C12.8142 2.66565 12.4371 2.53665 12.0003 2.53665C11.5637 2.53665 11.1865 2.66565 10.869 2.92369L0.165418 11.8408C0.0661949 11.92 0.0118127 12.0267 0.00169755 12.1607C-0.00836549 12.2946 0.0263077 12.4115 0.105821 12.5107L1.02875 13.6123C1.10827 13.7016 1.21234 13.7562 1.34139 13.7762C1.46053 13.7862 1.57967 13.7513 1.69881 13.672L12 5.08229L22.3013 13.6719C22.3809 13.7412 22.4849 13.7757 22.614 13.7757H22.6587C22.7876 13.7561 22.8914 13.7012 22.9714 13.6121L23.8944 12.5107C23.9737 12.4113 24.0085 12.2945 23.9982 12.1605C23.988 12.0269 23.9334 11.9202 23.8344 11.8408Z"
                                     fill="black"></path>
                             </svg> --}}
-                                <img src="{{ asset('assets/dist/img/driver.png') }}" width="24" height="24"
+                                <img src="{{ asset('assets/dist/img/driver.svg') }}" width="24" height="24"
                                     viewBox="0 0 24 24" alt="">
                                 Drivers</span>
                         </a>
@@ -140,7 +140,7 @@
                     } ?>">
                         <a href="{{ route('admin.tickets') }}">
                             <span>
-                                <img src="{{ asset('assets/dist/img/tickets.png') }}" width="24" height="24"
+                                <img src="{{ asset('assets/dist/img/ticket.svg') }}" width="24" height="24"
                                     viewBox="0 0 24 24" alt="">
                                 Tickets</span>
                         </a>
@@ -153,7 +153,7 @@
                     } ?>">
                         <a href="{{ route('tickets') }}">
                             <span>
-                                <img src="{{ asset('assets/dist/img/tickets.png') }}" width="24" height="24"
+                                <img src="{{ asset('assets/dist/img/ticket.svg') }}" width="24" height="24"
                                     viewBox="0 0 24 24" alt="">
                                 Tickets</span>
                         </a>
@@ -191,7 +191,7 @@
                 } ?>">
                     <a href="{{ route('settings', Auth::user()->id) }}">
                         <span>
-                            <img src="{{ asset('assets/dist/img/setting.png') }}" width="24" height="24"
+                            <img src="{{ asset('assets/dist/img/setting.svg') }}" width="24" height="24"
                                 viewBox="0 0 24 24" alt="">
                             Settings</span>
                     </a>
@@ -201,7 +201,7 @@
                 } ?>">
                     <a href="#">
                         <span>
-                            <img src="{{ asset('assets/dist/img/analytics.png') }}" width="24" height="24"
+                            <img src="{{ asset('assets/dist/img/analytics.svg') }}" width="24" height="24"
                                 viewBox="0 0 24 24" alt="">
                             Analytics </span>
                     </a>
@@ -224,7 +224,7 @@
                 <li class="treeview">
                     <a href="#" data-toggle="modal" data-target="#logoutModal">
                         <span>
-                            <img src="{{ asset('assets/dist/img/logout.png') }}" width="24" height="24"
+                            <img src="{{ asset('assets/dist/img/logout.svg') }}" width="24" height="24"
                                 viewBox="0 0 24 24" alt="">
                             Logout
                         </span>

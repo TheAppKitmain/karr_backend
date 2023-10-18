@@ -1295,7 +1295,7 @@ li.dropdown.tasks-menu img {
   display: flex;
   justify-content: space-between;
   /* flex-wrap: wrap; */
-  align-items: center;
+  /* align-items: center; */
   background: #f8f8fa;
 }
 .signup-form, .signup-image {
@@ -1996,7 +1996,7 @@ a:focus {
   z-index: 99;
   width: 100%;
   background: #fff;
-  padding: 10px 0;
+  padding: 0;
 }
 
 .main-header>.navbar {
@@ -2086,14 +2086,14 @@ a:focus {
 .main-header .logo {
   display: block;
   float: left;
-  height: 50px;
+  height: 78px;
   font-size: 20px;
   line-height: 50px;
   text-align: center;
-  width: 230px;
+  width: 200px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   padding: 0 15px;
-  font-weight: 300;
+  font-weight: 300;vscode-file://vscode-app/c:/Users/Softsys/AppData/Local/Programs/Microsoft%20VS%20Code/resources/app/out/vs/code/electron-sandbox/workbench/workbench.html
 }
 
 .main-header .navbar-brand {
@@ -2763,6 +2763,7 @@ li.dropdown.tasks-menu img {
 
 .navbar-custom-menu>.navbar-nav>li:last-child {
   margin-right: 0;
+  margin-top: 15px;
 }
 
 .navbar-custom-menu>.navbar-nav>li>.dropdown-menu {
@@ -3001,7 +3002,7 @@ li.dropdown.tasks-menu img {
 /************** signup form css *******/
 
 .sign-up-screen {
-  display: flex;
+  /* display: flex; */
   justify-content: space-between;
   /* flex-wrap: wrap; */
   align-items: center;
