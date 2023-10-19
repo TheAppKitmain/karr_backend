@@ -54,6 +54,14 @@ class CreateAdminUserSeeder extends Seeder
             'admin-list',
             'admin-ticket',
             'admin-tolls',
+            'toll-list',
+            'toll-create',
+            'toll-delete',
+            'toll-edit',
+            'charges-list',
+            'charges-create',
+            'charges-delete',
+            'charges-edit',
             'admin-pay',
             
         ];

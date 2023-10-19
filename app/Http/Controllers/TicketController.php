@@ -45,11 +45,11 @@ class TicketController extends Controller
             $toll->selectedDays = json_decode($toll->days);
         }
 
-        $cities = City::with('cityDrivers')->whereHas('cityDrivers', function ($query) use ($userId) {
-            $query->whereHas('driver.user', function ($query) use ($userId) {
-                $query->where('users.id', $userId);
-            });
-        })->get();
+        $cities = City::with('cityDrivers')
+        ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
+        ->join('drivers', 'city__drivers.driver_id', '=', 'drivers.id')
+        ->where('drivers.user_id', $userId)
+        ->get();
 
         //  return $cities;
         return view('ticket.index', compact('tickets', 'tolls', 'cities'));
@@ -287,8 +287,6 @@ class TicketController extends Controller
             $toll = Paytoll_Driver::where('paytoll_id', $lid)->first();
             $toll->status = 1;
             $toll->save();
-
-            // DB::table('driver_paytoll')->where('paytoll_id', $lid)->update(array('status' => 1));
         }
         foreach ($cids as $cid) {
             $city = City_Driver::where('city_id', $cid)->first();

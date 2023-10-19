@@ -226,7 +226,7 @@ $count = 1;
                                 <tr>
                                     <td></td>
                                     <td>{{ $city->city }}</td>
-                                    <td>{{ $city->time }}</td>
+                                    <td>{{ $city->date }}</td>
                                     <td> City Charge </td>
                                     @can('admin-ticket')
                                         <td>{{ $city->user_name }}</td>

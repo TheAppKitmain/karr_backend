@@ -8,6 +8,7 @@ use App\Models\Driver;
 use App\Models\Paytoll;
 use App\Models\Paytoll_Driver;
 use App\Models\Ticket;
+use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -23,16 +24,32 @@ class ApiController extends Controller
         $driver = Driver::where('email', $credentials['email'])->first();
 
         if ($driver && Hash::check($credentials['password'], $driver->password) && $driver->number === $credentials['number']) {
+            $userId = $driver->user_id;
+            $user = User::find($userId);
+            $image = $user->image;
+            if ($image == null) {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Login successful',
+                    'user' => $driver,
+                    'logo' => 'No image found',
+                ], 200);
+            } else {
+                $imageUrl = asset('image/' . $image);
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Login successful',
+                    'user' => $driver,
+                    'logo' => $imageUrl,
+                ], 200);
+            }
+        } else
+        {
             return response()->json([
-                'status' => true,
-                'message' => 'Login successful',
-                'user' => $driver,
+                'status' => false,
+                'message' => 'Login failed'
             ], 200);
         }
-        return response()->json([
-            'status' => false,
-            'message' => 'Login failed'
-        ], 200);
     }
     public function allCharges(Request $request)
     {
@@ -77,12 +94,13 @@ class ApiController extends Controller
             $existingData = DB::table('city__drivers')
                 ->where('city_id', $cityId)
                 ->where('driver_id', $driverId)
+                ->where('date', $date)
                 ->first();
 
             if ($existingData) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Data already exists for the provided IDs'
+                    'message' => 'Data already exists for the provided IDs for this date'
                 ], 200);
             }
             DB::table('city__drivers')->insert([
@@ -142,12 +160,13 @@ class ApiController extends Controller
             $existingData = DB::table('paytoll__drivers')
                 ->where('paytoll_id', $tollId)
                 ->where('driver_id', $driverId)
+                ->where('date', $date)
                 ->first();
 
             if ($existingData) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Data already exists for the provided IDs'
+                    'message' => 'Data already exists for the provided IDs for this date'
                 ], 200);
             }
 

@@ -41,22 +41,30 @@ class UserController extends Controller
     public function store(Request $request)
     {
         try {
-            $this->validate($request, [
+            $validatedData = $this->validate($request, [
                 'name' => 'required',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|same:confirm-password',
-                'roles' => 'required'
+                'roles' => 'required',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             ]);
+        
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $extension = $image->getClientOriginalExtension();
+                $imageName = $validatedData['name'] . '.' . $extension;
+                $image->move(public_path('image'), $imageName);
+                $validatedData['image'] = $imageName;
+            }
     
-            $input = $request->all();
-            $input['password'] = Hash::make($input['password']);
+            $validatedData['password'] = Hash::make($validatedData['password']);
     
-            $user = User::create($input);
+            $user = User::create($validatedData);
             $user->assignRole($request->input('roles'));
     
             return redirect()->route('users.index')->with('success','User created successfully');
         } catch (\Exception $e) {
-            return back()->with('error', 'Failed to create user. Please try again.');
+            return back()->with('error', $e.'Failed to create user. Please try again.');
         }
     }
     

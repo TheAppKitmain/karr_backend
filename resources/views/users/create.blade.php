@@ -6,13 +6,12 @@ $page = 'user';
     <div id="userFormContainer">
         <section class="guest-screen">
             <div class="row">
-                <div class="col-lg-8 col-md-8 col-sm-12">
-                    <div class="guest-screen-left">
-                        <div class="guest-inner-content">
-                            <h3>Create User</h3>
-                        </div>
-                        {!! Form::open(['route' => 'users.store', 'method' => 'POST']) !!}
-                        <form action="{{ route('users.store') }}" method="POST">
+                <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
+                    <div class="col-lg-8 col-md-8 col-sm-12">
+                        <div class="guest-screen-left">
+                            <div class="guest-inner-content">
+                                <h3>Create User</h3>
+                            </div>
                             @csrf
 
                             <div class="guest-screen-form">
@@ -50,7 +49,7 @@ $page = 'user';
                             <div class="row add-cancel-buttons">
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="cancel-btn">
-                                        <a href="{{route('users.index')}}">Back</a>
+                                        <a href="{{ route('users.index') }}">Back</a>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
@@ -60,22 +59,25 @@ $page = 'user';
                                 </div>
                             </div>
 
-                        </form>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-12" id="quick-sticky">
-                    <div class="guest-screen-right">
-                        <div class="quick-review-contant">
-                            <h3>Quick preview</h3>
-                            <p>Create User and define role.</p>
-                        </div>
-                        <div class="quick-review-img">
-                            <img src="{{ asset('assets/dist/img/thanks.jpg') }}">
                         </div>
                     </div>
-                </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12" id="quick-sticky">
+                        <div class="guest-screen-right">
+                            <div class="quick-review-contant">
+                                <h3>Quick preview</h3>
+                                <p>Create Driver.</p>
+                            </div>
+                            <div class="quick-review-img">
 
-            </div>
+                                <label>Image</label>
+                                <img id="image-preview" src="#" alt="Image Preview">
+                                <input type="file" name="image" id="image" accept="image/*" class="form-control"
+                                    onchange="previewImage()">
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
         </section>
         <!-- Modal -->
         <div class="modal fade create_success_property" create_success_property="" id="myModal" role="dialog">
@@ -109,7 +111,8 @@ $page = 'user';
                         </p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class=" go-back btn btn-default" data-dismiss="modal">go back</button>
+                        <button type="button" class=" go-back btn btn-default" data-dismiss="modal">go
+                            back</button>
                         <button type="button" class="thanks-btn btn btn-default" data-dismiss="modal">ok
                             thanks</button>
                     </div>
@@ -117,4 +120,20 @@ $page = 'user';
             </div>
         </div>
     </div>
+    <script>
+        function previewImage() {
+            var fileInput = document.getElementById('image');
+            var imagePreview = document.getElementById('image-preview');
+
+            if (fileInput.files && fileInput.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                };
+
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        }
+    </script>
 @endsection

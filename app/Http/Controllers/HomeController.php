@@ -148,7 +148,7 @@ class HomeController extends Controller
             $totalCharges = $citycharges + $tollsCharges;
 
             $page = 'dash';
-            return view('home', compact('page', 'tickets', 'tolls', 'cities', 'charges', 'unpaidTicket', 'unpaidCharges', 'totalCharges', 'unpaid'));
+            return view('home', compact('page', 'tickets', 'tolls', 'cities', 'charges', 'unpaidTicket', 'unpaidCharges','totalCharges', 'unpaid'));
         }
     }
 }

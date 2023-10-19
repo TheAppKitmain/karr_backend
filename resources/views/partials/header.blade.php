@@ -1,6 +1,10 @@
+<?php
+$image = Auth::user()->image;
+?>
+
 <header class="main-header">
     <!-- Logo -->
-    <a href="{{route('home')}}">
+    <a href="{{ route('home') }}">
         <img src="{{ asset('assets/dist/img/logo.svg') }}" class="logo">
     </a>
     <!-- Header Navbar: style can be found in header.less -->
@@ -12,19 +16,21 @@
         <div class="navbar-custom-menu">
             {{-- <i class="bx bx-menu" id="sidebarOpen"></i> --}}
             <ul class="nav navbar-nav">
-                {{-- <li class="nav-item dropdown-toggle.btn-success">
-                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                <li style="margin-top: 15px;">
+                    <a style="color: #000000; text-align:bottom" >
                         {{ Auth::user()->name }}
                     </a>
-                </li> --}}
+                </li>
                 {{-- <li class="dropdown tasks-menu">
                     <img src="{{ asset('assets/dist/img/notification.svg') }}">
                 </li> --}}
                 <li class="dropdown user user-menu">
                     <a href="{{ route('settings', Auth::user()->id) }}">
-                        <img src="{{ asset('assets/dist/img/users.svg') }}" class="user-image" alt="User Image">
-
+                        @if (isset($image))
+                            <img src="{{ asset('image/' . $image) }}" class="user-image" alt="User Image">
+                        @else
+                            <img src="{{ asset('assets/dist/img/users.svg') }}" class="user-image" alt="User Image">
+                        @endif
                     </a>
 
                 </li>

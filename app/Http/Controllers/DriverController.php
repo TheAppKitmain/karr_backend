@@ -60,20 +60,28 @@ class DriverController extends Controller
                 'user_id' => 'required',
             ]);
 
-            $input = $request->all();
+            $user = Driver::where('email', '=', $validateData['email'])->first();
+            if ($user === null) {
 
-            // Hash the password
-            $input['password'] = Hash::make($input['password']);
+                $input = $request->all();
 
-            // Create the driver
-            Driver::create($input);
+                // Hash the password
+                $input['password'] = Hash::make($input['password']);
 
-            return redirect()->route('drivers.index')->with('success', 'Driver created successfully.');
+                // Create the driver
+                Driver::create($input);
+
+                return redirect()->route('drivers.index')->with('success', 'Driver created successfully.');
+            }
+            else{
+                return redirect()->back()->with('error', 'Driver with this email already exits.');
+                
+            }
         } catch (\Exception $e) {
             // Log the exception for debugging
             \Log::error('Failed to create driver: ' . $e->getMessage());
 
-            return back()->with('error', $e.'Failed to create driver. Please try again.');
+            return back()->with('error', 'Failed to create driver. Please try again.');
         }
     }
 
@@ -94,7 +102,6 @@ class DriverController extends Controller
                 'password' => 'required|min:6',
                 'email' => 'required'
             ]);
-            // Hash the password
             $input = $request->all();
             $input['password'] = Hash::make($input['password']);
             $driver = Driver::find($id);
