@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-
+use Ramsey\Uuid\Uuid;
 class ApiController extends Controller
 {
     public function login(Request $request)
@@ -35,7 +35,8 @@ class ApiController extends Controller
                     'logo' => 'No image found',
                 ], 200);
             } else {
-                $imageUrl = asset('image/' . $image);
+             //   https://codecoyapps.com/karr/public/storage/image/09mHcYnjPrLoM9qBlcsg3QFgcKbthppHFRhCbo0c.jpg
+                $imageUrl = 'https://codecoyapps.com/karr/public/storage/image/' . $image;
                 return response()->json([
                     'status' => true,
                     'message' => 'Login successful',
@@ -103,11 +104,16 @@ class ApiController extends Controller
                     'message' => 'Data already exists for the provided IDs for this date'
                 ], 200);
             }
+            $userId = Driver::where('id', $driverId)->value('user_id');
+            $uuid = Uuid::uuid4()->toString();
+
             DB::table('city__drivers')->insert([
+                'cd' => $uuid,
                 'city_id' => $cityId,
                 'driver_id' => $driverId,
                 'date' => $date,
                 'notes' => $notes,
+                'user_id' => $userId,
             ]);
         }
         return response()->json([
@@ -169,14 +175,16 @@ class ApiController extends Controller
                     'message' => 'Data already exists for the provided IDs for this date'
                 ], 200);
             }
-
-            // Insert the record for the current 'paytoll_id' and 'driverId'.
+            $userId = Driver::where('id', $driverId)->value('user_id');
+            $uuid = Uuid::uuid4()->toString();
             DB::table('paytoll__drivers')->insert([
+                'pd' => $uuid,
                 'paytoll_id' => $tollId,
                 'driver_id' => $driverId,
                 'way' => $way,
                 'date' => $date,
                 'notes' => $notes,
+                'user_id' => $userId,
             ]);
         }
 

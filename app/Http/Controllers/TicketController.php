@@ -35,23 +35,25 @@ class TicketController extends Controller
         })->get();
 
 
-        $tolls = Paytoll::with('tollDrivers')->whereHas('tollDrivers', function ($query) use ($userId) {
-            $query->whereHas('driver.user', function ($query) use ($userId) {
-                $query->where('users.id', $userId);
-            });
-        })->get();
+        $tolls = DB::table('paytolls')
+        ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
+        ->join('drivers', 'paytoll__drivers.driver_id', '=', 'drivers.id')
+        ->where('drivers.user_id', $userId)
+        ->select('paytolls.*', 'paytoll__drivers.*')
+        ->get();
 
         foreach ($tolls as $toll) {
             $toll->selectedDays = json_decode($toll->days);
         }
 
-        $cities = City::with('cityDrivers')
+        $cities = DB::table('cities')
         ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
         ->join('drivers', 'city__drivers.driver_id', '=', 'drivers.id')
         ->where('drivers.user_id', $userId)
+        ->select('cities.*', 'city__drivers.*')
         ->get();
-
-        //  return $cities;
+    
+        //    return $cities;
         return view('ticket.index', compact('tickets', 'tolls', 'cities'));
     }
     public function ticketDelete($id)
@@ -130,11 +132,11 @@ class TicketController extends Controller
     public function paycharges($id, $did)
     {
 
-        $type = City_Driver::where('city_id', $id)->where('driver_id', $did)->first();
+        $type = City_Driver::where('city_id', $id)->where('cd', $did)->first();
         $name = 'ct';
         $city  = City::find($id);
         $price = $city->price;
-        // dd($type);
+        //  return $type;
         $collection = Card::where('user_id', Auth::user()->id)->get();
         if ($type->status == '0') {
             return view('ticket.stripe', compact('type', 'name', 'collection', 'price'));
@@ -210,6 +212,7 @@ class TicketController extends Controller
 
         // Decode the JSON-encoded IDs and convert them back to an array
         $selectedIds = json_decode(urldecode($encodedIds), true);
+        
 
         // Initialize the total price and arrays for IDs
         $totalPrice = 0;
@@ -234,20 +237,20 @@ class TicketController extends Controller
                             break;
                         }
                     case 'tolls':
-                        $item = PayToll::find($id);
-                        $toll = Paytoll_Driver::where('paytoll_id', $id)->first();
+                        $toll = Paytoll_Driver::where('pd', $id)->first();
+                        $item = Paytoll::where('id',$toll->paytoll_id)->first();
                         // return $toll;
                         if ($toll->status == 1) {
                             return back()->with('error', 'selected ticket is already paid');
                         } else {
-                            $lid = $toll->paytoll_id;
+                            $lid = $toll->pd;
                             $lids[] = $lid;
                             break;
                         }
                     case 'city':
-                        $item = City::find($id);
-                        $city = City_Driver::where('city_id', $id)->first();
-                        $cid = $city->city_id;
+                        $city = City_Driver::where('cd', $id)->first();
+                        $item = City::where('id',$city->city_id)->first();
+                        $cid = $city->cd;
                         if ($city->status == '1') {
                             return back()->with('error', 'selected ticket is already paid');
                         } else {
@@ -284,12 +287,12 @@ class TicketController extends Controller
         $lidsJson = $request->input('lids');
         $lids = json_decode($lidsJson, true);
         foreach ($lids as $lid) {
-            $toll = Paytoll_Driver::where('paytoll_id', $lid)->first();
+            $toll = Paytoll_Driver::where('pd', $lid)->first();
             $toll->status = 1;
             $toll->save();
         }
         foreach ($cids as $cid) {
-            $city = City_Driver::where('city_id', $cid)->first();
+            $city = City_Driver::where('cd', $cid)->first();
             $city->status = 1;
             $city->save();
         }

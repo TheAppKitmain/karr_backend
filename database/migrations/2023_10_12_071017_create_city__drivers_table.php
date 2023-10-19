@@ -13,12 +13,15 @@ return new class extends Migration
     {
         Schema::create('city__drivers', function (Blueprint $table) {
             $table->id();
+            $table->uuid('cd');            
             $table->unsignedBigInteger('city_id');
             $table->foreign('city_id')->references('id')->on('cities');
             $table->unsignedBigInteger('driver_id');
             $table->foreign('driver_id')->references('id')->on('drivers');
             $table->string('status')->default('0');
             $table->string('date');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('notes')->nullable();
             $table->timestamps();
         });

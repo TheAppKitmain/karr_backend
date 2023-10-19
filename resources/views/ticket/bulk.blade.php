@@ -4,6 +4,14 @@ $page = 'ticket';
 
 @extends('layouts.app')
 @section('content')
+    <style>
+        .button-clicked {
+            background-color: #8C52FF;
+            color: white;
+            border: 1px solid black;
+            height: 30px;
+        }
+    </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <div class="row">
         <section class="create-services-screen">
@@ -14,12 +22,12 @@ $page = 'ticket';
                 PAY
             </button>
             <div class="row create-services-screen-left">
+
+                {{-- -------------------------------------Stripe Payment form ---------------------------- --}}
                 <div class="col-md-6 col-md-offset-3" id="pay">
                     <div class="panel panel-default credit-card-box">
-                        <div class="panel-heading display-table">
-
-                            <h3 class="panel-title">Payment Details</h3>
-
+                        <div class="panel-heading display-table" style="background-color:  #8C52FF;">
+                            <h3 class="panel-title"><strong>Payment Details</strong></h3>
                         </div>
 
                         <div class="panel-body">
@@ -49,7 +57,7 @@ $page = 'ticket';
 
                                     <div class='col-xs-12 form-group required'>
 
-                                        <label class='control-label'>Name on Card</label>
+                                        <label class='control-label'><b>Name on Card</b></label>
                                         <select name="name" id="card-name" class="form-control">
                                             <option value="">---Select Values---</option>
                                             @foreach ($collection as $item)
@@ -70,7 +78,7 @@ $page = 'ticket';
 
                                 <div class='form-row row'>
                                     <div class='col-xs-12 form-group card required'>
-                                        <label class='control-label'>Card Number</label>
+                                        <label class='control-label'><b> Card Number </b></label>
                                         <input autocomplete='off' class='form-control card-number' size='20'
                                             type='text' id="card-number" readonly>
                                     </div>
@@ -78,17 +86,17 @@ $page = 'ticket';
 
                                 <div class='form-row row'>
                                     <div class='col-xs-12 col-md-4 form-group cvc required'>
-                                        <label class='control-label'>CVC</label>
+                                        <label class='control-label'><b>CVC</b></label>
                                         <input autocomplete='off' class='form-control card-cvc' placeholder='ex. 311'
                                             size='4' type='text' id="card-cvc" readonly>
                                     </div>
                                     <div class='col-xs-12 col-md-4 form-group expiration required'>
-                                        <label class='control-label'>Expiration Month</label>
+                                        <label class='control-label'><b>Expiration Month</b></label>
                                         <input class='form-control card-expiry-month' placeholder='MM' size='2'
                                             type='text' id="card-expiry-month" readonly>
                                     </div>
                                     <div class='col-xs-12 col-md-4 form-group expiration required'>
-                                        <label class='control-label'>Expiration Year</label>
+                                        <label class='control-label'><b>Expiration Year</b></label>
                                         <input class='form-control card-expiry-year' placeholder='YYYY' size='4'
                                             type='text' id="card-expiry-year" readonly>
                                     </div>
@@ -120,8 +128,10 @@ $page = 'ticket';
 
                                         <input type="hidden" name="lids" value="{{ json_encode($lids) }}">
 
-                                        <button class="btn btn-primary btn-lg btn-block" type="submit">Pay Now
-                                            ({{ $totalPrice }} £)</button>
+                                        <button class="btn btn-lg btn-block" style="background-color:  #8C52FF;"
+                                            type="submit"> <strong>Pay Now
+                                                ({{ $totalPrice }}
+                                                £) </strong></button>
 
                                     </div>
 
@@ -136,6 +146,9 @@ $page = 'ticket';
                     </div>
 
                 </div>
+                {{-- -------------------------------------End Stripe Payment form ---------------------------- --}}
+                {{-- -------------------------------------Add Card form ---------------------------- --}}
+
                 <div class="row d-flex justify-content-center" id="add" style="display: none;">
                     <div class="col-md-10 col-lg-8 col-xl-5">
                         <div class="card rounded-3">
@@ -146,8 +159,8 @@ $page = 'ticket';
                                 </div>
                                 <form action="{{ route('card') }}" method="post">
                                     @csrf
-                                    <p class="fw-bold mb-4">Add new card:</p>
-                                    <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                                    <h4 class="mb-2">Add new Card</h4>
+                                    <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                     <div class="form-outline mb-4">
                                         <label class="form-label" for="formControlLgXsd">Cardholder's Name</label>
                                         <input type="text" id="formControlLgXsd" class="form-control form-control-lg"
@@ -187,12 +200,14 @@ $page = 'ticket';
                                         </div>
                                     </div>
 
-                                    <button class="btn btn-success btn-lg btn-block">Add card</button>
+                                    <button class="btn btn-success btn-lg btn-block"
+                                        style="background-color: #8C52FF; border: none;">Add card</button>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
+                {{-- -------------------------------------End Card form ---------------------------- --}}
 
             </div>
 
@@ -345,17 +360,31 @@ $page = 'ticket';
                 });
             });
         </script>
-                <script>
-                    $(document).ready(function() {
-                        $("#payButton").click(function() {
-                            $("#pay").show();
-                            $("#add").hide();
-        
-                        });
-                        $("#addButton").click(function() {
-                            $("#add").show();
-                            $("#pay").hide();
-                        });
-                    });
-                </script>
+        <script>
+            $(document).ready(function() {
+                $("#payButton").click(function() {
+                    // Add the CSS class to the clicked button
+                    $(this).addClass('button-clicked');
+
+                    // Remove the CSS class from the other button
+                    $("#addButton").removeClass('button-clicked');
+
+                    // Show/hide elements as needed
+                    $("#pay").show();
+                    $("#add").hide();
+                });
+
+                $("#addButton").click(function() {
+                    // Add the CSS class to the clicked button
+                    $(this).addClass('button-clicked');
+
+                    // Remove the CSS class from the other button
+                    $("#payButton").removeClass('button-clicked');
+
+                    // Show/hide elements as needed
+                    $("#add").show();
+                    $("#pay").hide();
+                });
+            });
+        </script>
     @endsection

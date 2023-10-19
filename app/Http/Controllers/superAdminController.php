@@ -160,7 +160,7 @@ class superAdminController extends Controller
             }
         } elseif ($name == 'tl') {
             $toll = Paytoll_Driver::where('paytoll_id', $id)
-                ->where('driver_id', $d_id)
+                ->where('pd', $d_id)
                 ->first();
             if ($toll->status == 0) {
                 $toll->status = 1;
@@ -170,7 +170,7 @@ class superAdminController extends Controller
                 return back()->with('error', 'Toll has been already paid');
             }
         } elseif ($name == 'ct') {
-            $city = City_Driver::where('city_id', $id)->where('driver_id', $d_id)->first();
+            $city = City_Driver::where('city_id', $id)->where('cd', $d_id)->first();
             // return $city;
             if ($city->status == 0) {
                 $city->status = 1;
@@ -185,16 +185,15 @@ class superAdminController extends Controller
     public function markedPay(Request $request)
     {
         $items = $request->query('items');
-        $selectedItems = json_decode($items);
-
+        $selectedItems = json_decode($items); 
         foreach ($selectedItems as $item) {
-            $table = $item->table;
-            $tid = $item->toll_id;
-            $did = $item->driver_id;
+            $table = $item->table;      // table has name of the table.
+            $tid = $item->toll_id;      // toll_id is has ticket_id, paytoll_id, city_id.
+            $did = $item->driver_id;    // In driver_id (in ticket case (driver_id),
+                                        // in paytoll and city (cd,pd) which is unique key. 
 
             switch ($table) {
                 case 'tickets':
-                    // dd($id);
                     $item = Ticket::find($tid);
                     if ($item->status == '1') {
                         return back()->with('error', 'selected ticket is already paid');
@@ -204,7 +203,7 @@ class superAdminController extends Controller
                         break;
                     }
                 case 'tolls':
-                    $toll = Paytoll_Driver::where('paytoll_id', $tid)->where('driver_id', $did)->first();
+                    $toll = Paytoll_Driver::where('paytoll_id', $tid)->where('pd', $did)->first();
                     // return $toll;
                     if ($toll->status == 1) {
                         return back()->with('error', 'selected ticket is already paid');
@@ -215,7 +214,7 @@ class superAdminController extends Controller
                         break;
                     }
                 case 'city':
-                    $city = City_Driver::where('city_id', $tid)->where('driver_id', $did)->first();
+                    $city = City_Driver::where('city_id', $tid)->where('cd', $did)->first();
                     if ($city->status == '1') {
                         return back()->with('error', 'selected ticket is already paid');
                     } else {
@@ -240,7 +239,7 @@ class superAdminController extends Controller
             }
         } elseif ($name == 'tl') {
             $toll = Paytoll_Driver::where('paytoll_id', $id)
-                ->where('driver_id', $d_id)
+                ->where('pd', $d_id)
                 ->first();
             if ($toll->status == 1) {
                 $toll->status = 0;
@@ -250,7 +249,7 @@ class superAdminController extends Controller
                 return back()->with('error', 'Toll has been already unpaid');
             }
         } elseif ($name == 'ct') {
-            $city = City_Driver::where('city_id', $id)->where('driver_id', $d_id)->first();
+            $city = City_Driver::where('city_id', $id)->where('cd', $d_id)->first();
             // return $city;
             if ($city->status == 1) {
                 $city->status = 0;

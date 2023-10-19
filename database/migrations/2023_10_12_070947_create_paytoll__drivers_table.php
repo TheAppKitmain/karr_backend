@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('paytoll__drivers', function (Blueprint $table) {
             $table->id();
+            $table->uuid('pd');
             $table->unsignedBigInteger('paytoll_id');
             $table->foreign('paytoll_id')->references('id')->on('paytolls');
             $table->unsignedBigInteger('driver_id');
@@ -20,6 +21,8 @@ return new class extends Migration
             $table->string('status')->default('0');
             $table->string('way');
             $table->string('date');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('notes')->nullable();
             $table->timestamps();
         });

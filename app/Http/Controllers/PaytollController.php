@@ -38,11 +38,12 @@ class PaytollController extends Controller
     }
     public function paytoll($id,$did)
     {
-        $type = Paytoll_Driver::where('paytoll_id', $id)->where('driver_id', $did)->first();
+        $type = Paytoll_Driver::where('pd', $did)->first();
         $name = 'tl';
         $toll  = Paytoll::find($id);
         $price = $toll->price;
-        $collection = Card::where('user_id', Auth::user()->id);
+        $collection = Card::where('user_id', Auth::user()->id)->get();
+        // return $collection;
         if ($type->status == '0') {
             return view('ticket.stripe', compact('type', 'name', 'collection', 'price'));
         } 

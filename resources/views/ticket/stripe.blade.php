@@ -13,7 +13,6 @@ $page = 'ticket';
             border: 1px solid black;
             height: 30px;
         } 
-        
     </style>
     <div class="row">
         <section class="create-services-screen">

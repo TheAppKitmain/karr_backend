@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Paytoll_Driver extends Model
 {
     use HasFactory;
+    
     protected $fillable = [
         'paytoll_id',
         'driver_id',
@@ -15,6 +16,7 @@ class Paytoll_Driver extends Model
         'date',
         'way',
         'notes',
+        'user_id',
     ];
 
     public function driver()

@@ -14,6 +14,7 @@ class City_Driver extends Model
         'status',
         'date',
         'notes',
+        'user_id',
     ];
 
     public function driver()
