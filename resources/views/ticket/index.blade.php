@@ -1,10 +1,10 @@
 <?php
 $page = 'ticket';
 ?>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 @extends('layouts.app')
 @section('content')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         .sort {
             width: 180px;

@@ -24,11 +24,26 @@ class PaytollController extends Controller
     }
     public function index()
     {
-        $tolls = Paytoll::all();
+        $userId = Auth::user()->id;
+        $tolls = DB::table('paytolls')
+        ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
+        ->join('drivers', 'paytoll__drivers.driver_id', '=', 'drivers.id')
+        ->where('drivers.user_id', $userId)
+        ->select('paytolls.*', 'paytoll__drivers.*')
+        ->get();
+
         foreach ($tolls as $toll) {
             $toll->selectedDays = json_decode($toll->days);
         }
-        return view('toll.index', compact('tolls'));
+
+        $cities = DB::table('cities')
+        ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
+        ->join('drivers', 'city__drivers.driver_id', '=', 'drivers.id')
+        ->where('drivers.user_id', $userId)
+        ->select('cities.*', 'city__drivers.*')
+        ->get();
+
+        return view('toll.index', compact('tolls','cities'));
     }
     public function destory($id)
     {

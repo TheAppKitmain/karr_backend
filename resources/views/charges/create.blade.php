@@ -28,7 +28,7 @@ $page = 'city';
                             </div>
                             <div class="form-group">
                                 <label>Charges</label>
-                                <input type="number" name="price" placeholder="Enter Charges" class="form-control">
+                                <input type="text" name="price" placeholder="Enter Charges" class="form-control">
                             </div>
                             
                             <div class="form-group">

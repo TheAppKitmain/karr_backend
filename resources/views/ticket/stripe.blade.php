@@ -11,15 +11,15 @@ $page = 'ticket';
             background-color: #8C52FF;
             color: white;
             border: 1px solid black;
-            height: 30px;
+            /* height: 30px; */
         } 
     </style>
     <div class="row">
         <section class="create-services-screen">
-            <button id="addButton" class="justify-content-start">
+            <button id="addButton" class="justify-content-start btn-lg">
                 ADD CARD
             </button>
-            <button id="payButton" class="justify-content-start">
+            <button id="payButton" class="justify-content-start btn-lg">
                 PAY
             </button>
             <div class="row create-services-screen-left">

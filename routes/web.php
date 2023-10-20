@@ -55,7 +55,6 @@ Route::get('/toll/edit/{id}',[PaytollController::class, 'editToll'])->name('toll
 Route::put('/toll/update/{id}',[PaytollController::class, 'updateToll'])->name('toll.update');
 Route::delete('/toll/{id}',[PaytollController::class, 'delete'])->name('toll.destroy');
 
-
 //Tickets
 Route::get('/tickets',[TicketController::class,'index'])->name('tickets');
 Route::get('/ticket/pay/{id}',[TicketController::class, 'payticket'])->name('ticket.pay');

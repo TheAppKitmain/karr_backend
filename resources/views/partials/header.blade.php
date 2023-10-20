@@ -10,14 +10,20 @@ $image = Auth::user()->image;
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top" role="navigation">
         <!-- Sidebar toggle button-->
-        <!-- <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-            <span class="sr-only">Toggle navigation</span>
-        </a> -->
+        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+         <span class="sr-only">Toggle navigation</span>
+       </a> 
+        <button id="show-hidden-menu">
+            <div id="toggle">
+                <div class="one"></div>
+                <div class="two"></div>
+                <div class="three"></div>
+            </div>
+        </button>
         <div class="navbar-custom-menu">
-            {{-- <i class="bx bx-menu" id="sidebarOpen"></i> --}}
             <ul class="nav navbar-nav">
                 <li style="margin-top: 15px;">
-                    <a style="color: #000000; text-align:bottom" >
+                    <a style="color: #000000; text-align:bottom">
                         {{ Auth::user()->name }}
                     </a>
                 </li>
@@ -37,4 +43,5 @@ $image = Auth::user()->image;
             </ul>
         </div>
     </nav>
-</header>
+</header
+
