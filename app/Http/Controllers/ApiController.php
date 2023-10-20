@@ -34,9 +34,8 @@ class ApiController extends Controller
                     'user' => $driver,
                     'logo' => 'No image found',
                 ], 200);
-            } else {
-             //   https://codecoyapps.com/karr/public/storage/image/09mHcYnjPrLoM9qBlcsg3QFgcKbthppHFRhCbo0c.jpg
-                $imageUrl = 'https://codecoyapps.com/karr/public/storage/image/' . $image;
+            } else { 
+                $imageUrl = 'https://codecoyapps.com/karr/public/image/' . $image;
                 return response()->json([
                     'status' => true,
                     'message' => 'Login successful',
