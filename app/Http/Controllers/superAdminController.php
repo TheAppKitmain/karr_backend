@@ -27,17 +27,19 @@ class superAdminController extends Controller
             $query->where('id', $id);
         })->get();
 
-        $tollData = Paytoll::with('tollDrivers')->whereHas('tollDrivers', function ($query) use ($id) {
-            $query->whereHas('driver.user', function ($query) use ($id) {
-                $query->where('users.id', $id);
-            });
-        })->get();
-
-        $cityData = City::with('cityDrivers')->whereHas('cityDrivers', function ($query) use ($id) {
-            $query->whereHas('driver.user', function ($query) use ($id) {
-                $query->where('users.id', $id);
-            });
-        })->get();
+        $tollData = DB::table('paytolls')
+        ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
+        ->join('drivers', 'paytoll__drivers.driver_id', '=', 'drivers.id')
+        ->where('drivers.user_id', $id)
+        ->select('paytolls.*', 'drivers.name As user_name','paytoll__drivers.*')
+        ->get();
+        // return $tollData;
+        $cityData = DB::table('cities')
+        ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
+        ->join('drivers', 'city__drivers.driver_id', '=', 'drivers.id')
+        ->where('drivers.user_id', $id)
+        ->select('cities.*','drivers.name As user_name', 'city__drivers.*')
+        ->get();
 
         $bank = Card::where('user_id', $id)->get();
 

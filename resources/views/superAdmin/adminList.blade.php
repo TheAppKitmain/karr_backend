@@ -35,7 +35,6 @@ $page = 'user';
                 <table class="table">
                     <thread>
                         <tr>
-                            <th>No</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Roles</th>
@@ -47,7 +46,6 @@ $page = 'user';
 
                     @foreach ($data as $key => $user)
                         <tr>
-                            <th scope="row">{{ $key + 1 }}</th>
                             <td><a href=""></a>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>

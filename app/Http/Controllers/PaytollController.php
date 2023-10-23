@@ -6,11 +6,10 @@ use App\Models\Car;
 use App\Models\Card;
 use App\Models\Paytoll;
 use App\Models\Paytoll_Driver;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
-use function PHPUnit\Framework\returnValueMap;
 
 class PaytollController extends Controller
 {
@@ -25,6 +24,11 @@ class PaytollController extends Controller
     public function index()
     {
         $userId = Auth::user()->id;
+        $tickets = Ticket::whereHas('driver.user', function ($query) use ($userId) {
+            $query->where('id', $userId);
+        })->get();
+
+
         $tolls = DB::table('paytolls')
         ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
         ->join('drivers', 'paytoll__drivers.driver_id', '=', 'drivers.id')
@@ -43,7 +47,7 @@ class PaytollController extends Controller
         ->select('cities.*', 'city__drivers.*')
         ->get();
 
-        return view('toll.index', compact('tolls','cities'));
+        return view('toll.index', compact('tolls','cities','tickets'));
     }
     public function destory($id)
     {

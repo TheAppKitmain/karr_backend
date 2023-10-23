@@ -33,28 +33,14 @@ class TicketController extends Controller
         $tickets = Ticket::whereHas('driver.user', function ($query) use ($userId) {
             $query->where('id', $userId);
         })->get();
-
-
-        $tolls = DB::table('paytolls')
-        ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
-        ->join('drivers', 'paytoll__drivers.driver_id', '=', 'drivers.id')
-        ->where('drivers.user_id', $userId)
-        ->select('paytolls.*', 'paytoll__drivers.*')
-        ->get();
-
-        foreach ($tolls as $toll) {
-            $toll->selectedDays = json_decode($toll->days);
-        }
-
-        $cities = DB::table('cities')
-        ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
-        ->join('drivers', 'city__drivers.driver_id', '=', 'drivers.id')
-        ->where('drivers.user_id', $userId)
-        ->select('cities.*', 'city__drivers.*')
-        ->get();
-    
+        $unpaid = Ticket::whereHas('driver.user', function ($query) use ($userId) {
+            $query->where('id', $userId)->where('status', '0');
+        })->get();
+        $paid = Ticket::whereHas('driver.user', function ($query) use ($userId) {
+            $query->where('id', $userId)->where('status', '1');
+        })->get();
         //    return $cities;
-        return view('ticket.index', compact('tickets', 'tolls', 'cities'));
+        return view('ticket.index', compact('tickets','paid','unpaid'));
     }
     public function ticketDelete($id)
     {
@@ -302,6 +288,6 @@ class TicketController extends Controller
             $ticket->save();
         }
         // dd($cids,$lids,$tids);
-        return redirect()->route('tickets')->with('success', 'Payment has been done');
+        return redirect()->back()->with('success', 'Payment has been done');
     }
 }

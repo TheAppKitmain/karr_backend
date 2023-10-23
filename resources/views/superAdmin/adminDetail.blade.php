@@ -130,13 +130,13 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
                                     <tbody>
                                         @foreach ($tollData as $toll)
                                             <tr>
-                                                <td>{{ $toll->tollDrivers->first()->driver->name }}</td>
+                                                <td>{{ $toll->user_name }}</td>
                                                 <td>{{ $toll->name }}</td>
                                                 <td>£ {{ number_format($toll->price,2) }}</td>
                                                 <td>
-                                                    @if ($toll->tollDrivers->first()->status == 0)
+                                                    @if ($toll->status == 0)
                                                         <span class="badge badge-danger">Unpaid</span>
-                                                    @elseif ($toll->tollDrivers->first()->status == 1)
+                                                    @elseif ($toll->status == 1)
                                                         <span class="badge badge-success">Paid</span>
                                                     @endif
                                                 </td>
@@ -165,13 +165,13 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
                                     <tbody>
                                         @foreach ($cityData as $city)
                                             <tr>
-                                                <td>{{ $city->cityDrivers->first()->driver->name }}</td>
+                                                <td>{{ $city->user_name }}</td>
                                                 <td>{{ $city->area }}</td>
                                                 <td>£ {{ number_format($city->price,2) }}</td>
                                                 <td>
-                                                    @if ($city->cityDrivers->first()->status == 0)
+                                                    @if ($city->status == 0)
                                                         <span class="badge badge-danger">Unpaid</span>
-                                                    @elseif ($city->cityDrivers->first()->status == 1)
+                                                    @elseif ($city->status == 1)
                                                         <span class="badge badge-success">Paid</span>
                                                     @endif
                                                 </td>

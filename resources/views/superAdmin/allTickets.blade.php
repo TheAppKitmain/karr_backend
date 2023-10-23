@@ -1,10 +1,9 @@
 <?php
 $page = 'tickets';
 ?>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 @extends('layouts.app')
 @section('content')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         .sort {
             width: 180px;
@@ -92,10 +91,10 @@ $page = 'tickets';
                     <thead>
                         <tr style="background-color: #F8F8FA">
                             <!-- Define the table headers -->
-                            <th>Check</th>
-                            <th>PCN</th>
+                            <th><input type="checkbox" id="select-all" /> Select All</th>
                             <th>Name</th>
-                            <th>Time</th>
+                            <th>PCN</th>
+                            <th>Date</th>
                             <th>Business</th>
                             <th>Issued by</th>
                             <th>Type</th>
@@ -111,9 +110,10 @@ $page = 'tickets';
                                     <input type="checkbox" class="table-checkbox" data-table="tickets"
                                         data-toll-id="{{ $ticket->id }}" data-driver-id="{{ $ticket->driver_id }}"
                                         name="selected_items[]" value="{{ $ticket->id }}">
-                                    <!-- ... Rest of the table row ... -->
-                                <td>{{ $ticket->pcn }}</td>
+                                </td>
+                                <!-- ... Rest of the table row ... -->
                                 <td>{{ $ticket->driver }}</td>
+                                <td>{{ $ticket->pcn }}</td>
                                 <td>{{ $ticket->date }}</td>
                                 <td>{{ $ticket->user_name }} </td>
                                 <td>{{ $ticket->ticket_issuer }}</td>
@@ -145,10 +145,11 @@ $page = 'tickets';
                                     <input type="checkbox" class="table-checkbox" data-table="tolls"
                                         data-toll-id="{{ $toll->paytoll_id }}" data-driver-id="{{ $toll->pd }}"
                                         name="selected_items[]" value="{{ $toll->paytoll_id }}">
-                                    <!-- ... Rest of the table row ... -->
-                                <td></td>
+                                </td>
+                                <!-- ... Rest of the table row ... -->
                                 <td>{{ $toll->name }}</td>
-                                <td>{{ implode(', ', $toll->selectedDays) }}</td>
+                                <td></td>
+                                <td>{{ $toll->date }}</td>
                                 <td>{{ $toll->user_name }}</td>
                                 <td></td>
                                 <td>Toll</td>
@@ -182,9 +183,9 @@ $page = 'tickets';
                                         name="selected_items[]" value="{{ $city->city_id }}">
                                 </td>
                                 <!-- ... Rest of the table row ... -->
-                                <td></td>
                                 <td>{{ $city->city }}</td>
-                                <td>{{ $city->time }}</td>
+                                <td></td>
+                                <td>{{ $city->date }}</td>
                                 <td>{{ $city->user_name }}</td>
                                 <td></td>
                                 <td>Charges</td>
@@ -494,6 +495,22 @@ $page = 'tickets';
             if (event.target !== dropdownToggle && event.target !== dropdownContent) {
                 dropdownContent.style.display = "none";
             }
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#select-all').click(function(event) {
+                if (this.checked) {
+                    // Iterate each checkbox
+                    $(':checkbox').each(function() {
+                        this.checked = true;
+                    });
+                } else {
+                    $(':checkbox').each(function() {
+                        this.checked = false;
+                    });
+                }
+            });
         });
     </script>
 @endsection

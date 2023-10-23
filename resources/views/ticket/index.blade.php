@@ -4,7 +4,7 @@ $page = 'ticket';
 
 @extends('layouts.app')
 @section('content')
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         .sort {
             width: 180px;
@@ -71,9 +71,9 @@ $page = 'ticket';
                 <div class="sort dropdown">
                     <p id="dropdown-toggle">Filter By<span class="caret"></span></p>
                     <div class="dropdown-content" id="dropdown-content">
-                        <a href="#" id="showTicketsTable">Tickets</a>
-                        <a href="#" id="showCityTable">Charges</a>
-                        <a href="#" id="showTollsTable">Tolls</a>
+                        <a href="#" id="paid">Paid</a>
+                        <a href="#" id="unpaid">Unpaid</a>
+                        {{-- <a href="#" id="showTollsTable">Tolls</a> --}}
                     </div>
                 </div>
             </div>
@@ -87,7 +87,7 @@ $page = 'ticket';
                     {{ Session::get('error') }}
                 </div>
             @endif
-            <div class="scroll">
+            {{-- <div class="scroll">
                 <table class="table" id="AllTable">
                     <thead>
                         <tr style="background-color: #F8F8FA">
@@ -190,14 +190,14 @@ $page = 'ticket';
                         @endforeach
                     </tbody>
                 </table>
-            </div>
+            </div> --}}
 
             <div class="scroll">
-                <table class="table" id="ticketsTable" style="display: none;">
+                <table class="table" id="ticket">
                     <thread>
                         <h4 id="ticketsHeading" style="display:none; ">Tickets</h4>
                         <tr style="background-color: #F8F8FA">
-                            <th>Check</th>
+                            <th><input type="checkbox" id="select-all" /> Select All</th>
                             <th>Name</th>
                             <th>Date</th>
                             <th>PCN</th>
@@ -213,7 +213,9 @@ $page = 'ticket';
                     <tbody>
                         @foreach ($tickets as $key => $ticket)
                             <tr>
-                                <td><input type="checkbox" name="" id="" value="{{ $ticket->id }}"></td>
+                                <td><input type="checkbox" class="table-checkbox" data-table="tickets" name="ticket_ids[]"
+                                        value="{{ $ticket->id }}"></td>
+                                {{-- <td><input type="checkbox" name="" id="" value="{{ $ticket->id }}"></td> --}}
                                 <!-- ... Rest of the table row ... -->
                                 <td>{{ $ticket->driver->name }}</td>
                                 <td>{{ $ticket->date }}</td>
@@ -243,46 +245,49 @@ $page = 'ticket';
                     </tbody>
                 </table>
             </div>
+
             <div class="scroll">
-                <table class="table" id="cityTable" style="display: none;">
+                <table class="table" id="unpaidTicket" style="display: none;">
                     <thread>
-                        <h4 id="cityHeading" style="display: none;">City Charges</h4>
-                        <tr style="background-color:#F8F8FA;">
-                            <th>Check</th>
-                            <th>City Name</th>
-                            <th>Time</th>
-                            <th>Price</th>
+                        <h4 id="unpaidHeading" style="display:none; ">Unpaid Tickets</h4>
+                        <tr style="background-color: #F8F8FA">
+                            <th>Name</th>
+                            <th>Date</th>
+                            <th>PCN</th>
+                            <th>Ticket Issuer</th>
                             <th>Type</th>
+                            <th>Price</th>
                             <th>Status</th>
-                            @can('charges-pay')
+                            @can('ticket-pay')
                                 <th>Pay</th>
                             @endcan
                         </tr>
                     </thread>
                     <tbody>
-                        @foreach ($cities as $key => $city)
+                        @foreach ($unpaid as $key => $ticket)
                             <tr>
-                                <td><input type="checkbox" id="vehicle1" id="check" name="ids[]"
-                                        value="{{ $city->cd }}"></td>
-                                <td>{{ $city->city }}</td>
-                                <td>{{ $city->date }}</td>
-                                <td>£ {{ number_format($city->price, 2) }}</td>
-                                <td>Charges</td>
+                                <!-- ... Rest of the table row ... -->
+                                <td>{{ $ticket->driver->name }}</td>
+                                <td>{{ $ticket->date }}</td>
+                                <td>{{ $ticket->pcn }}</td>
+                                <td>{{ $ticket->ticket_issuer }}</td>
+                                <td>Ticket</td>
+                                <td>£ {{ number_format($ticket->price, 2) }}</td>
                                 @can('toll-pay')
-                                    @if ($city->status == 1)
+                                    @if ($ticket->status == '1')
                                         <td>Paid</td>
-                                        <td><a class="btn btn-success"
-                                                href="{{ route('charges.pay', ['id' => $city->city_id, 'd_id' => $city->cd]) }}">Paid</a>
+                                        <td><a class="btn btn-success" href="{{ route('ticket.pay', $ticket->id) }}">Paid</a>
                                         </td>
-                                    @elseif ($city->status == 0)
+                                    @elseif ($ticket->status == '0')
                                         <td>Unpaid</td>
-                                        <td><a class="btn btn-danger"
-                                                href="{{ route('charges.pay', ['id' => $city->city_id, 'd_id' => $city->cd]) }}">Pay
-                                                Now</a></td>
-                                    @elseif ($city->status == 2)
+                                        <td>
+                                            <a class="btn btn-danger" href="{{ route('ticket.pay', $ticket->id) }}">Pay Now</a>
+                                        </td>
+                                    @elseif ($ticket->status == '2')
                                         <td>Disputed</td>
-                                        <td><a class="btn btn-primary"
-                                                href="{{ route('charges.pay', ['id' => $city->city_id, 'd_id' => $city->cd]) }}">Disputed</a>
+                                        <td>
+                                            <a class="btn btn-primary"
+                                                href="{{ route('ticket.pay', $ticket->id) }}">Disputed</a>
                                         </td>
                                     @endif
                                 @endcan
@@ -290,49 +295,49 @@ $page = 'ticket';
                     </tbody>
                 </table>
             </div>
+
             <div class="scroll">
-                <table class="table" id="tollsTable" style="display: none;">
+                <table class="table" id="paidTicket" style="display: none;">
                     <thread>
-                        <h4 id="tollsHeading" style="display: none;">Tolls</h4> {{-- Initially hidden --}}
-                        <tr style="background-color:#F8F8FA;">
-                            <th>Check</th>
+                        <h4 id="paidHeading" style="display:none; ">Paid Tickets</h4>
+                        <tr style="background-color: #F8F8FA">
                             <th>Name</th>
-                            <th>Days</th>
+                            <th>Date</th>
+                            <th>PCN</th>
+                            <th>Ticket Issuer</th>
                             <th>Type</th>
                             <th>Price</th>
                             <th>Status</th>
-                            @can('toll-pay')
+                            @can('ticket-pay')
                                 <th>Pay</th>
                             @endcan
                         </tr>
                     </thread>
                     <tbody>
-                        @foreach ($tolls as $key => $toll)
+                        @foreach ($paid as $key => $ticket)
                             <tr>
-                                <td><input type="checkbox" id="vehicle1" id="check" name="ids[]"
-                                        value="{{ $toll->id }}"></td>
-                                <td>{{ $toll->name }}</td>
-                                <td>
-                                    {{ implode(', ', $toll->selectedDays) }}
-                                </td>
-                                <td>Tolls</td>
-                                <td>£ {{ number_format($toll->price, 2) }}</td>
+                                <!-- ... Rest of the table row ... -->
+                                <td>{{ $ticket->driver->name }}</td>
+                                <td>{{ $ticket->date }}</td>
+                                <td>{{ $ticket->pcn }}</td>
+                                <td>{{ $ticket->ticket_issuer }}</td>
+                                <td>Ticket</td>
+                                <td>£ {{ number_format($ticket->price, 2) }}</td>
                                 @can('toll-pay')
-                                    @if ($toll->status == 1)
-                                        <td> Paid </td>
-                                        <td><a class="btn btn-success"
-                                                href="{{ route('toll.pay', ['id' => $toll->paytoll_id, 'd_id' => $toll->pd]) }}">Paid</a>
+                                    @if ($ticket->status == '1')
+                                        <td>Paid</td>
+                                        <td><a class="btn btn-success" href="{{ route('ticket.pay', $ticket->id) }}">Paid</a>
                                         </td>
-                                    @elseif ($toll->status == 0)
-                                        <td> Unpaid</td>
-                                        <td><a class="btn btn-danger"
-                                                href="{{ route('toll.pay', ['id' => $toll->paytoll_id, 'd_id' => $toll->pd]) }}">Pay
-                                                Now</a>
+                                    @elseif ($ticket->status == '0')
+                                        <td>Unpaid</td>
+                                        <td>
+                                            <a class="btn btn-danger" href="{{ route('ticket.pay', $ticket->id) }}">Pay Now</a>
                                         </td>
-                                    @elseif($toll->status == 2)
-                                        <td> Disputed </td>
-                                        <td><a class="btn btn-primary"
-                                                href="{{ route('toll.pay', ['id' => $toll->paytoll_id, 'd_id' => $toll->pd]) }}">Disputed</a>
+                                    @elseif ($ticket->status == '2')
+                                        <td>Disputed</td>
+                                        <td>
+                                            <a class="btn btn-primary"
+                                                href="{{ route('ticket.pay', $ticket->id) }}">Disputed</a>
                                         </td>
                                     @endif
                                 @endcan
@@ -346,36 +351,38 @@ $page = 'ticket';
 
     <script>
         $(document).ready(function() {
-            $("#showTollsTable").click(function() {
-                $("#tollsTable").show();
-                $("#tollsHeading").show();
-                $("#ticketsHeading").hide();
-                $("#ticketsTable").hide();
-                $("#cityTable").hide();
-                $("#cityHeading").hide();
-                $("#AllTable").hide();
-            });
-
-            $("#showTicketsTable").click(function() {
-                $("#tollsTable").hide();
-                $("#tollsHeading").hide();
-                $("#ticketsHeading").show();
-                $("#ticketsTable").show();
-                $("#cityTable").hide();
-                $("#cityHeading").hide();
-                $("#AllTable").hide();
-            });
-
-            $("#showCityTable").click(function() {
-                $("#tollsTable").hide();
-                $("#tollsHeading").hide();
-                $("#ticketsHeading").hide();
-                $("#ticketsTable").hide();
-                $("#cityTable").show();
-                $("#cityHeading").show();
-                $("#AllTable").hide();
+            $('#select-all').click(function(event) {
+                if (this.checked) {
+                    // Iterate each checkbox
+                    $(':checkbox').each(function() {
+                        this.checked = true;
+                    });
+                } else {
+                    $(':checkbox').each(function() {
+                        this.checked = false;
+                    });
+                }
             });
         });
+        $("#unpaid").click(function() {
+                $("#unpaidTicket").show();
+                $("#unpaidHeading").show();
+                $("#paidTicket").hide();
+                $("#paidHeading").hide();
+                $("#ticketsHeading").hide();
+                $("#ticket").hide();
+            });
+
+            $("#paid").click(function() {
+                $("#paidTicket").show();
+                $("#paidHeading").show();
+                $("#unpaidTicket").hide();
+                $("#unpaidHeading").hide();
+                $("#ticketsHeading").hide();
+                $("#ticket").hide();
+
+            });
+
     </script>
     <script>
         $(document).ready(function() {
