@@ -261,7 +261,7 @@ $page = 'tolls';
                         <tr style="background-color:#F8F8FA;">
                             <th>Check</th>
                             <th>Name</th>
-                            <th>Days</th>
+                            <th>Date</th>
                             <th>Type</th>
                             <th>Price</th>
                             <th>Status</th>
@@ -277,7 +277,7 @@ $page = 'tolls';
                                         value="{{ $toll->id }}"></td>
                                 <td>{{ $toll->name }}</td>
                                 <td>
-                                    {{ implode(', ', $toll->selectedDays) }}
+                                    {{ $toll->date }}
                                 </td>
                                 <td>Tolls</td>
                                 <td>£ {{ number_format($toll->price, 2) }}</td>

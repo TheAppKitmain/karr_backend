@@ -194,155 +194,179 @@ $page = 'ticket';
 
             <div class="scroll">
                 <table class="table" id="ticket">
-                    <thread>
-                        <h4 id="ticketsHeading" style="display:none; ">Tickets</h4>
-                        <tr style="background-color: #F8F8FA">
-                            <th><input type="checkbox" id="select-all" /> Select All</th>
-                            <th>Name</th>
-                            <th>Date</th>
-                            <th>PCN</th>
-                            <th>Ticket Issuer</th>
-                            <th>Type</th>
-                            <th>Price</th>
-                            <th>Status</th>
-                            @can('ticket-pay')
-                                <th>Pay</th>
-                            @endcan
-                        </tr>
-                    </thread>
-                    <tbody>
-                        @foreach ($tickets as $key => $ticket)
-                            <tr>
-                                <td><input type="checkbox" class="table-checkbox" data-table="tickets" name="ticket_ids[]"
-                                        value="{{ $ticket->id }}"></td>
-                                {{-- <td><input type="checkbox" name="" id="" value="{{ $ticket->id }}"></td> --}}
-                                <!-- ... Rest of the table row ... -->
-                                <td>{{ $ticket->driver->name }}</td>
-                                <td>{{ $ticket->date }}</td>
-                                <td>{{ $ticket->pcn }}</td>
-                                <td>{{ $ticket->ticket_issuer }}</td>
-                                <td>Ticket</td>
-                                <td>£ {{ number_format($ticket->price, 2) }}</td>
-                                @can('toll-pay')
-                                    @if ($ticket->status == '1')
-                                        <td>Paid</td>
-                                        <td><a class="btn btn-success" href="{{ route('ticket.pay', $ticket->id) }}">Paid</a>
-                                        </td>
-                                    @elseif ($ticket->status == '0')
-                                        <td>Unpaid</td>
-                                        <td>
-                                            <a class="btn btn-danger" href="{{ route('ticket.pay', $ticket->id) }}">Pay Now</a>
-                                        </td>
-                                    @elseif ($ticket->status == '2')
-                                        <td>Disputed</td>
-                                        <td>
-                                            <a class="btn btn-primary"
-                                                href="{{ route('ticket.pay', $ticket->id) }}">Disputed</a>
-                                        </td>
-                                    @endif
+                    @if ($tickets->isEmpty())
+                        <center>
+                            <h3 id="ticket_0">Sorry, No tickets found</h3>
+                        </center>
+                    @else
+                        <thread>
+                            <h4 id="ticketsHeading" style="display:none; ">Tickets</h4>
+                            <tr style="background-color: #F8F8FA">
+                                <th><input type="checkbox" id="select-all" /> Select All</th>
+                                <th>Name</th>
+                                <th>Date</th>
+                                <th>PCN</th>
+                                <th>Ticket Issuer</th>
+                                <th>Type</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                                @can('ticket-pay')
+                                    <th>Pay</th>
                                 @endcan
-                        @endforeach
-                    </tbody>
+                            </tr>
+                        </thread>
+                        <tbody>
+                            @foreach ($tickets as $key => $ticket)
+                                <tr>
+                                    <td><input type="checkbox" class="table-checkbox" data-table="tickets"
+                                            name="ticket_ids[]" value="{{ $ticket->id }}"></td>
+                                    {{-- <td><input type="checkbox" name="" id="" value="{{ $ticket->id }}"></td> --}}
+                                    <!-- ... Rest of the table row ... -->
+                                    <td>{{ $ticket->driver->name }}</td>
+                                    <td>{{ $ticket->date }}</td>
+                                    <td>{{ $ticket->pcn }}</td>
+                                    <td>{{ $ticket->ticket_issuer }}</td>
+                                    <td>Ticket</td>
+                                    <td>£ {{ number_format($ticket->price, 2) }}</td>
+                                    @can('toll-pay')
+                                        @if ($ticket->status == '1')
+                                            <td>Paid</td>
+                                            <td><a class="btn btn-success"
+                                                    href="{{ route('ticket.pay', $ticket->id) }}">Paid</a>
+                                            </td>
+                                        @elseif ($ticket->status == '0')
+                                            <td>Unpaid</td>
+                                            <td>
+                                                <a class="btn btn-danger" href="{{ route('ticket.pay', $ticket->id) }}">Pay
+                                                    Now</a>
+                                            </td>
+                                        @elseif ($ticket->status == '2')
+                                            <td>Disputed</td>
+                                            <td>
+                                                <a class="btn btn-primary"
+                                                    href="{{ route('ticket.pay', $ticket->id) }}">Disputed</a>
+                                            </td>
+                                        @endif
+                                    @endcan
+                            @endforeach
+                        </tbody>
+                    @endif
                 </table>
             </div>
 
             <div class="scroll">
                 <table class="table" id="unpaidTicket" style="display: none;">
-                    <thread>
-                        <h4 id="unpaidHeading" style="display:none; ">Unpaid Tickets</h4>
-                        <tr style="background-color: #F8F8FA">
-                            <th>Name</th>
-                            <th>Date</th>
-                            <th>PCN</th>
-                            <th>Ticket Issuer</th>
-                            <th>Type</th>
-                            <th>Price</th>
-                            <th>Status</th>
-                            @can('ticket-pay')
-                                <th>Pay</th>
-                            @endcan
-                        </tr>
-                    </thread>
-                    <tbody>
-                        @foreach ($unpaid as $key => $ticket)
-                            <tr>
-                                <!-- ... Rest of the table row ... -->
-                                <td>{{ $ticket->driver->name }}</td>
-                                <td>{{ $ticket->date }}</td>
-                                <td>{{ $ticket->pcn }}</td>
-                                <td>{{ $ticket->ticket_issuer }}</td>
-                                <td>Ticket</td>
-                                <td>£ {{ number_format($ticket->price, 2) }}</td>
-                                @can('toll-pay')
-                                    @if ($ticket->status == '1')
-                                        <td>Paid</td>
-                                        <td><a class="btn btn-success" href="{{ route('ticket.pay', $ticket->id) }}">Paid</a>
-                                        </td>
-                                    @elseif ($ticket->status == '0')
-                                        <td>Unpaid</td>
-                                        <td>
-                                            <a class="btn btn-danger" href="{{ route('ticket.pay', $ticket->id) }}">Pay Now</a>
-                                        </td>
-                                    @elseif ($ticket->status == '2')
-                                        <td>Disputed</td>
-                                        <td>
-                                            <a class="btn btn-primary"
-                                                href="{{ route('ticket.pay', $ticket->id) }}">Disputed</a>
-                                        </td>
-                                    @endif
+                    @if ($unpaid->isEmpty())
+                        <center>
+                            <h3 id="unpaid_0" style="display: none;"> Sorry, No unpaid tickets found</h3>
+                        </center>
+                    @else
+                        <thread>
+                            <h4 id="unpaidHeading" style="display:none; ">Unpaid Tickets</h4>
+                            <tr style="background-color: #F8F8FA">
+                                <th>Name</th>
+                                <th>Date</th>
+                                <th>PCN</th>
+                                <th>Ticket Issuer</th>
+                                <th>Type</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                                @can('ticket-pay')
+                                    <th>Pay</th>
                                 @endcan
-                        @endforeach
-                    </tbody>
+                            </tr>
+                        </thread>
+                        <tbody>
+                            @foreach ($unpaid as $key => $ticket)
+                                <tr>
+                                    <!-- ... Rest of the table row ... -->
+                                    <td>{{ $ticket->driver->name }}</td>
+                                    <td>{{ $ticket->date }}</td>
+                                    <td>{{ $ticket->pcn }}</td>
+                                    <td>{{ $ticket->ticket_issuer }}</td>
+                                    <td>Ticket</td>
+                                    <td>£ {{ number_format($ticket->price, 2) }}</td>
+                                    @can('toll-pay')
+                                        @if ($ticket->status == '1')
+                                            <td>Paid</td>
+                                            <td><a class="btn btn-success"
+                                                    href="{{ route('ticket.pay', $ticket->id) }}">Paid</a>
+                                            </td>
+                                        @elseif ($ticket->status == '0')
+                                            <td>Unpaid</td>
+                                            <td>
+                                                <a class="btn btn-danger" href="{{ route('ticket.pay', $ticket->id) }}">Pay
+                                                    Now</a>
+                                            </td>
+                                        @elseif ($ticket->status == '2')
+                                            <td>Disputed</td>
+                                            <td>
+                                                <a class="btn btn-primary"
+                                                    href="{{ route('ticket.pay', $ticket->id) }}">Disputed</a>
+                                            </td>
+                                        @endif
+                                    @endcan
+                            @endforeach
+                        </tbody>
+                    @endif
                 </table>
             </div>
 
             <div class="scroll">
                 <table class="table" id="paidTicket" style="display: none;">
-                    <thread>
-                        <h4 id="paidHeading" style="display:none; ">Paid Tickets</h4>
-                        <tr style="background-color: #F8F8FA">
-                            <th>Name</th>
-                            <th>Date</th>
-                            <th>PCN</th>
-                            <th>Ticket Issuer</th>
-                            <th>Type</th>
-                            <th>Price</th>
-                            <th>Status</th>
-                            @can('ticket-pay')
-                                <th>Pay</th>
-                            @endcan
-                        </tr>
-                    </thread>
-                    <tbody>
-                        @foreach ($paid as $key => $ticket)
-                            <tr>
-                                <!-- ... Rest of the table row ... -->
-                                <td>{{ $ticket->driver->name }}</td>
-                                <td>{{ $ticket->date }}</td>
-                                <td>{{ $ticket->pcn }}</td>
-                                <td>{{ $ticket->ticket_issuer }}</td>
-                                <td>Ticket</td>
-                                <td>£ {{ number_format($ticket->price, 2) }}</td>
-                                @can('toll-pay')
-                                    @if ($ticket->status == '1')
-                                        <td>Paid</td>
-                                        <td><a class="btn btn-success" href="{{ route('ticket.pay', $ticket->id) }}">Paid</a>
-                                        </td>
-                                    @elseif ($ticket->status == '0')
-                                        <td>Unpaid</td>
-                                        <td>
-                                            <a class="btn btn-danger" href="{{ route('ticket.pay', $ticket->id) }}">Pay Now</a>
-                                        </td>
-                                    @elseif ($ticket->status == '2')
-                                        <td>Disputed</td>
-                                        <td>
-                                            <a class="btn btn-primary"
-                                                href="{{ route('ticket.pay', $ticket->id) }}">Disputed</a>
-                                        </td>
-                                    @endif
+                    @if ($paid->isEmpty())
+                        <center>
+                            <h3 id="paid_0" style="display: none;"> Sorry, No paid tickets found</h3>
+                        </center>
+                    @else
+                        <thread>
+                            <h4 id="paidHeading" style="display:none; ">Paid Tickets</h4>
+                            <tr style="background-color: #F8F8FA">
+                                <th>Name</th>
+                                <th>Date</th>
+                                <th>PCN</th>
+                                <th>Ticket Issuer</th>
+                                <th>Type</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                                @can('ticket-pay')
+                                    <th>Pay</th>
                                 @endcan
-                        @endforeach
-                    </tbody>
+                            </tr>
+                        </thread>
+                        <tbody>
+                            @foreach ($paid as $key => $ticket)
+                                <tr>
+                                    <!-- ... Rest of the table row ... -->
+                                    <td>{{ $ticket->driver->name }}</td>
+                                    <td>{{ $ticket->date }}</td>
+                                    <td>{{ $ticket->pcn }}</td>
+                                    <td>{{ $ticket->ticket_issuer }}</td>
+                                    <td>Ticket</td>
+                                    <td>£ {{ number_format($ticket->price, 2) }}</td>
+                                    @can('toll-pay')
+                                        @if ($ticket->status == '1')
+                                            <td>Paid</td>
+                                            <td><a class="btn btn-success"
+                                                    href="{{ route('ticket.pay', $ticket->id) }}">Paid</a>
+                                            </td>
+                                        @elseif ($ticket->status == '0')
+                                            <td>Unpaid</td>
+                                            <td>
+                                                <a class="btn btn-danger" href="{{ route('ticket.pay', $ticket->id) }}">Pay
+                                                    Now</a>
+                                            </td>
+                                        @elseif ($ticket->status == '2')
+                                            <td>Disputed</td>
+                                            <td>
+                                                <a class="btn btn-primary"
+                                                    href="{{ route('ticket.pay', $ticket->id) }}">Disputed</a>
+                                            </td>
+                                        @endif
+                                    @endcan
+                            @endforeach
+                        </tbody>
+                    @endif
                 </table>
             </div>
         </div>
@@ -365,24 +389,29 @@ $page = 'ticket';
             });
         });
         $("#unpaid").click(function() {
-                $("#unpaidTicket").show();
-                $("#unpaidHeading").show();
-                $("#paidTicket").hide();
-                $("#paidHeading").hide();
-                $("#ticketsHeading").hide();
-                $("#ticket").hide();
-            });
+            $("#unpaidTicket").show();
+            $("#unpaidHeading").show();
+            $("#unpaid_0").show();
+            $("#ticket_0").hide();
+            $("#paidTicket").hide();
+            $("#paid_0").hide();
+            $("#paidHeading").hide();
+            $("#ticketsHeading").hide();
+            $("#ticket").hide();
+        });
 
-            $("#paid").click(function() {
-                $("#paidTicket").show();
-                $("#paidHeading").show();
-                $("#unpaidTicket").hide();
-                $("#unpaidHeading").hide();
-                $("#ticketsHeading").hide();
-                $("#ticket").hide();
+        $("#paid").click(function() {
+            $("#paidTicket").show();
+            $("#paid_0").show();
+            $("#paidHeading").show();
+            $("#ticket_0").hide();
+            $("#unpaid_0").hide();
+            $("#unpaidTicket").hide();
+            $("#unpaidHeading").hide();
+            $("#ticketsHeading").hide();
+            $("#ticket").hide();
 
-            });
-
+        });
     </script>
     <script>
         $(document).ready(function() {

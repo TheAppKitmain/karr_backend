@@ -39,7 +39,7 @@ class TicketController extends Controller
         $paid = Ticket::whereHas('driver.user', function ($query) use ($userId) {
             $query->where('id', $userId)->where('status', '1');
         })->get();
-        //    return $cities;
+    //    return $paid;
         return view('ticket.index', compact('tickets','paid','unpaid'));
     }
     public function ticketDelete($id)
