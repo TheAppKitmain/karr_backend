@@ -104,7 +104,7 @@ class HomeController extends Controller
                 ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
                 ->join('drivers', 'paytoll__drivers.driver_id', '=', 'drivers.id')
                 ->where('drivers.user_id', $userId)
-                ->select('paytolls.*', 'paytoll__drivers.*')
+                ->select('paytolls.*', 'drivers.name as user_name','paytoll__drivers.*')
                 ->get();
 
             foreach ($tolls as $toll) {
@@ -115,7 +115,7 @@ class HomeController extends Controller
                 ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
                 ->join('drivers', 'city__drivers.driver_id', '=', 'drivers.id')
                 ->where('drivers.user_id', $userId)
-                ->select('cities.*', 'city__drivers.*')
+                ->select('cities.*','drivers.name as user_name', 'city__drivers.*')
                 ->get();
 
             //  dd($cities);

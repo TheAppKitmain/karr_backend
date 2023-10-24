@@ -99,7 +99,7 @@ $page = 'tolls';
                                 <td><input type="checkbox" class="table-checkbox" data-table="tolls" name="toll_ids[]"
                                         value="{{ $toll->pd }}"></td>
                                 <!-- ... Rest of the table row ... -->
-                                <td>{{ $toll->name }}</td>
+                                <td>{{ $toll->user_name }}</td>
                                 <td></td>
                                 <td>{{  $toll->date }}</td>
                                 <td></td>
@@ -129,7 +129,7 @@ $page = 'tolls';
                                 <td><input type="checkbox" class="table-checkbox" data-table="city" name="city_ids[]"
                                         value="{{ $city->cd }}"></td>
                                 <!-- ... Rest of the table row ... -->
-                                <td>{{ $city->city }}</td>
+                                <td>{{ $city->user_name }}</td>
                                 <td></td>
                                 <td>{{ $city->date }}</td>
                                 <td></td>
@@ -214,6 +214,7 @@ $page = 'tolls';
                         <tr style="background-color:#F8F8FA;">
                             <th>Check</th>
                             <th>City Name</th>
+                            <th>Name</th>
                             <th>Time</th>
                             <th>Price</th>
                             <th>Type</th>
@@ -229,6 +230,7 @@ $page = 'tolls';
                                 <td><input type="checkbox" id="vehicle1" id="check" name="ids[]"
                                         value="{{ $city->cd }}"></td>
                                 <td>{{ $city->city }}</td>
+                                <td>{{ $city->user_name }}</td>
                                 <td>{{ $city->date }}</td>
                                 <td>£ {{ number_format($city->price, 2) }}</td>
                                 <td>Charges</td>
@@ -275,7 +277,7 @@ $page = 'tolls';
                             <tr>
                                 <td><input type="checkbox" id="vehicle1" id="check" name="ids[]"
                                         value="{{ $toll->id }}"></td>
-                                <td>{{ $toll->name }}</td>
+                                <td>{{ $toll->user_name }}</td>
                                 <td>
                                     {{ $toll->date }}
                                 </td>

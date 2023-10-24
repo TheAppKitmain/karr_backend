@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Ramsey\Uuid\Uuid;
+
 class ApiController extends Controller
 {
     public function login(Request $request)
@@ -34,7 +35,7 @@ class ApiController extends Controller
                     'user' => $driver,
                     'logo' => 'No image found',
                 ], 200);
-            } else { 
+            } else {
                 $imageUrl = 'https://codecoyapps.com/karr/public/image/' . $image;
                 return response()->json([
                     'status' => true,
@@ -43,8 +44,7 @@ class ApiController extends Controller
                     'logo' => $imageUrl,
                 ], 200);
             }
-        } else
-        {
+        } else {
             return response()->json([
                 'status' => false,
                 'message' => 'Login failed'
@@ -91,18 +91,6 @@ class ApiController extends Controller
             ]);
         }
         foreach ($cityids as $cityId) {
-            $existingData = DB::table('city__drivers')
-                ->where('city_id', $cityId)
-                ->where('driver_id', $driverId)
-                ->where('date', $date)
-                ->first();
-
-            if ($existingData) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Data already exists for the provided IDs for this date'
-                ], 200);
-            }
             $userId = Driver::where('id', $driverId)->value('user_id');
             $uuid = Uuid::uuid4()->toString();
 
@@ -162,18 +150,6 @@ class ApiController extends Controller
         }
 
         foreach ($tollIds as $tollId) {
-            $existingData = DB::table('paytoll__drivers')
-                ->where('paytoll_id', $tollId)
-                ->where('driver_id', $driverId)
-                ->where('date', $date)
-                ->first();
-
-            if ($existingData) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Data already exists for the provided IDs for this date'
-                ], 200);
-            }
             $userId = Driver::where('id', $driverId)->value('user_id');
             $uuid = Uuid::uuid4()->toString();
             DB::table('paytoll__drivers')->insert([

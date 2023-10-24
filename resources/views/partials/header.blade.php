@@ -22,7 +22,7 @@ $image = Auth::user()->image;
         </button>
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
-                <li style="margin-top: 15px;">
+                <li style="margin-top: 20px;">
                     <a style="color: #000000; text-align:bottom">
                         {{ Auth::user()->name }}
                     </a>

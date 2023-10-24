@@ -100,6 +100,7 @@ class CreateAdminUserSeeder extends Seeder
             'driver-unassign',
             'driver-list',
             'driver-create',
+            'users-edit',
             'driver-edit',
             'driver-delete',
         ];

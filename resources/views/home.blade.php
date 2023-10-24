@@ -112,7 +112,7 @@ $count = 1;
                                     <!-- Define the table headers -->
                                     <th>PCN</th>
                                     <th>Name</th>
-                                    <th>Time</th>
+                                    <th>Date</th>
                                     <th>Type</th>
                                     @can('admin-ticket')
                                         <th>Business </th>
@@ -180,8 +180,8 @@ $count = 1;
                                     <?php $name = 'tl'; ?>
                                     <tr>
                                         <td></td>
-                                        <td>{{ $toll->name }}</td>
-                                        <td>{{ implode(', ', $toll->selectedDays) }}</td>
+                                        <td>{{ $toll->user_name }}</td>
+                                        <td>{{ $toll->date }}</td>
                                         <td> Tolls </td>
                                         @can('admin-ticket')
                                             <td>{{ $toll->user_name }}</td>
@@ -231,7 +231,7 @@ $count = 1;
                                     <?php $name = 'ct'; ?>
                                     <tr>
                                         <td></td>
-                                        <td>{{ $city->city }}</td>
+                                        <td>{{ $city->user_name }}</td>
                                         <td>{{ $city->date }}</td>
                                         <td> City Charge </td>
                                         @can('admin-ticket')

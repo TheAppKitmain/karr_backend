@@ -97,6 +97,7 @@
 
     .navbar-custom-menu .navbar-nav {
         margin: 0;
+        width: 175px;
         float: left;
     }
 
