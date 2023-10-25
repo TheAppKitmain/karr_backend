@@ -178,6 +178,7 @@ class ApiController extends Controller
                 'date' => 'required',
                 'price' => 'required',
                 'ticket_issuer' => 'required',
+                'notes' => 'nullable',
             ]);
             if ($validator->fails()) {
                 return response()->json([
@@ -192,6 +193,7 @@ class ApiController extends Controller
                     'price' => 'required',
                     'ticket_issuer' => 'required',
                     'driver_id' => 'required|exists:drivers,id',
+                    'notes' => 'nullable',
 
                 ]);
 

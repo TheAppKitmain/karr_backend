@@ -35,10 +35,11 @@ class HomeController extends Controller
         if ($roles->contains('name', 'Super Admin') || $roles->contains('name', 'S Admin')) {
 
             $tickets = DB::table('tickets')
-                ->join('drivers', 'tickets.driver_id', '=', 'drivers.id')
-                ->join('users', 'drivers.user_id', '=', 'users.id')
-                ->select('tickets.*', 'drivers.name as driver', 'users.name as user_name')
-                ->orderByDesc('id')->take(3)->get();
+            ->join('drivers', 'tickets.driver_id', '=', 'drivers.id')
+            ->join('users', 'drivers.user_id', '=', 'users.id')
+            ->select('tickets.*', 'drivers.name as driver', 'users.name as user_name')
+            ->orderBy('tickets.id', 'desc')->limit(3)->get();
+            
             $charges = City::all()->count();
 
             $unpaidTicket = Ticket::where('status', '0')->get()->count();
@@ -105,7 +106,7 @@ class HomeController extends Controller
                 ->join('drivers', 'paytoll__drivers.driver_id', '=', 'drivers.id')
                 ->where('drivers.user_id', $userId)
                 ->select('paytolls.*', 'drivers.name as user_name','paytoll__drivers.*')
-                ->get();
+                ->orderBy('paytolls.id', 'desc') ->limit(3) ->get();
 
             foreach ($tolls as $toll) {
                 $toll->selectedDays = json_decode($toll->days);
@@ -162,6 +163,11 @@ class HomeController extends Controller
 
             $page = 'dash';
             return view('home', compact('page', 'tickets', 'tolls', 'cities', 'charges', 'unpaidTicket', 'unpaidCharges', 'totalCharges', 'unpaid'));
+        }
+        else{
+           
+            return view('profile.newUser');
+        
         }
     }
 }

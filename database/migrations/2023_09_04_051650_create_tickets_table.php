@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('date');
             $table->string('ticket_issuer');
             $table->string('price');
+            $table->string('notes')->nullable();
             $table->tinyInteger('status')->default(0);
             $table->bigInteger('driver_id')->nullable()->unsigned();
             $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');

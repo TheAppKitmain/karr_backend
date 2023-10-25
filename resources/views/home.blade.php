@@ -1,4 +1,5 @@
 <?php
+
 $ticketCount = $tickets->count();
 $count = 1;
 ?>

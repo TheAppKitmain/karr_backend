@@ -24,11 +24,19 @@ class UserController extends Controller
     public function index()
     {
 
-        $adminData = Role::where('name', 'admin')->first();
+        $adminData = Role::where('name', 'admin')->orWhere('name', 'user')->get();
+
         if ($adminData) {
-            $data = $adminData->users;
-            return view('superAdmin.adminList', ['users' => $data], compact('data'));
+            $users = collect(); 
+        
+            foreach ($adminData as $role) {
+               
+                $users = $users->merge($role->users);
+            }
+        
+            return view('superAdmin.adminList', ['users' => $users]);
         }
+        
     }
 
     public function create()
@@ -106,6 +114,7 @@ class UserController extends Controller
 
             // Find the user to update
             $user = User::find($id);
+            $roles = $user->roles->pluck('name','name')->first();
 
             // Update name and email
             $user->name = $validatedData['name'];
@@ -134,11 +143,10 @@ class UserController extends Controller
                 $user->image = $imageName;
             }
 
-            // Save the user's updated information
             $user->save();
 
             // Remove existing roles and assign the new roles
-            $user->syncRoles($request->input('roles'));
+            $user->syncRoles($roles);
 
             return redirect()->back()->with('success', 'User updated successfully');
         } catch (\Exception $e) {

@@ -374,7 +374,7 @@ $page = 'tickets';
                                 <!-- ... Rest of the table row ... -->
                                 <td></td>
                                 <td>{{ $toll->name }}</td>
-                                <td>{{ implode(', ', $toll->selectedDays) }}</td>
+                                <td>{{ $toll->date }}</td>
                                 <td></td>
                                 <td>Toll</td>
                                 <td>£ {{ number_format($toll->price, 2) }}</td> @can('admin-ticket')

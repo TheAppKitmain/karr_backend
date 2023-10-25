@@ -44,7 +44,7 @@ $page = 'user';
                         </tr>
                     </thread>
 
-                    @foreach ($data as $key => $user)
+                    @foreach ($users as $key => $user)
                         <tr>
                             <td><a href=""></a>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
