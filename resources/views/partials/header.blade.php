@@ -5,7 +5,7 @@ $image = Auth::user()->image;
 <header class="main-header">
     <!-- Logo -->
     <a href="{{ route('home') }}">
-        <img src="{{ asset('assets/dist/img/logo.svg') }}" class="logo">
+        <img src="{{ asset('assets/dist/img/logo_1.svg') }}" class="logo">
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top" role="navigation">

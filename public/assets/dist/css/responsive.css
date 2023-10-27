@@ -161,7 +161,8 @@
 
     .main-header .logo,
     .main-header .navbar {
-        width: auto;
+        /* width: 100;
+        height: 100; */
         margin-left: 0;
         position: relative !important;
     }
