@@ -244,8 +244,17 @@ class ApiController extends Controller
         }
 
         $tickets = Ticket::where('driver_id', $id)->get();
-        $tolls = Paytoll_Driver::where('driver_id', $id)->with('paytoll')->get();
-        $city = City_Driver::where('driver_id', $id)->with('city')->get();
+        $tolls = DB::table('paytolls')
+            ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
+            ->where('paytoll__drivers.driver_id', $id)
+            ->select('paytolls.name', 'paytoll__drivers.*')
+            ->get();
+        $city = DB::table('cities')
+        ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
+        ->where('city__drivers.driver_id', $id)
+        ->select('cities.area as name', 'city__drivers.*')
+        ->get();
+
 
         if ($tickets->isEmpty() && $tolls->isEmpty() && $city->isEmpty()) {
             return response()->json([
@@ -272,24 +281,18 @@ class ApiController extends Controller
         $tolls = Paytoll_Driver::where('pd', $p_id)->first();
         $city = City_Driver::where('cd', $c_id)->first();
 
-        if ($tickets==null && $tolls==null && $city==null) {
+        if ($tickets == null && $tolls == null && $city == null) {
             return response()->json([
                 'message' => 'No data found for this driver',
                 'status' => true,
             ]);
-        }
-        elseif($tickets !==null)
-        {
+        } elseif ($tickets !== null) {
             $tickets->notes = $notes;
             $tickets->save();
-        } 
-        elseif($tolls !==null)
-        {
+        } elseif ($tolls !== null) {
             $tolls->notes = $notes;
             $tolls->save();
-        }
-        elseif($city !==null)
-        {
+        } elseif ($city !== null) {
             $city->notes = $notes;
             $city->save();
         }
@@ -298,6 +301,5 @@ class ApiController extends Controller
             'message' => 'Data is stored',
             'status' => true,
         ]);
-        
     }
 }
