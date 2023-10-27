@@ -10,6 +10,7 @@ use App\Models\Paytoll_Driver;
 use App\Models\Ticket;
 use App\Models\User;
 use Exception;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -201,7 +202,7 @@ class ApiController extends Controller
                 return response()->json([
                     'mesage' => 'ticket is stored',
                     'status' => true,
-                ], 201);
+                ], 200);
             }
         } catch (Exception $e) {
             return response()->json([
@@ -229,9 +230,7 @@ class ApiController extends Controller
             ], 200);
         }
     }
-    public function carResponse(Request $request)
-    {
-    }
+
     public function recentActivity(Request $request)
     {
         $id = $request->input('driver_id');
@@ -245,8 +244,8 @@ class ApiController extends Controller
         }
 
         $tickets = Ticket::where('driver_id', $id)->get();
-        $tolls = Paytoll_Driver::where('driver_id', $id)->get();
-        $city = City_Driver::where('driver_id', $id)->get();
+        $tolls = Paytoll_Driver::where('driver_id', $id)->with('paytoll')->get();
+        $city = City_Driver::where('driver_id', $id)->with('city')->get();
 
         if ($tickets->isEmpty() && $tolls->isEmpty() && $city->isEmpty()) {
             return response()->json([
@@ -262,5 +261,43 @@ class ApiController extends Controller
                 'status' => true,
             ]);
         }
+    }
+    public function addNotes(Request $request)
+    {
+        $t_id = $request->input('ticket_id');
+        $notes = $request->input('notes');
+        $p_id = $request->input('pd');
+        $c_id = $request->input('cd');
+        $tickets = Ticket::findOrFail($t_id)->first();
+        $tolls = Paytoll_Driver::where('pd', $p_id)->first();
+        $city = City_Driver::where('cd', $c_id)->first();
+
+        if ($tickets==null && $tolls==null && $city==null) {
+            return response()->json([
+                'message' => 'No data found for this driver',
+                'status' => true,
+            ]);
+        }
+        elseif($tickets !==null)
+        {
+            $tickets->notes = $notes;
+            $tickets->save();
+        } 
+        elseif($tolls !==null)
+        {
+            $tolls->notes = $notes;
+            $tolls->save();
+        }
+        elseif($city !==null)
+        {
+            $city->notes = $notes;
+            $city->save();
+        }
+
+        return response()->json([
+            'message' => 'Data is stored',
+            'status' => true,
+        ]);
+        
     }
 }
