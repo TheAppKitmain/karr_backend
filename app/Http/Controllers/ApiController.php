@@ -73,25 +73,16 @@ class ApiController extends Controller
     }
     public function driverCharge(Request $request)
     {
-        $cityids = $request->input('city_id');
-        $driverId = $request->input('driver_id');
-        $date = $request->input('date');
-        $notes = $request->input('notes');
+        $data = $request->input(); // Get the entire request data as an array.
 
-        $validator = Validator::make($request->all(), [
-            'city_id' => 'required|array',
-            'city_id.*' => 'required|exists:cities,id',
-            'driver_id' => 'required|exists:drivers,id',
-        ]);
+        $driverId = $data['driver_id'];
+        $date = $data['date'];
+        $cities = $data['cities'];
 
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Validation failed',
-                'errors' => $validator->errors(),
-            ]);
-        }
-        foreach ($cityids as $cityId) {
+        foreach ($cities as $city) {
+            $cityId = $city['city_id'];
+            $note = $city['notes'];
+
             $userId = Driver::where('id', $driverId)->value('user_id');
             $uuid = Uuid::uuid4()->toString();
 
@@ -100,13 +91,14 @@ class ApiController extends Controller
                 'city_id' => $cityId,
                 'driver_id' => $driverId,
                 'date' => $date,
-                'notes' => $notes,
+                'notes' => $note,
                 'user_id' => $userId,
             ]);
         }
+
         return response()->json([
             'status' => true,
-            'message' => 'IDs stored successfully'
+            'message' => 'IDs stored successfully',
         ], 200);
     }
 
@@ -130,43 +122,35 @@ class ApiController extends Controller
 
     public function driverToll(Request $request)
     {
-        $tollIds = $request->input('paytoll_id'); // Assuming the input field is named 'paytoll_ids' as an array.
-        $driverId = $request->input('driver_id');
-        $date = $request->input('date');
-        $way = $request->input('way');
-        $notes = $request->input('notes');
 
-        $validator = Validator::make($request->all(), [
-            'paytoll_id' => 'required|array',
-            'paytoll_id.*' => 'required|exists:paytolls,id', // Validate each 'paytoll_id' in the array.
-            'driver_id' => 'required|exists:drivers,id',
-        ]);
+        $data = $request->input(); // Get the entire request data as an array.
 
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => 'Validation failed',
-                'errors' => $validator->errors(),
-                'status' => false
-            ]);
-        }
+        $driverId = $data['driver_id'];
+        $date = $data['date'];
+        $way = $data['way'];
+        $tolls = $data['tolls'];
 
-        foreach ($tollIds as $tollId) {
+        foreach ($tolls as $toll) {
+            $tollId = $toll['toll_id'];
+            $note = $toll['notes'];
+
             $userId = Driver::where('id', $driverId)->value('user_id');
             $uuid = Uuid::uuid4()->toString();
+
             DB::table('paytoll__drivers')->insert([
                 'pd' => $uuid,
                 'paytoll_id' => $tollId,
                 'driver_id' => $driverId,
                 'way' => $way,
                 'date' => $date,
-                'notes' => $notes,
+                'notes' => $note,
                 'user_id' => $userId,
             ]);
         }
 
         return response()->json([
             'status' => true,
-            'message' => 'IDs stored successfully'
+            'message' => 'IDs stored successfully',
         ], 200);
     }
 
@@ -200,7 +184,7 @@ class ApiController extends Controller
 
                 Ticket::create($validateData);
                 return response()->json([
-                    'mesage' => 'ticket is stored',
+                    'message' => 'ticket is stored',
                     'status' => true,
                 ], 200);
             }
@@ -250,10 +234,10 @@ class ApiController extends Controller
             ->select('paytolls.name', 'paytoll__drivers.*')
             ->get();
         $city = DB::table('cities')
-        ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
-        ->where('city__drivers.driver_id', $id)
-        ->select('cities.area as name', 'city__drivers.*')
-        ->get();
+            ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
+            ->where('city__drivers.driver_id', $id)
+            ->select('cities.area as name', 'city__drivers.*')
+            ->get();
 
 
         if ($tickets->isEmpty() && $tolls->isEmpty() && $city->isEmpty()) {

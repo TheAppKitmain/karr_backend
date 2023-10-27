@@ -372,7 +372,7 @@ a:focus {
   line-height: 50px;
   text-align: center;
   margin-left: 15px;
-  width: 200 px;
+  width: 150px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   padding: 0 15px;
   font-weight: 300;
@@ -2089,8 +2089,9 @@ a:focus {
   height: 78px;
   font-size: 20px;
   line-height: 50px;
+  margin-left: 40px;
   text-align: center;
-  width: 200px;
+  width: 120px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   padding: 0 15px;
   font-weight: 300;vscode-file://vscode-app/c:/Users/Softsys/AppData/Local/Programs/Microsoft%20VS%20Code/resources/app/out/vs/code/electron-sandbox/workbench/workbench.html
