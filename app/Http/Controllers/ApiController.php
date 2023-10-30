@@ -227,17 +227,32 @@ class ApiController extends Controller
             ]);
         }
 
-        $tickets = Ticket::where('driver_id', $id)->get();
+        // $tickets = Ticket::where('driver_id', $id)->get();
+        // $tolls = DB::table('paytolls')
+        //     ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
+        //     ->where('paytoll__drivers.driver_id', $id)
+        //     ->select('paytolls.name', 'paytoll__drivers.*')
+        //     ->get();
+
+        $tickets = Ticket::where('driver_id', $id)
+            ->select('*', DB::raw("COALESCE(notes, '{}') as notes"))
+            ->get();
+
         $tolls = DB::table('paytolls')
             ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
             ->where('paytoll__drivers.driver_id', $id)
             ->select('paytolls.name', 'paytoll__drivers.*')
+            ->selectRaw('COALESCE(paytoll__drivers.notes, "{}") as notes')
             ->get();
+
+
         $city = DB::table('cities')
-            ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
+            ->leftJoin('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
             ->where('city__drivers.driver_id', $id)
             ->select('cities.area as name', 'city__drivers.*')
+            ->selectRaw('COALESCE(city__drivers.notes, "{}") as notes')
             ->get();
+
 
 
         if ($tickets->isEmpty() && $tolls->isEmpty() && $city->isEmpty()) {
@@ -246,6 +261,7 @@ class ApiController extends Controller
                 'status' => true,
             ]);
         } else {
+
             return response()->json([
                 'message' => 'Data found for this driver',
                 'tickets' => $tickets,
