@@ -135,7 +135,8 @@ class ApiController extends Controller
             $note = $toll['notes'];
 
             $userId = Driver::where('id', $driverId)->value('user_id');
-            $uuid = Uuid::uuid4()->toString();
+            // $uuid = Uuid::uuid4()->toString();
+            $uuid = rand(100000, 999999);
 
             DB::table('paytoll__drivers')->insert([
                 'pd' => $uuid,
@@ -268,7 +269,7 @@ class ApiController extends Controller
                 'tolls' => $tolls,
                 'charges' => $city,
                 'status' => true,
-            ]);
+            ], 200);
         }
     }
     public function addNotes(Request $request)
@@ -277,29 +278,47 @@ class ApiController extends Controller
         $notes = $request->input('notes');
         $p_id = $request->input('pd');
         $c_id = $request->input('cd');
-        $tickets = Ticket::findOrFail($t_id)->first();
-        $tolls = Paytoll_Driver::where('pd', $p_id)->first();
-        $city = City_Driver::where('cd', $c_id)->first();
-
-        if ($tickets == null && $tolls == null && $city == null) {
-            return response()->json([
-                'message' => 'No data found for this driver',
-                'status' => true,
-            ]);
-        } elseif ($tickets !== null) {
-            $tickets->notes = $notes;
-            $tickets->save();
-        } elseif ($tolls !== null) {
-            $tolls->notes = $notes;
-            $tolls->save();
-        } elseif ($city !== null) {
-            $city->notes = $notes;
-            $city->save();
+    
+        if (!empty($t_id)) {
+            $ticket = Ticket::find($t_id);
+            if ($ticket !== null) {
+                $ticket->notes = $notes;
+                $ticket->save();
+                return response()->json([
+                    'message' => 'Notes updated for the ticket',
+                    'status' => true,
+                ],200);
+            }
         }
+    
+        if (!empty($p_id)) {
+            $tolls = Paytoll_Driver::where('pd',$p_id)->first();
 
+            if ($tolls !== null) {
+                $tolls->notes = $notes;
+                $tolls->save();
+                return response()->json([
+                    'message' => 'Notes updated for the paytolls driver',
+                    'status' => true,
+                ],200);
+            }
+        }
+    
+        if (!empty($c_id)) {
+            $city = City_Driver::where('cd',$c_id)->first();
+            if ($city !== null) {
+                $city->notes = $notes;
+                $city->save();
+                return response()->json([
+                    'message' => 'Notes updated for the city driver',
+                    'status' => true,
+                ],200);
+            }
+        }
+    
         return response()->json([
-            'message' => 'Data is stored',
+            'message' => 'No data found for the specified driver or ticket',
             'status' => true,
-        ]);
-    }
+        ], 200);
+    }    
 }
