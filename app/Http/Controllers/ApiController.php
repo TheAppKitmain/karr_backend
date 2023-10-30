@@ -25,7 +25,10 @@ class ApiController extends Controller
         $credentials = $request->only('number', 'password', 'email');
         $driver = Driver::where('email', $credentials['email'])->first();
 
-        if ($driver && Hash::check($credentials['password'], $driver->password) && $driver->number === $credentials['number']) {
+        if (
+            $driver && Hash::check($credentials['password'], $driver->password) &&
+            $driver->number === $credentials['number']
+        ) {
             $userId = $driver->user_id;
             $user = User::find($userId);
             $image = $user->image;
@@ -278,7 +281,7 @@ class ApiController extends Controller
         $notes = $request->input('notes');
         $p_id = $request->input('pd');
         $c_id = $request->input('cd');
-    
+
         if (!empty($t_id)) {
             $ticket = Ticket::find($t_id);
             if ($ticket !== null) {
@@ -287,12 +290,12 @@ class ApiController extends Controller
                 return response()->json([
                     'message' => 'Notes updated for the ticket',
                     'status' => true,
-                ],200);
+                ], 200);
             }
         }
-    
+
         if (!empty($p_id)) {
-            $tolls = Paytoll_Driver::where('pd',$p_id)->first();
+            $tolls = Paytoll_Driver::where('pd', $p_id)->first();
 
             if ($tolls !== null) {
                 $tolls->notes = $notes;
@@ -300,25 +303,50 @@ class ApiController extends Controller
                 return response()->json([
                     'message' => 'Notes updated for the paytolls driver',
                     'status' => true,
-                ],200);
+                ], 200);
             }
         }
-    
+
         if (!empty($c_id)) {
-            $city = City_Driver::where('cd',$c_id)->first();
+            $city = City_Driver::where('cd', $c_id)->first();
             if ($city !== null) {
                 $city->notes = $notes;
                 $city->save();
                 return response()->json([
                     'message' => 'Notes updated for the city driver',
                     'status' => true,
-                ],200);
+                ], 200);
             }
         }
-    
+
         return response()->json([
             'message' => 'No data found for the specified driver or ticket',
             'status' => true,
         ], 200);
-    }    
+    }
+    public function password(Request $request)
+    {
+        $data = $request->input();
+        $id = $data['driver_id'];
+        $newPassword = $data['new_password'];
+        $oldPassword = $data['old_password'];
+
+        $driver = Driver::find($id);
+
+        if (password_verify($oldPassword, $driver->password)) {
+
+            $driver->password = bcrypt($newPassword);
+            $driver->save();
+
+            return response()->json([
+                'message' => 'Password has been changed',
+                'status' => true,
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Password does not match with the record',
+                'status' => false,
+            ], 200);
+        }
+    }
 }
