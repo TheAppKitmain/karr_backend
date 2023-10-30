@@ -332,7 +332,12 @@ class ApiController extends Controller
         $oldPassword = $data['old_password'];
 
         $driver = Driver::find($id);
-
+        if (!$driver) {
+            return response()->json([
+                'message' =>  'No driver found',
+                'status' => false,
+            ], 200);
+        }
         if (password_verify($oldPassword, $driver->password)) {
 
             $driver->password = bcrypt($newPassword);
