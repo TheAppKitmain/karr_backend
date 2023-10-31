@@ -22,7 +22,7 @@ class ApiController extends Controller
 {
     public function login(Request $request)
     {
-        $credentials = $request->only('password', 'email');
+        $credentials = $request->only('number','password', 'email');
         $driver = Driver::where('email', $credentials['email'])->first();
 
         if (
