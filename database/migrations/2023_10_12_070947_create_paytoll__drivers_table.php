@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('paytoll__drivers', function (Blueprint $table) {
             $table->id();
-            $table->uuid('pd');
+            $table->uuid('pd')->unique();
             $table->unsignedBigInteger('paytoll_id');
             $table->foreign('paytoll_id')->references('id')->on('paytolls');
             $table->unsignedBigInteger('driver_id');

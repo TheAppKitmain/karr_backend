@@ -27,16 +27,15 @@ class UserController extends Controller
         $adminData = Role::where('name', 'admin')->orWhere('name', 'user')->get();
 
         if ($adminData) {
-            $users = collect(); 
-        
+            $users = collect();
+
             foreach ($adminData as $role) {
-               
+
                 $users = $users->merge($role->users);
             }
-        
+
             return view('superAdmin.adminList', ['users' => $users]);
         }
-        
     }
 
     public function create()
@@ -103,56 +102,59 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            // Validate the incoming data
-            $validatedData = $request->validate([
-                'name' => 'required',
-                'email' => 'required|email|unique:users,email,' . $id,
-                'password' => 'nullable|same:confirm-password',
-                'roles' => 'required',
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
-            ]);
-
-            // Find the user to update
-            $user = User::find($id);
-            $roles = $user->roles->pluck('name','name')->first();
-
-            // Update name and email
-            $user->name = $validatedData['name'];
-            $user->email = $validatedData['email'];
-
-            // Update password if provided
-            if (!empty($validatedData['password'])) {
-                $user->password = Hash::make($validatedData['password']);
-            }
-
-            // Update image if provided
-            if ($request->hasFile('image')) {
-                $image = $request->file('image');
-                $extension = $image->getClientOriginalExtension();
-                $imageName = $validatedData['name'] . '.' . $extension;
-                $image->move(public_path('image'), $imageName);
-
-                // Delete the old image if it exists
-                if (!empty($user->image)) {
-                    $oldImagePath = public_path('image') . '/' . $user->image;
-                    if (File::exists($oldImagePath)) {
-                        File::delete($oldImagePath);
-                    }
+            if (password_verify($request->old, Auth::user()->password)) {
+                $validatedData = $request->validate([
+                    'name' => 'required',
+                    'email' => 'required|email|unique:users,email,' . $id,
+                    'password' => 'nullable|same:confirm-password',
+                    'roles' => 'required',
+                    'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+                ]);
+    
+                // Find the user to update
+                $user = User::find($id);
+    
+                // Update name and email
+                $user->name = $validatedData['name'];
+                $user->email = $validatedData['email'];
+    
+                // Update password if provided
+                if (!empty($validatedData['password'])) {
+                    $user->password = Hash::make($validatedData['password']);
                 }
-
-                $user->image = $imageName;
+    
+                // Update image if provided
+                if ($request->hasFile('image')) {
+                    $image = $request->file('image');
+                    $extension = $image->getClientOriginalExtension();
+                    $imageName = $validatedData['name'] . '.' . $extension;
+                    $image->move(public_path('image'), $imageName);
+    
+                    // Delete the old image if it exists
+                    if (!empty($user->image)) {
+                        $oldImagePath = public_path('image') . '/' . $user->image;
+                        if (File::exists($oldImagePath)) {
+                            File::delete($oldImagePath);
+                        }
+                    }
+    
+                    $user->image = $imageName;
+                }
+    
+                $user->save();
+    
+                // Handle roles, but ensure you assign roles properly here.
+                // You can use the input data from $validatedData for this.
+    
+                return redirect()->back()->with('success', 'User updated successfully');
+            } else {
+                return back()->with('error', 'Failed to update user. Password is incorrect.');
             }
-
-            $user->save();
-
-            // Remove existing roles and assign the new roles
-            $user->syncRoles($roles);
-
-            return redirect()->back()->with('success', 'User updated successfully');
         } catch (\Exception $e) {
-            return back()->with('error', $e . 'Failed to update user. Please try again.');
+            return back()->with('error', 'Failed to update user. Please try again.');
         }
     }
+    
 
     /**
      * Remove the specified resource from storage.

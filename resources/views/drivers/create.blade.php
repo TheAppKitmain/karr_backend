@@ -3,6 +3,11 @@ $page = 'driver';
 ?>
 @extends('layouts.app')
 @section('content')
+<style>
+    .bulk{
+        margin: 10px;
+    }
+</style>
     <section class="content-header">
         <div class="back-button">
             <a href="{{ route('drivers.index') }}">
@@ -52,14 +57,26 @@ $page = 'driver';
                                 <label>License Plate Number</label>
                                 <input type="text" name="license" placeholder="License" class="form-control" required>
                             </div>
+                            <div class="col-lg-6 col-md-6 form-group">
+                                <label>Add Multiple record</label>
+                                <input type="file" name="file" placeholder="Add File" class="form-control" required>
+                            </div>
                         </div>
                 </div>
             </div>
             <div class="add-btn" style="margin-right: 4rem;">
-                <a href="{{ route('drivers.index') }}">
+                <a href="{{ route('drivers.index') }}" class="btn cancel">
                     Cancel </a>
                 <button type="submit" class="btn btn-success">Create Driver</button>
             </div>
+            </form>
+            <form action="">
+                <h4 class="bulk">Add Record File</h4>
+                <div class="col-lg-6 col-md-6 form-group">
+                    <input type="file" name="file" placeholder="Add File" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-success">Add record</button>
+
             </form>
         </div>
     </section>

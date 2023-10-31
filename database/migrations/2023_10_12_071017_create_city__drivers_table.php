@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('city__drivers', function (Blueprint $table) {
             $table->id();
-            $table->uuid('cd');            
+            $table->uuid('cd')->unique();            
             $table->unsignedBigInteger('city_id');
             $table->foreign('city_id')->references('id')->on('cities');
             $table->unsignedBigInteger('driver_id');

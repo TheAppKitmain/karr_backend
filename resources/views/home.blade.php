@@ -19,16 +19,25 @@ $count = 1;
             top: 19px;
             margin-left: 1rem;
             color: #ffffff;
+            font-family: 'Futura';
             left: 12px;
         }
 
+        .homeText a {
+            color: #ffffff;
+            background: none;
+            font-size: 13px;
+            margin-left: -17px;
+
+        }
         .homeText p {
             color: #ffffff;
+            background: none;
             font-size: 13px
         }
 
         .homeText span {
-            font-family: 'lato';
+            font-family: 'Futura';
             font-weight: 700;
             font-size: 15px;
 
@@ -55,14 +64,24 @@ $count = 1;
 
                         <div class="home" style="background: #8C52FF;">
                             <div class="homeText">
-                                <p>Total Tickets</p>
+                                <a
+                                    @if(Auth::user()->id == 2)
+                                        href="{{ route('admin.tickets') }}"
+                                    @else
+                                        href="{{ route('tickets') }}"
+                                    @endif
+                                    class="custom"
+                                >
+                                    Total Tickets
+                                </a>
                                 <span>{{ $ticketCount }}</span>
                             </div>
+                            
 
                         </div>
                         <div class="home" style="background: #5A9FD6; ">
                             <div class="homeText">
-                                <p>Unpaid Tickets</p>
+                                <a href="{{ route('tickets') }}" class="custom">Unpaid Tickets</a>
                                 <span>{{ $unpaidTicket }}</span>
                             </div>
 
