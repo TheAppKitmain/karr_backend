@@ -212,7 +212,7 @@
                     <li class="treeview <?php if ($page == 'analytics') {
                         echo 'active';
                     } ?>">
-                        <a href="#">
+                        <a href="{{route('users.analytics')}}">
                             <span>
                                 <img src="{{ asset('assets/dist/img/analytics.svg') }}" width="24" height="24"
                                     viewBox="0 0 24 24" alt="">

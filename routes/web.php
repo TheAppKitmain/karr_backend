@@ -102,6 +102,7 @@ Route::controller(UserController::class)->group(function () {
     Route::delete('/users{user}', 'delete')->name('users.destroy');
     Route::put('users/update/{user}', 'update')->name('users.update');
     Route::get('/settings/{id}', 'setting')->name('settings');
+    Route::get('/analytics', 'analytics')->name('users.analytics');
 });
 
 // Routes for all tickets

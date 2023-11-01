@@ -183,4 +183,8 @@ class UserController extends Controller
         $userRole = $user->roles->pluck('name', 'name')->all();
         return view('profile.profile', compact('user', 'roles', 'userRole'));
     }
+    public function analytics()
+    {
+        return view('profile.analytics');
+    }
 }

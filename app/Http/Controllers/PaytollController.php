@@ -30,24 +30,77 @@ class PaytollController extends Controller
 
 
         $tolls = DB::table('paytolls')
-        ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
-        ->join('drivers', 'paytoll__drivers.driver_id', '=', 'drivers.id')
-        ->where('drivers.user_id', $userId)
-        ->select('paytolls.*','drivers.name as user_name', 'paytoll__drivers.*')
-        ->get();
+            ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
+            ->join('drivers', 'paytoll__drivers.driver_id', '=', 'drivers.id')
+            ->where('drivers.user_id', $userId)
+            ->select('paytolls.*', 'drivers.name as user_name', 'paytoll__drivers.*')
+            ->get();
 
         foreach ($tolls as $toll) {
             $toll->selectedDays = json_decode($toll->days);
         }
 
         $cities = DB::table('cities')
-        ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
-        ->join('drivers', 'city__drivers.driver_id', '=', 'drivers.id')
-        ->where('drivers.user_id', $userId)
-        ->select('cities.*','drivers.name as user_name', 'city__drivers.*')
-        ->get();
+            ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
+            ->join('drivers', 'city__drivers.driver_id', '=', 'drivers.id')
+            ->where('drivers.user_id', $userId)
+            ->select('cities.*', 'drivers.name as user_name', 'city__drivers.*')
+            ->get();
 
-        return view('toll.index', compact('tolls','cities','tickets'));
+
+        $unpaidTickets = Ticket::whereHas('driver.user', function ($query) use ($userId) {
+            $query->where('id', $userId)->where('status', '0');
+        })->get();
+
+
+        $unpaidTolls = DB::table('paytolls')
+            ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
+            ->join('drivers', 'paytoll__drivers.driver_id', '=', 'drivers.id')
+            ->where('drivers.user_id', $userId)->where('paytoll__drivers.status', '0')
+            ->select('paytolls.*', 'drivers.name as user_name', 'paytoll__drivers.*')
+            ->get();
+
+        $unpaidCities = DB::table('cities')
+            ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
+            ->join('drivers', 'city__drivers.driver_id', '=', 'drivers.id')
+            ->where('drivers.user_id', $userId)->where('city__drivers.status', '0')
+            ->select('cities.*', 'drivers.name as user_name', 'city__drivers.*')
+            ->get();
+
+
+        $paidTickets = Ticket::whereHas('driver.user', function ($query) use ($userId) {
+            $query->where('id', $userId)->where('status', '1');
+        })->get();
+
+
+        $paidTolls = DB::table('paytolls')
+            ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
+            ->join('drivers', 'paytoll__drivers.driver_id', '=', 'drivers.id')
+            ->where('drivers.user_id', $userId)->where('paytoll__drivers.status', '1')
+            ->select('paytolls.*', 'drivers.name as user_name', 'paytoll__drivers.*')
+            ->get();
+
+        $paidCities = DB::table('cities')
+            ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
+            ->join('drivers', 'city__drivers.driver_id', '=', 'drivers.id')
+            ->where('drivers.user_id', $userId)->where('city__drivers.status', '1')
+            ->select('cities.*', 'drivers.name as user_name', 'city__drivers.*')
+            ->get();
+
+
+
+
+        return view('toll.index', compact(
+            'tolls',
+            'cities',
+            'tickets',
+            'unpaidTickets',
+            'unpaidTolls',
+            'unpaidCities',
+            'paidTickets',
+            'paidTolls',
+            'paidCities',
+        ));
     }
     public function destory($id)
     {
@@ -55,7 +108,7 @@ class PaytollController extends Controller
         $toll->destory();
         return redirect()->back()->with('success', 'Toll has been deleted');
     }
-    public function paytoll($id,$did)
+    public function paytoll($id, $did)
     {
         $type = Paytoll_Driver::where('pd', $did)->first();
         $name = 'tl';
@@ -65,14 +118,11 @@ class PaytollController extends Controller
         // return $collection;
         if ($type->status == '0') {
             return view('ticket.stripe', compact('type', 'name', 'collection', 'price'));
-        } 
-        else if ($type->status == '1') {
+        } else if ($type->status == '1') {
             return redirect()->route('tickets')->with('error', 'City Charges is paid');
-        } 
-        elseif ($type->status == '2') {
+        } elseif ($type->status == '2') {
             return redirect()->back()->with('error', 'City Charges has disputed status');
-        } 
-        else {
+        } else {
             return redirect()->back()->with('error', 'Error occured');
         }
     }
