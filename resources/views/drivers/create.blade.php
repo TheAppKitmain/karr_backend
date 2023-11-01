@@ -57,10 +57,6 @@ $page = 'driver';
                                 <label>License Plate Number</label>
                                 <input type="text" name="license" placeholder="License" class="form-control" required>
                             </div>
-                            <div class="col-lg-6 col-md-6 form-group">
-                                <label>Add Multiple record</label>
-                                <input type="file" name="file" placeholder="Add File" class="form-control" required>
-                            </div>
                         </div>
                 </div>
             </div>
@@ -70,13 +66,14 @@ $page = 'driver';
                 <button type="submit" class="btn btn-success">Create Driver</button>
             </div>
             </form>
-            <form action="">
+            <form action="{{route('drivers.import')}}" method="POST" method="POST" enctype="multipart/form-data">
+                @csrf
                 <h4 class="bulk">Add Record File</h4>
+                {{-- <span>Data should not be repeated and have unique emails and Licence plate number</span> --}}
                 <div class="col-lg-6 col-md-6 form-group">
                     <input type="file" name="file" placeholder="Add File" class="form-control" required>
                 </div>
                 <button type="submit" class="btn btn-success">Add record</button>
-
             </form>
         </div>
     </section>

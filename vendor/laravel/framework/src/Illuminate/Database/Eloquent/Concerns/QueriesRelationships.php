@@ -686,7 +686,7 @@ trait QueriesRelationships
      * Get the relation hashed column name for the given column and relation.
      *
      * @param  string  $column
-     * @param  \Illuminate\Database\Eloquent\Relations\Relationship  $relation
+     * @param  \Illuminate\Database\Eloquent\Relations\Relation  $relation
      * @return string
      */
     protected function getRelationHashedColumn($column, $relation)
@@ -802,7 +802,7 @@ trait QueriesRelationships
         $wheres = $from->getQuery()->from !== $this->getQuery()->from
             ? $this->requalifyWhereTables(
                 $from->getQuery()->wheres,
-                $from->getQuery()->from,
+                $from->getQuery()->grammar->getValue($from->getQuery()->from),
                 $this->getModel()->getTable()
             ) : $from->getQuery()->wheres;
 

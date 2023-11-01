@@ -47,6 +47,7 @@ Route::controller(DriverController::class)->group(function () {
     Route::get('/driver/toll/{id}', 'driverToll')->name('driver.toll');
     Route::get('/driver/charge/{id}', 'driverCharge')->name('driver.charge');
     Route::get('/driver/ticket/{id}', 'driverTicket')->name('driver.ticket');
+    Route::post('/import','import')->name('drivers.import');
 });
 
 

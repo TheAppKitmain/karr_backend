@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\DriversImport;
 use App\Models\Car;
 use App\Models\Driver;
 use App\Models\Ticket;
@@ -72,10 +74,8 @@ class DriverController extends Controller
                 Driver::create($input);
 
                 return redirect()->route('drivers.index')->with('success', 'Driver created successfully.');
-            }
-            else{
+            } else {
                 return redirect()->back()->with('error', 'Driver with this email already exits.');
-                
             }
         } catch (\Exception $e) {
             // Log the exception for debugging
@@ -167,5 +167,23 @@ class DriverController extends Controller
         $tickets = Ticket::where('driver_id', $id)->get();
 
         return view('ticket.driverTicket', compact('tickets'));
+    }
+    public function import(Request $request)
+    {
+        try {
+            $this->validate($request, [
+                'file' => 'required|file|mimes:xlsx,csv',
+            ]);
+
+            $file = $request->file('file');
+
+            Excel::import(new DriversImport, $file);
+
+            return redirect()->route('drivers.index')
+                ->with('success', 'Data imported successfully');
+        } catch (\Exception $e) {
+            return redirect()->route('drivers.index')
+                ->with('error', 'Sorry Data can not be imported due to validation constraints');
+        }
     }
 }
