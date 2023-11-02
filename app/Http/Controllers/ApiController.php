@@ -137,8 +137,8 @@ class ApiController extends Controller
             $note = $toll['notes'];
 
             $userId = Driver::where('id', $driverId)->value('user_id');
-            // $uuid = Uuid::uuid4()->toString();
-            $uuid = rand(100000, 999999);
+            $uuid = Uuid::uuid4()->toString();
+            // $uuid = rand(100000, 999999);
 
             DB::table('paytoll__drivers')->insert([
                 'pd' => $uuid,

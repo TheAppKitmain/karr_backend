@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Driver;
+use App\Models\Paytoll_Driver;
+use App\Models\Ticket;
 use App\Models\User;
+use Carbon\Carbon;
 use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
@@ -110,26 +114,26 @@ class UserController extends Controller
                     'roles' => 'required',
                     'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
                 ]);
-    
+
                 // Find the user to update
                 $user = User::find($id);
-    
+
                 // Update name and email
                 $user->name = $validatedData['name'];
                 $user->email = $validatedData['email'];
-    
+
                 // Update password if provided
                 if (!empty($validatedData['password'])) {
                     $user->password = Hash::make($validatedData['password']);
                 }
-    
+
                 // Update image if provided
                 if ($request->hasFile('image')) {
                     $image = $request->file('image');
                     $extension = $image->getClientOriginalExtension();
                     $imageName = $validatedData['name'] . '.' . $extension;
                     $image->move(public_path('image'), $imageName);
-    
+
                     // Delete the old image if it exists
                     if (!empty($user->image)) {
                         $oldImagePath = public_path('image') . '/' . $user->image;
@@ -137,15 +141,15 @@ class UserController extends Controller
                             File::delete($oldImagePath);
                         }
                     }
-    
+
                     $user->image = $imageName;
                 }
-    
+
                 $user->save();
-    
+
                 // Handle roles, but ensure you assign roles properly here.
                 // You can use the input data from $validatedData for this.
-    
+
                 return redirect()->back()->with('success', 'User updated successfully');
             } else {
                 return back()->with('error', 'Failed to update user. Password is incorrect.');
@@ -154,7 +158,7 @@ class UserController extends Controller
             return back()->with('error', 'Failed to update user. Please try again.');
         }
     }
-    
+
 
     /**
      * Remove the specified resource from storage.
@@ -185,6 +189,159 @@ class UserController extends Controller
     }
     public function analytics()
     {
-        return view('profile.analytics');
+        $user =  Auth::user();
+        $id = Auth::user()->id;
+        $roles = $user->roles;
+        //---------------------- For Admins---------------------------------------------
+        if ($roles->contains('name', 'Admin')) {
+
+            $tolls = DB::table('paytoll__drivers')
+                ->join('paytolls', 'paytoll__drivers.paytoll_id', '=', 'paytolls.id')
+                ->where('paytoll__drivers.user_id', $id) // Filter by user_id
+                ->select('paytoll__drivers.date', 'paytolls.price')
+                ->get();
+
+            // Group the results by month
+            $data = $tolls->groupBy(function ($item) {
+                return Carbon::parse($item->date)->format('M');
+            });
+
+            $months = [];
+            $price = [];
+
+            foreach ($data as $month => $values) {
+                // Calculate the total price for the month
+                $totalPrice = $values->sum('price');
+
+                $months[] = $month;
+                $price[] = $totalPrice;
+            }
+
+            $charges = DB::table('city__drivers')
+                ->join('cities', 'city__drivers.city_id', '=', 'cities.id')
+                ->where('city__drivers.user_id', $id) // Filter by user_id
+                ->select('city__drivers.date', 'cities.price')
+                ->get();
+
+            // Group the results by month
+            $chargesData = $charges->groupBy(function ($item) {
+                return Carbon::parse($item->date)->format('M');
+            });
+
+            $chargeMonths = [];
+            $chargePrice = [];
+
+            foreach ($chargesData as $chargeMonth => $values) {
+                // Calculate the total price for the month
+                $totalPrice = $values->sum('price');
+
+                $chargeMonths[] = $chargeMonth;
+                $chargePrice[] = $totalPrice;
+            }
+            $tickets = DB::table('tickets')
+                ->join('drivers', 'tickets.driver_id', '=', 'drivers.id') // Join drivers with tickets
+                ->where('drivers.user_id', $id) // Filter by user_id
+                ->select('tickets.date', 'tickets.price')
+                ->get();
+
+            // Group the results by month
+            $ticketsData = $tickets->groupBy(function ($item) {
+                return Carbon::parse($item->date)->format('M');
+            });
+
+            $ticketMonths = [];
+            $ticketPrice = [];
+
+            foreach ($ticketsData as $ticketMonth => $values) {
+                // Calculate the total price for the month
+                $totalPrice = $values->sum('price');
+
+                $ticketMonths[] = $ticketMonth;
+                $ticketPrice[] = $totalPrice;
+            }
+                // return $tickets;
+
+            return view('profile.analytics', [
+                'chargeMonths' => $chargeMonths,
+                'chargePrice' => $chargePrice,
+                'tollMonths' => $months,
+                'tollPrice' => $price,
+                'ticketMonths' => $ticketMonths,
+                'ticketPrice' => $ticketPrice,
+            ]);
+        }
+        //------------------------ For Super Admins---------------------------------------
+
+        if ($roles->contains('name', 'Super Admin')) {
+            $tolls = DB::table('paytoll__drivers')
+                ->join('paytolls', 'paytoll__drivers.paytoll_id', '=', 'paytolls.id')
+                ->select('paytoll__drivers.date', 'paytolls.price')
+                ->get();
+
+            // Group the results by month
+            $data = $tolls->groupBy(function ($item) {
+                return Carbon::parse($item->date)->format('M');
+            });
+
+            $months = [];
+            $price = [];
+
+            foreach ($data as $month => $values) {
+                // Calculate the total price for the month
+                $totalPrice = $values->sum('price');
+
+                $months[] = $month;
+                $price[] = $totalPrice;
+            }
+            $charges = DB::table('city__drivers')
+                ->join('cities', 'city__drivers.city_id', '=', 'cities.id')
+                ->select('city__drivers.date', 'cities.price')
+                ->get();
+
+            // Group the results by month
+            $chargesData = $charges->groupBy(function ($item) {
+                return Carbon::parse($item->date)->format('M');
+            });
+
+            $chargeMonths = [];
+            $chargePrice = [];
+
+            foreach ($chargesData as $chargeMonth => $values) {
+                // Calculate the total price for the month
+                $totalPrice = $values->sum('price');
+
+                $chargeMonths[] = $chargeMonth;
+                $chargePrice[] = $totalPrice;
+            }
+            $tickets = DB::table('tickets')
+                ->join('drivers', 'tickets.driver_id', '=', 'drivers.id')
+                ->select('tickets.date', 'tickets.price')
+                ->get();
+                //return $tickets;
+
+            // Group the results by month
+            $ticketsData = $tickets->groupBy(function ($item) {
+                return Carbon::parse($item->date)->format('M');
+            });
+
+            $ticketMonths = [];
+            $ticketPrice = [];
+
+            foreach ($ticketsData as $ticketMonth => $values) {
+                // Calculate the total price for the month
+                $totalPrice = $values->sum('price');
+
+                $ticketMonths[] = $ticketMonth;
+                $ticketPrice[] = $totalPrice;
+            }
+            return view('profile.analytics', [
+                'chargeMonths' => $chargeMonths,
+                'chargePrice' => $chargePrice,
+                'tollMonths' => $months,
+                'tollPrice' => $price,
+                'ticketMonths' => $ticketMonths,
+                'ticketPrice' => $ticketPrice,
+            ]);
+        }
     }
 }
