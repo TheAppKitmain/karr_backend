@@ -420,6 +420,47 @@ class UserController extends Controller
                 $ticketMonths[] = $ticketMonth;
                 $ticketPrice[] = $totalPrice;
             }
+            $summaryMonths = [];
+            $totalPrices = [];
+
+            // Function to calculate the total price for a given data set
+            function calculateTotalPrice($data)
+            {
+                return $data->sum('price');
+            }
+
+            // Combine and process data for tolls, charges, and tickets
+            $combinedData = [
+                'tolls' => [
+                    'data' => $tolls,
+                    'label' => 'Tolls',
+                ],
+                'charges' => [
+                    'data' => $charges,
+                    'label' => 'Charges',
+                ],
+                'tickets' => [
+                    'data' => $tickets,
+                    'label' => 'Tickets',
+                ],
+            ];
+
+            // Loop through the combined data to calculate total price and months
+            foreach ($combinedData as $key => $dataSet) {
+                $data = $dataSet['data'];
+
+                // Group the results by month
+                $dataByMonth = $data->groupBy(function ($item) {
+                    return Carbon::parse($item->date)->format('M');
+                });
+
+                $summaryMonths[$key] = $dataByMonth->keys();
+                $totalPrices[$key] = $dataByMonth->map(function ($values) {
+                    return calculateTotalPrice($values);
+                });
+            }
+
+
             return view('profile.analytics', [
                 'chargeMonths' => $chargeMonths,
                 'chargePrice' => $chargePrice,
@@ -427,6 +468,7 @@ class UserController extends Controller
                 'tollPrice' => $price,
                 'ticketMonths' => $ticketMonths,
                 'ticketPrice' => $ticketPrice,
+                'summaryPrice' => $totalPrices,
             ]);
         }
     }
