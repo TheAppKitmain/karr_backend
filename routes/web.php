@@ -103,6 +103,7 @@ Route::controller(UserController::class)->group(function () {
     Route::put('users/update/{user}', 'update')->name('users.update');
     Route::get('/settings/{id}', 'setting')->name('settings');
     Route::get('/analytics', 'analytics')->name('users.analytics');
+    Route::put('admin/update/{id}','updateUser')->name('admin.update');
 });
 
 // Routes for all tickets

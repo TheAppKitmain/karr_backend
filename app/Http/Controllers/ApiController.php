@@ -39,7 +39,7 @@ class ApiController extends Controller
                     'logo' => 'No image found',
                 ], 200);
             } else {
-                $imageUrl = 'https://codecoyapps.com/karr/public/image/' . $image;
+                $imageUrl = 'http://54.146.4.118/public/image/' . $image;
                 return response()->json([
                     'status' => true,
                     'message' => 'Login successful',

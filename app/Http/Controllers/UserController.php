@@ -12,8 +12,8 @@ use Carbon\Carbon;
 use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class UserController extends Controller
 {
@@ -101,7 +101,54 @@ class UserController extends Controller
 
         return view('users.edit', compact('user', 'roles', 'userRole'));
     }
+    public function updateUser(Request $request, $id)
+    {
+        try {
+            $validatedData = $request->validate([
+                'name' => 'required',
+                'email' => 'required|email|unique:users,email,' . $id,
+                'password' => 'nullable|same:confirm-password',
+                'roles' => 'required',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+            ]);
 
+            $user = User::find($id);
+
+            // Update name and email
+            $user->name = $validatedData['name'];
+            $user->email = $validatedData['email'];
+
+            // Update password if provided
+            if (!empty($validatedData['password'])) {
+                $user->password = Hash::make($validatedData['password']);
+            }
+
+            // Update image if provided
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $extension = $image->getClientOriginalExtension();
+                $imageName = $validatedData['name'] . '.' . $extension;
+
+                if (!empty($user->image)) {
+                    $oldImagePath = public_path('image') . '/' . $user->image;
+                    if (File::exists($oldImagePath)) {
+                        File::delete($oldImagePath);
+                    }
+                }
+
+                $image->move(public_path('image'), $imageName);
+                
+
+                $user->image = $imageName;
+            }
+
+            $user->save();
+
+            return redirect()->back()->with('success', 'User updated successfully');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Failed to update user. Please try again.');
+        }
+    }
 
     public function update(Request $request, $id)
     {
@@ -259,7 +306,47 @@ class UserController extends Controller
                 $ticketMonths[] = $ticketMonth;
                 $ticketPrice[] = $totalPrice;
             }
-                // return $tickets;
+            // Initialize arrays to store months and total prices
+            $summaryMonths = [];
+            $totalPrices = [];
+
+            // Function to calculate the total price for a given data set
+            function calculateTotalPrice($data)
+            {
+                return $data->sum('price');
+            }
+
+            // Combine and process data for tolls, charges, and tickets
+            $combinedData = [
+                'tolls' => [
+                    'data' => $tolls,
+                    'label' => 'Tolls',
+                ],
+                'charges' => [
+                    'data' => $charges,
+                    'label' => 'Charges',
+                ],
+                'tickets' => [
+                    'data' => $tickets,
+                    'label' => 'Tickets',
+                ],
+            ];
+
+            // Loop through the combined data to calculate total price and months
+            foreach ($combinedData as $key => $dataSet) {
+                $data = $dataSet['data'];
+
+                // Group the results by month
+                $dataByMonth = $data->groupBy(function ($item) {
+                    return Carbon::parse($item->date)->format('M');
+                });
+
+                $summaryMonths[$key] = $dataByMonth->keys();
+                $totalPrices[$key] = $dataByMonth->map(function ($values) {
+                    return calculateTotalPrice($values);
+                });
+            }
+            //   return $totalPrices;
 
             return view('profile.analytics', [
                 'chargeMonths' => $chargeMonths,
@@ -268,6 +355,7 @@ class UserController extends Controller
                 'tollPrice' => $price,
                 'ticketMonths' => $ticketMonths,
                 'ticketPrice' => $ticketPrice,
+                'summaryPrice' => $totalPrices,
             ]);
         }
         //------------------------ For Super Admins---------------------------------------
@@ -317,9 +405,7 @@ class UserController extends Controller
                 ->join('drivers', 'tickets.driver_id', '=', 'drivers.id')
                 ->select('tickets.date', 'tickets.price')
                 ->get();
-                //return $tickets;
 
-            // Group the results by month
             $ticketsData = $tickets->groupBy(function ($item) {
                 return Carbon::parse($item->date)->format('M');
             });

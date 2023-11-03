@@ -6,7 +6,8 @@ $page = 'user';
     <div id="userFormContainer">
         <section class="guest-screen">
             <div class="row">
-                <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.update', $user->id) }}" method="POST" enctype="multipart/form-data">
+                    @method('PUT')
                     <div class="col-lg-8 col-md-8 col-sm-12">
                         <div class="guest-screen-left">
                             <div class="guest-inner-content">
@@ -20,13 +21,18 @@ $page = 'user';
                                         {{ Session::get('error') }}
                                     </div>
                                 @endif
+                                @if (Session::has('success'))
+                                    <div class="alert alert-success">
+                                        {{ Session::get('success') }}
+                                    </div>
+                                @endif
                                 <div class="form-group">
                                     <label>Name</label>
-                                    <input type="text" name="name" value={{$user->name}} class="form-control">
+                                    <input type="text" name="name" value={{ $user->name }} class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label>Email</label>
-                                    <input type="email" name="email" value={{$user->email}} class="form-control">
+                                    <input type="email" name="email" value={{ $user->email }} class="form-control">
                                 </div>
 
                                 <div class="form-group">
@@ -35,8 +41,7 @@ $page = 'user';
                                 </div>
                                 <div class="form-group">
                                     <label>Confirm Password</label>
-                                    <input type="password" name="confirm-password" 
-                                        class="form-control">
+                                    <input type="password" name="confirm-password" class="form-control">
                                 </div>
                                 @can('role-list')
                                     <div class="form-group">

@@ -34,6 +34,15 @@ $page = 'analytics';
                         <div class="card-body"><canvas id="myBarChart" width="100%" height="30"></canvas></div>
                     </div>
                 </div>
+                <div class="col-xl-6">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="fas fa-chart-bar me-1"></i>
+                            <h3 style="margin-bottom:10px">Summary</h3>
+                        </div>
+                        <div class="card-body"><canvas id="summaryChart" width="100%" height="30"></canvas></div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -47,9 +56,12 @@ $page = 'analytics';
 
         var _yticket = JSON.parse('{!! json_encode($ticketMonths) !!}');
         var _xticket = JSON.parse('{!! json_encode($ticketPrice) !!}');
+
+        var _xsummary = JSON.parse('{!! json_encode($summaryPrice) !!}');
     </script>
     <script src="{{ asset('assets/bootstrap/js/charges.js') }}"></script>
     <script src="{{ asset('assets/bootstrap/js/barChart.js') }}"></script>
     <script src="{{ asset('assets/bootstrap/js/ticketChart.js')}}"></script>
+    <script src="{{ asset('assets/bootstrap/js/totalChart.js')}}"></script>
 
 @endsection
