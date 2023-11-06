@@ -8,7 +8,6 @@ $count = 1;
 @section('content')
     <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
 
     <style>
@@ -21,7 +20,7 @@ $count = 1;
         }
 
         .homeText {
-            margin-top: 5px;
+            /* margin-top: 5px; */
             margin-left: 1rem;
             color: #ffffff;
             font-family: 'Futura';
@@ -32,7 +31,7 @@ $count = 1;
             color: #ffffff;
             background: none;
             font-size: 13px;
-            /* margin-left: -17px; */
+            margin-left: -17px;
             text-align: center;
         }
 
