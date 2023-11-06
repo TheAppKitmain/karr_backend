@@ -32,13 +32,13 @@ class TicketController extends Controller
         $userId = Auth::user()->id;
         $tickets = Ticket::whereHas('driver.user', function ($query) use ($userId) {
             $query->where('id', $userId);
-        })->get();
+        })->paginate(5);
         $unpaid = Ticket::whereHas('driver.user', function ($query) use ($userId) {
             $query->where('id', $userId)->where('status', '0');
-        })->get();
+        })->paginate(5);
         $paid = Ticket::whereHas('driver.user', function ($query) use ($userId) {
             $query->where('id', $userId)->where('status', '1');
-        })->get();
+        })->paginate(5);
     //    return $paid;
         return view('ticket.index', compact('tickets','paid','unpaid'));
     }

@@ -10,6 +10,7 @@ use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class PaytollController extends Controller
 {
@@ -36,10 +37,6 @@ class PaytollController extends Controller
             ->select('paytolls.*', 'drivers.name as user_name', 'paytoll__drivers.*')
             ->get();
 
-        foreach ($tolls as $toll) {
-            $toll->selectedDays = json_decode($toll->days);
-        }
-
         $cities = DB::table('cities')
             ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
             ->join('drivers', 'city__drivers.driver_id', '=', 'drivers.id')
@@ -47,6 +44,24 @@ class PaytollController extends Controller
             ->select('cities.*', 'drivers.name as user_name', 'city__drivers.*')
             ->get();
 
+        // Merge the arrays
+        $mergedData = $tickets->concat($tolls)->concat($cities);
+
+        // Define the current page
+        $page = request()->query('page', 1);
+        
+        // Define the number of items per page
+        $perPage = 10;
+        
+        // Create a LengthAwarePaginator instance
+        $paginatedData = new LengthAwarePaginator(
+            $mergedData->forPage($page, $perPage),
+            $mergedData->count(),
+            $perPage,
+            $page,
+            ['path' => route('toll')]
+        );
+        // return $paginatedData;
 
         $unpaidTickets = Ticket::whereHas('driver.user', function ($query) use ($userId) {
             $query->where('id', $userId)->where('status', '0');
@@ -88,18 +103,18 @@ class PaytollController extends Controller
             ->get();
 
 
-
-
         return view('toll.index', compact(
             'tolls',
             'cities',
             'tickets',
+            'paginatedData',
             'unpaidTickets',
             'unpaidTolls',
             'unpaidCities',
             'paidTickets',
             'paidTolls',
             'paidCities',
+            'mergedData',
         ));
     }
     public function destory($id)

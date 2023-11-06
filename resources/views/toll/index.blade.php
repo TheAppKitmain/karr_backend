@@ -47,7 +47,7 @@ $page = 'tolls';
         .dropdown {
             display: flex;
             /* align-items: flex-end;
-                    align-content: space-around; */
+                                            align-content: space-around; */
             justify-content: flex-end;
 
         }
@@ -76,6 +76,26 @@ $page = 'tolls';
             display: flex;
             justify-content: space-between;
         }
+
+        .pay {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .payMultiple {
+            border-radius: 10px;
+            background: #8C52FF;
+            padding: 20px 8px;
+            color: var(--white, #FFF);
+            height: fit-content;
+            font-weight: 500;
+            width: 150px;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        
+        }
     </style>
     <section class="support-screen">
         <div class="row">
@@ -101,9 +121,9 @@ $page = 'tolls';
     <section class="create-services-screen" style="margin-top:10px ">
         <div class="row create-services-screen-left">
             <div class="welcome-inner-content" style="display:flex;">
-                <a style="background:#8C52FF; margin-bottom:10px;" href="#" id="selectAllCheckboxItems">Pay multiple
-                    Tickets</a>
-                <div class="sort dropdown">
+                {{-- <a style="background:#8C52FF; margin-bottom:10px;" href="#" id="selectAllCheckboxItems">Pay multiple
+                    Tickets</a> --}}
+                <div class="sort dropdown" style="margin-bottom:10px;">
                     <p id="dropdown-toggle">Filter By<span class="caret"></span></p>
                     <div class="dropdown-content" id="dropdown-content">
                         <a href="#" id="paid" style="background: #8C52FF">Paid</a>
@@ -131,7 +151,7 @@ $page = 'tolls';
                         @foreach ($tickets as $key => $ticket)
                             <tr>
                                 <td><input type="checkbox" class="table-checkbox" data-table="tickets" name="ticket_ids[]"
-                                        value="{{ $ticket->id }}"></td>
+                                        data-price="{{ $ticket->price }}" value="{{ $ticket->id }}"></td>
                                 <!-- ... Rest of the table row ... -->
                                 <td>{{ $ticket->driver->name }}</td>
                                 <td>{{ $ticket->pcn }}</td>
@@ -158,7 +178,7 @@ $page = 'tolls';
                         @foreach ($tolls as $toll)
                             <tr>
                                 <td><input type="checkbox" class="table-checkbox" data-table="tolls" name="toll_ids[]"
-                                        value="{{ $toll->pd }}"></td>
+                                        data-price="{{ $toll->price }}" value="{{ $toll->pd }}"></td>
                                 <!-- ... Rest of the table row ... -->
                                 <td>{{ $toll->user_name }}</td>
                                 <td></td>
@@ -188,7 +208,7 @@ $page = 'tolls';
                         @foreach ($cities as $city)
                             <tr>
                                 <td><input type="checkbox" class="table-checkbox" data-table="city" name="city_ids[]"
-                                        value="{{ $city->cd }}"></td>
+                                        data-price="{{ $city->price }}" value="{{ $city->cd }}"></td>
                                 <!-- ... Rest of the table row ... -->
                                 <td>{{ $city->user_name }}</td>
                                 <td></td>
@@ -215,6 +235,14 @@ $page = 'tolls';
                         @endforeach
                     </tbody>
                 </table>
+                <div class="pay">
+                    <a href="#" class="payMultiple" id="selectAllCheckboxItems">Pay multiple Tickets</a>
+
+                </div>
+                <div id="totalPriceDisplay" style="margin-top: 10px; font-size 14px; ">
+                    Total Price: £0.00
+                </div>
+
             </div>
 
             <div class="scroll">
@@ -588,6 +616,7 @@ $page = 'tolls';
 
         </div>
     </section>
+    {{-- Script to hide tables --}}
     <script>
         $(document).ready(function() {
             $("#toll").click(function() {
@@ -603,6 +632,8 @@ $page = 'tolls';
                 $("#unpaidTable").hide();
                 $("#paidTable").hide();
                 $("#AllTable").hide();
+                $("#selectAllCheckboxItems").hide(); 
+                $("#totalPriceDisplay").hide();
             });
 
             $("#ticket").click(function() {
@@ -618,6 +649,8 @@ $page = 'tolls';
                 $("#AllTable").hide();
                 $("#unpaidTable").hide();
                 $("#paidTable").hide();
+                $("#selectAllCheckboxItems").hide();
+                $("#totalPriceDisplay").hide();
             });
 
             $("#charge").click(function() {
@@ -633,6 +666,8 @@ $page = 'tolls';
                 $("#AllTable").hide();
                 $("#unpaidTable").hide();
                 $("#paidTable").hide();
+                $("#selectAllCheckboxItems").hide();
+                $("#totalPriceDisplay").hide();
             });
 
             $("#unpaid").click(function() {
@@ -645,6 +680,7 @@ $page = 'tolls';
                 $("#ticketsTable").hide();
                 $("#cityTable").hide();
                 $("#cityHeading").hide();
+                $("#selectAllCheckboxItems").hide();
 
             });
 
@@ -658,10 +694,11 @@ $page = 'tolls';
                 $("#ticketsTable").hide();
                 $("#cityTable").hide();
                 $("#cityHeading").hide();
-
+                $("#selectAllCheckboxItems").hide();
             });
         });
     </script>
+    {{-- Script for check box --}}
     <script>
         $(document).ready(function() {
             // When the "Pay multiple Tickets" anchor tag is clicked
@@ -716,8 +753,26 @@ $page = 'tolls';
             });
         });
     </script>
+    {{-- Script for total price --}}
     <script>
         $(document).ready(function() {
+            var totalPrice = 0.00;
+
+            // Attach a change event handler to the checkboxes
+            $('.table-checkbox').on('change', function() {
+                var isChecked = $(this).prop('checked');
+                var price = parseFloat($(this).data('price'));
+
+                // Update the total price based on whether the checkbox is checked or unchecked
+                if (isChecked) {
+                    totalPrice += price;
+                } else {
+                    totalPrice -= price;
+                }
+
+                // Update the displayed total price
+                $('#totalPriceDisplay').text('Total Price: £' + totalPrice.toFixed(2));
+            });
             $('#select-all').click(function(event) {
                 if (this.checked) {
                     // Iterate each checkbox

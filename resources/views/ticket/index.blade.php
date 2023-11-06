@@ -63,11 +63,29 @@ $page = 'ticket';
         .table td {
             font-size: 13px;
         }
+
+        .pay {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .payMultiple {
+            border-radius: 10px;
+            background: #8C52FF;
+            padding: 10px 8px;
+            color: var(--white, #FFF);
+            height: fit-content;
+            font-weight: 500;
+            width: 140px;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+        }
     </style>
     <section class="create-services-screen">
         <div class="row create-services-screen-left">
             <div class="for-our-services">
-                <a href="#" id="selectAllCheckboxItems">Pay multiple Tickets</a>
+                {{-- <a href="#" id="selectAllCheckboxItems">Pay multiple Tickets</a> --}}
                 <div class="sort dropdown">
                     <p id="dropdown-toggle">Filter By<span class="caret"></span></p>
                     <div class="dropdown-content" id="dropdown-content">
@@ -218,7 +236,7 @@ $page = 'ticket';
                         <tbody>
                             @foreach ($tickets as $key => $ticket)
                                 <tr>
-                                    <td><input type="checkbox" class="table-checkbox" data-table="tickets"
+                                    <td><input type="checkbox" class="table-checkbox" data-table="tickets" data-price="{{ $ticket->price }}"
                                             name="ticket_ids[]" value="{{ $ticket->id }}"></td>
                                     {{-- <td><input type="checkbox" name="" id="" value="{{ $ticket->id }}"></td> --}}
                                     <!-- ... Rest of the table row ... -->
@@ -252,6 +270,15 @@ $page = 'ticket';
                         </tbody>
                     @endif
                 </table>
+                <div id="ticket_page" class="pay">
+
+                    {!! $tickets->withQueryString()->links('pagination::bootstrap-5') !!}
+                    <a href="#" class="payMultiple" id="selectAllCheckboxItems">Pay multiple Tickets</a>
+
+                </div>
+                <div id="totalPriceDisplay" style="margin-top: 10px; font-size:14px;">
+                    Total Price: £0.00
+                </div>
             </div>
 
             <div class="scroll">
@@ -310,6 +337,10 @@ $page = 'ticket';
                         </tbody>
                     @endif
                 </table>
+                <div id="unpaidTicket_page" style="display: none;">
+
+                    {!! $unpaid->withQueryString()->links('pagination::bootstrap-5') !!}
+                </div>
             </div>
 
             <div class="scroll">
@@ -368,6 +399,10 @@ $page = 'ticket';
                         </tbody>
                     @endif
                 </table>
+                <div id="paidTicket_page" style="display: none">
+
+                    {!! $paid->withQueryString()->links('pagination::bootstrap-5') !!}
+                </div>
             </div>
         </div>
     </section>
@@ -392,25 +427,32 @@ $page = 'ticket';
             $("#unpaidTicket").show();
             $("#unpaidHeading").show();
             $("#unpaid_0").show();
+            $("#unpaidTicket_page").show();
             $("#ticket_0").hide();
             $("#paidTicket").hide();
             $("#paid_0").hide();
             $("#paidHeading").hide();
             $("#ticketsHeading").hide();
             $("#ticket").hide();
+            $("#ticket_page").hide();
+            $("#paidTicket_page").hide();
+            $("#totalPriceDisplay").hide();
         });
 
         $("#paid").click(function() {
             $("#paidTicket").show();
             $("#paid_0").show();
             $("#paidHeading").show();
+            $("paidTicket_page").show();
             $("#ticket_0").hide();
             $("#unpaid_0").hide();
             $("#unpaidTicket").hide();
             $("#unpaidHeading").hide();
             $("#ticketsHeading").hide();
             $("#ticket").hide();
-
+            $("#ticket_page").hide();
+            $("#unpaidTicket_page").hide();
+            $("#totalPriceDisplay").hide();
         });
     </script>
     <script>
@@ -467,4 +509,37 @@ $page = 'ticket';
             }
         });
     </script>
+    <script>
+        $(document).ready(function() {
+            var totalPrice = 0.00;
+    
+            // Attach a change event handler to the checkboxes
+            $('.table-checkbox').on('change', function() {
+                var isChecked = $(this).prop('checked');
+                var price = parseFloat($(this).data('price'));
+    
+                // Update the total price based on whether the checkbox is checked or unchecked
+                if (isChecked) {
+                    totalPrice += price;
+                } else {
+                    totalPrice -= price;
+                }
+    
+                // Update the displayed total price
+                $('#totalPriceDisplay').text('Total Price: £' + totalPrice.toFixed(2));
+            });
+    
+            // // Handle the "Pay multiple" button click
+            // $('#selectAllCheckboxItems').click(function(event) {
+            //     event.preventDefault();
+    
+            //     // At this point, the variable 'totalPrice' contains the cumulative price
+            //     // for the selected checkboxes. You can use it to perform further actions.
+    
+            //     // For example, you can redirect to the payment page with the selected IDs and total price:
+            //     window.location.href = "{{ route('bulk') }}?ids=" + selectedIds.join(',') + "&totalPrice=" + totalPrice;
+            // });
+        });
+    </script>
+    
 @endsection
