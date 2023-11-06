@@ -6,6 +6,11 @@ $count = 1;
 @extends('layouts.app')
 
 @section('content')
+    <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
+
     <style>
         .home {
             float: left;
@@ -16,20 +21,21 @@ $count = 1;
         }
 
         .homeText {
-            top: 19px;
+            margin-top: 5px;
             margin-left: 1rem;
             color: #ffffff;
             font-family: 'Futura';
-            left: 12px;
+
         }
 
         .homeText a {
             color: #ffffff;
             background: none;
             font-size: 13px;
-            margin-left: -17px;
-
+            /* margin-left: -17px; */
+            text-align: center;
         }
+
         .homeText p {
             color: #ffffff;
             background: none;
@@ -40,7 +46,7 @@ $count = 1;
             font-family: 'Futura';
             font-weight: 700;
             font-size: 15px;
-
+            text-align: center;
         }
 
         span {
@@ -63,25 +69,21 @@ $count = 1;
                     <div class="welcome-inner-content" style="display:flex;">
 
                         <div class="home" style="background: #8C52FF;">
-                            <div class="homeText">
-                                <a
-                                    @if(Auth::user()->id == 2)
-                                        href="{{ route('admin.tickets') }}"
+                            <div class="homeText" style="">
+                                <a @if (Auth::user()->id == 2) href="{{ route('admin.tickets') }}"
                                     @else
-                                        href="{{ route('tickets') }}"
-                                    @endif
-                                    class="custom"
-                                >
+                                        href="{{ route('tickets') }}" @endif
+                                    class="custom">
                                     Total Tickets
                                 </a>
                                 <span>{{ $ticketCount }}</span>
                             </div>
-                            
+
 
                         </div>
                         <div class="home" style="background: #5A9FD6; ">
                             <div class="homeText">
-                                <a href="{{ route('tickets') }}" class="custom">Unpaid Tickets</a>
+                                <a href="{{ route('tickets') }}" style="" class="custom">Unpaid Tickets</a>
                                 <span>{{ $unpaidTicket }}</span>
                             </div>
 
@@ -112,11 +114,7 @@ $count = 1;
             <div class="col-lg-12">
                 <div class="for-our-services">
                     <h3>Recent Tickets & Charges</h3>
-                    <div id="custom-search-input">
-                        <div class="input-group col-md-12">
-                            <input type="text" class="search-query form-control" placeholder="Search">
-                        </div>
-                    </div>
+
                 </div>
             </div>
             <div class="col-lg-12 border-both">
@@ -302,4 +300,10 @@ $count = 1;
 
 
     </section>
+    <script>
+        $(document).ready(function() {
+            $('#AllTable').DataTable();
+        });
+    </script>
+
 @endsection

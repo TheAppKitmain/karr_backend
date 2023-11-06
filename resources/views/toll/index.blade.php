@@ -3,6 +3,11 @@ $page = 'tolls';
 ?>
 @extends('layouts.app')
 @section('content')
+    <script src="//code.jquery.com/jquery-1.12.3.js"></script>
+    <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
     <style>
         .home {
             float: left;
@@ -34,8 +39,7 @@ $page = 'tolls';
         }
 
         .sort p {
-            margin-left: 10px;
-            font-size: 12px;
+            margin-top: 5px;
             font-family: 'lato';
             font-weight: 500;
         }
@@ -47,7 +51,7 @@ $page = 'tolls';
         .dropdown {
             display: flex;
             /* align-items: flex-end;
-                                            align-content: space-around; */
+            align-content: space-around; */
             justify-content: flex-end;
 
         }
@@ -94,7 +98,7 @@ $page = 'tolls';
             display: flex;
             align-items: center;
             font-size: 14px;
-        
+
         }
     </style>
     <section class="support-screen">
@@ -123,7 +127,7 @@ $page = 'tolls';
             <div class="welcome-inner-content" style="display:flex;">
                 {{-- <a style="background:#8C52FF; margin-bottom:10px;" href="#" id="selectAllCheckboxItems">Pay multiple
                     Tickets</a> --}}
-                <div class="sort dropdown" style="margin-bottom:10px;">
+                <div class="sort dropdown" style="margin-bottom:15px;">
                     <p id="dropdown-toggle">Filter By<span class="caret"></span></p>
                     <div class="dropdown-content" id="dropdown-content">
                         <a href="#" id="paid" style="background: #8C52FF">Paid</a>
@@ -132,8 +136,8 @@ $page = 'tolls';
                 </div>
             </div>
 
-            <div class="scroll">
-                <table class="table" id="AllTable">
+            <div class="scroll" id="AllTable">
+                <table class="table" id="table">
                     <thead>
                         <tr style="background-color: #F8F8FA">
                             <!-- Define the table headers -->
@@ -632,7 +636,7 @@ $page = 'tolls';
                 $("#unpaidTable").hide();
                 $("#paidTable").hide();
                 $("#AllTable").hide();
-                $("#selectAllCheckboxItems").hide(); 
+                $("#selectAllCheckboxItems").hide();
                 $("#totalPriceDisplay").hide();
             });
 
@@ -698,6 +702,11 @@ $page = 'tolls';
             });
         });
     </script>
+    <script>
+        $(document).ready(function() {
+          $('#table').DataTable();
+      } );
+       </script>
     {{-- Script for check box --}}
     <script>
         $(document).ready(function() {
