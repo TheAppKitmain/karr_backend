@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
-
+@font-face {
+  font-family: 'futura';
+  src: url('../fonts/Futura\ Light\ font.ttf');
+}
 html,
 body {
   min-height: 100%;
@@ -13,7 +16,7 @@ body {
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: 'Futura';
+  font-family: 'futura';
   font-weight: 400;
   overflow-x: hidden;
   overflow-y: auto;
@@ -2092,7 +2095,7 @@ a:focus {
   margin-left: 40px;
   text-align: center;
   width: 120px;
-  font-family: Futura,"Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'futura';
   padding: 0 15px;
   font-weight: 300;vscode-file://vscode-app/c:/Users/Softsys/AppData/Local/Programs/Microsoft%20VS%20Code/resources/app/out/vs/code/electron-sandbox/workbench/workbench.html
 }

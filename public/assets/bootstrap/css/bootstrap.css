@@ -5,8 +5,13 @@
  */
 
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
+
+@font-face {
+  font-family: 'futura';
+  src: url('../fonts/Futura\ Light\ font.ttf');
+}
 html {
-  font-family: sans-serif;
+  font-family: 'futura' !important; 
   -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
 }

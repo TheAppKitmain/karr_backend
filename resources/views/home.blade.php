@@ -58,7 +58,7 @@ $count = 1;
         }
 
         table td {
-            font-size: 13px;
+            font-size: 14px;
         }
     </style>
     <section class="support-screen">

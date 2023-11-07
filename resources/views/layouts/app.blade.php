@@ -9,12 +9,13 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>KARR</title>
+    <link rel="icon" href="{{ url('assets/dist/img/favicon.ico') }}">
 
-    <link rel="stylesheet" href="{{asset('assets/bootstrap/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/bootstrap/css/bootstrap.min.css') }}">
 
     <!-- admin style -->
-    <link rel="stylesheet" href="{{asset('assets/dist/css/style.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/dist/css/responsive.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/dist/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/dist/css/responsive.css') }}">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
@@ -86,17 +87,17 @@
             </main>
         </div>
     </div>
-    <script src="{{asset('assets/bootstrap/js/bootstrap.js')}}" type="text/javascript"></script>
-    <script src="{{asset('assets/dist/css/script.js')}}"></script>
+    <script src="{{ asset('assets/bootstrap/js/bootstrap.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/dist/css/script.js') }}"></script>
     <script>
-        $(document).ready(function () {
-          $('#show-hidden-menu').click(function () {
-            $('.hidden-menu').slideToggle("slow");
-            // Alternative animation for example
-            // slideToggle("fast");
-          });
+        $(document).ready(function() {
+            $('#show-hidden-menu').click(function() {
+                $('.hidden-menu').slideToggle("slow");
+                // Alternative animation for example
+                // slideToggle("fast");
+            });
         });
-      </script>
+    </script>
 </body>
 
 </html>
