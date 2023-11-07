@@ -106,11 +106,12 @@ Route::controller(UserController::class)->group(function () {
     Route::put('admin/update/{id}','updateUser')->name('admin.update');
 });
 
-// Routes for all tickets
+// Routes for all tickets and tolls
 Route::controller(superAdminController::class)->group(function () {
     Route::get('/all-tickets','totalTickets')->name('admin.tickets');
     Route::get('admin/{id}/{name}/{d_id}','adminPay')->name('admin.pay');
     Route::get('/marked-pay','markedPay')->name('marked.pay');
     Route::get('/user-details/{id}','adminData')->name('admin.details');
     Route::get('unpaid/{id}/{name}/{d_id}','unpaid')->name('admin.unpaid');
+    Route::get('/tolls/charges', 'tollCharges')->name('admin.tolls');
 });

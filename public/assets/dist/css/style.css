@@ -1455,7 +1455,7 @@ li.dropdown.tasks-menu img {
 }
 .add-btn a {
   border: 1px solid black !important;
-  padding: 13px 60px;
+  padding: 13px 40px;
   text-align: center;
   border-radius: 10px;
   background:  #F8F8FA !important;
@@ -3149,12 +3149,12 @@ li.dropdown.tasks-menu img {
 }
 .add-btn a {
   border: 1px solid #2d927e;
-  padding: 13px 60px;
+  padding: 13px 40px;
   text-align: center;
   border-radius: 10px;
   background: #2d927e;
   color: #fff;
-  /* text-transform: capitalize; */
+   text-transform: capitalize; 
   font-size: 14px;
 }
 .add-btn {

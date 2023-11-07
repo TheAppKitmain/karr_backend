@@ -8,7 +8,7 @@ $page = 'toll';
             <div class="col-lg-8 col-md-8 col-sm-12">
                 <div class="welcome-screen-left">
                     <div class="welcome-inner-content">
-                        <h3>edit toll</h3>
+                        <h3>Edit Toll</h3>
                     </div>
                     <form action="{{ route('toll.update', $tolls->id) }}" method="POST">
                         @csrf

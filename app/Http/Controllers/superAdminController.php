@@ -263,4 +263,13 @@ class superAdminController extends Controller
             }
         }
     }
+    public function tollCharges()
+    {
+        $tolls = Paytoll::all();
+        foreach ($tolls as $toll) {
+            $toll->days = json_decode($toll->days, true);
+        }
+        $charges = City::all();
+        return view('superAdmin.adminTolls',compact('tolls', 'charges'));
+    }
 }
