@@ -38,12 +38,12 @@ class HomeController extends Controller
             ->join('drivers', 'tickets.driver_id', '=', 'drivers.id')
             ->join('users', 'drivers.user_id', '=', 'users.id')
             ->select('tickets.*', 'drivers.name as driver', 'users.name as user_name')
-            ->orderBy('tickets.id', 'desc')->limit(3)->get();
+            ->orderBy('tickets.id', 'desc')->get();
             
             $charges = City::all()->count();
 
-            $unpaidTicket = Ticket::where('status', '0')->get()->count();
-            $unpaidCharges = DB::table('city_driver')->where('status', '0');
+            $unpaidTicket = Ticket::where('status', '0')->count();
+            $unpaidCharges = DB::table('city__driver')->where('status', '0');
 
             $unpaidChargesSum = DB::table('cities')
                 ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')

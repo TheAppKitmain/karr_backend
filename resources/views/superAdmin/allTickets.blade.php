@@ -4,6 +4,10 @@ $page = 'tickets';
 @extends('layouts.app')
 @section('content')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.12.3.js"></script>
+    <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
     <style>
         .sort {
             width: 180px;
@@ -62,11 +66,30 @@ $page = 'tickets';
         .table td {
             font-size: 12px;
         }
+        .pay {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .payMultiple {
+            border-radius: 10px;
+            background: #8C52FF;
+            padding: 20px 8px;
+            color: var(--white, #FFF);
+            height: fit-content;
+            font-weight: 500;
+            width: 150px;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+
+        }
     </style>
     <section class="create-services-screen">
         <div class="row create-services-screen-left">
             <div class="for-our-services">
-                <a href="#" id="selectAllCheckboxItems">Pay multiple Tickets</a>
+                {{-- <a href="#" id="selectAllCheckboxItems">Pay multiple Tickets</a> --}}
                 <div class="sort dropdown">
                     <p id="dropdown-toggle">Filter By<span class="caret"></span></p>
                     <div class="dropdown-content" id="dropdown-content">
@@ -85,9 +108,9 @@ $page = 'tickets';
                     {{ Session::get('error') }}
                 </div>
             @endif
-            <div class="scroll">
-                <table class="table" id="AllTable">
-                    <h4>Tickets & charges</h4>
+            <div class="scroll" id="AllTable">
+                <table class="table" id="Alltable">
+                    <h4  style="margin-bottom: 10px">Tickets & charges</h4>
                     <thead>
                         <tr style="background-color: #F8F8FA">
                             <!-- Define the table headers -->
@@ -107,7 +130,7 @@ $page = 'tickets';
                             <?php $name = 'tk'; ?>
                             <tr>
                                 <td>
-                                    <input type="checkbox" class="table-checkbox" data-table="tickets"
+                                    <input type="checkbox" class="table-checkbox" data-table="tickets" data-price="{{ $ticket->price }}"
                                         data-toll-id="{{ $ticket->id }}" data-driver-id="{{ $ticket->driver_id }}"
                                         name="selected_items[]" value="{{ $ticket->id }}">
                                 </td>
@@ -142,7 +165,7 @@ $page = 'tickets';
                             <?php $name = 'tl'; ?>
                             <tr>
                                 <td>
-                                    <input type="checkbox" class="table-checkbox" data-table="tolls"
+                                    <input type="checkbox" class="table-checkbox" data-table="tolls"  data-price="{{ $toll->price }}"
                                         data-toll-id="{{ $toll->paytoll_id }}" data-driver-id="{{ $toll->pd }}"
                                         name="selected_items[]" value="{{ $toll->paytoll_id }}">
                                 </td>
@@ -178,7 +201,7 @@ $page = 'tickets';
                             <?php $name = 'ct'; ?>
                             <tr>
                                 <td>
-                                    <input type="checkbox" class="table-checkbox" data-table="city"
+                                    <input type="checkbox" class="table-checkbox" data-table="city"  data-price="{{ $city->price }}"
                                         data-toll-id="{{ $city->city_id }}" data-driver-id="{{ $city->cd }}"
                                         name="selected_items[]" value="{{ $city->city_id }}">
                                 </td>
@@ -210,6 +233,13 @@ $page = 'tickets';
                         @endforeach
                     </tbody>
                 </table>
+                <div class="pay">
+                    <a href="#" class="payMultiple" id="selectAllCheckboxItems">Pay multiple Tickets</a>
+
+                </div>
+                <div id="totalPriceDisplay" style="margin-top: 10px; font-size 14px; ">
+                    Total Price: £ 0.00
+                </div>
             </div>
             <div class="scroll">
                 <table class="table" id="unpaidTable" style="display: none" <?php $count = 1; ?>>
@@ -499,6 +529,23 @@ $page = 'tickets';
     </script>
     <script>
         $(document).ready(function() {
+            var totalPrice = 0.00;
+
+            // Attach a change event handler to the checkboxes
+            $('.table-checkbox').on('change', function() {
+                var isChecked = $(this).prop('checked');
+                var price = parseFloat($(this).data('price'));
+
+                // Update the total price based on whether the checkbox is checked or unchecked
+                if (isChecked) {
+                    totalPrice += price;
+                } else {
+                    totalPrice -= price;
+                }
+
+                // Update the displayed total price
+                $('#totalPriceDisplay').text('Total Price: £ ' + totalPrice.toFixed(2));
+            });
             $('#select-all').click(function(event) {
                 if (this.checked) {
                     // Iterate each checkbox
@@ -513,4 +560,9 @@ $page = 'tickets';
             });
         });
     </script>
+        <script>
+            $(document).ready(function() {
+                $('#Alltable').DataTable();
+            });
+        </script>
 @endsection

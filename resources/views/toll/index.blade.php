@@ -8,7 +8,7 @@ $page = 'tolls';
     <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
     <style>
-         .home { 
+        .home {
             float: left;
             margin: 5px;
             width: 150px;
@@ -50,7 +50,7 @@ $page = 'tolls';
         .dropdown {
             display: flex;
             /* align-items: flex-end;
-            align-content: space-around; */
+                align-content: space-around; */
             justify-content: flex-end;
 
         }
@@ -243,7 +243,7 @@ $page = 'tolls';
 
                 </div>
                 <div id="totalPriceDisplay" style="margin-top: 10px; font-size 14px; ">
-                    Total Price: £0.00
+                    Total Price: £ 0.00
                 </div>
 
             </div>
@@ -703,9 +703,9 @@ $page = 'tolls';
     </script>
     <script>
         $(document).ready(function() {
-          $('#table').DataTable();
-      } );
-       </script>
+            $('#table').DataTable();
+        });
+    </script>
     {{-- Script for check box --}}
     <script>
         $(document).ready(function() {
@@ -779,7 +779,7 @@ $page = 'tolls';
                 }
 
                 // Update the displayed total price
-                $('#totalPriceDisplay').text('Total Price: £' + totalPrice.toFixed(2));
+                $('#totalPriceDisplay').text('Total Price: £ ' + totalPrice.toFixed(2));
             });
             $('#select-all').click(function(event) {
                 if (this.checked) {

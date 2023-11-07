@@ -277,7 +277,7 @@ $page = 'ticket';
 
                 </div>
                 <div id="totalPriceDisplay" style="margin-top: 10px; font-size:14px;">
-                    Total Price: £0.00
+                    Total Price: £ 0.00
                 </div>
             </div>
 
@@ -526,7 +526,7 @@ $page = 'ticket';
                 }
     
                 // Update the displayed total price
-                $('#totalPriceDisplay').text('Total Price: £' + totalPrice.toFixed(2));
+                $('#totalPriceDisplay').text('Total Price: £ ' + totalPrice.toFixed(2));
             });
     
             // // Handle the "Pay multiple" button click
