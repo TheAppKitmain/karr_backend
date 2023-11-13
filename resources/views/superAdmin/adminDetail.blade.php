@@ -100,9 +100,9 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
                                                 <td>£ {{ number_format($ticket->price,2) }}</td>
                                                 <td>
                                                     @if ($ticket->status == 0)
-                                                        <span class="badge badge-danger">Unpaid</span>
+                                                        <h4><span class="label label-default">Unpaid</span></h4>
                                                     @elseif ($ticket->status == 1)
-                                                        <span class="badge badge-success">Paid</span>
+                                                        <h4><span class="label label-success">Paid</span></h4>
                                                     @endif
                                                 </td>
                                             </tr>
@@ -135,9 +135,9 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
                                                 <td>£ {{ number_format($toll->price,2) }}</td>
                                                 <td>
                                                     @if ($toll->status == 0)
-                                                        <span class="badge badge-danger">Unpaid</span>
+                                                        <h4><span class="label label-default">Unpaid</span></h4>
                                                     @elseif ($toll->status == 1)
-                                                        <span class="badge badge-success">Paid</span>
+                                                        <h4><span class="label label-success">Paid</span></h4>
                                                     @endif
                                                 </td>
                                             </tr>
@@ -170,9 +170,9 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
                                                 <td>£ {{ number_format($city->price,2) }}</td>
                                                 <td>
                                                     @if ($city->status == 0)
-                                                        <span class="badge badge-danger">Unpaid</span>
+                                                        <h4><span class="label label-default">Unpaid</span></h4>
                                                     @elseif ($city->status == 1)
-                                                        <span class="badge badge-success">Paid</span>
+                                                        <h4><span class="label label-success">Paid</span></h4>
                                                     @endif
                                                 </td>
                                             </tr>
