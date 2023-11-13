@@ -19,6 +19,10 @@ $page = 'tolls';
             color: white;
 
         }
+        .scroll {
+            display: block;
+            overflow-x: auto;
+        }
     </style>
     <section class="support-screen">
         <div class="row">
