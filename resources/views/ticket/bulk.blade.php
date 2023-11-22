@@ -19,14 +19,14 @@ $page = 'ticket';
                 ADD CARD
             </button>
             <button id="payButton" class="justify-content-start btn-lg">
-                PAY
+                PAYMENT
             </button>
             <div class="row create-services-screen-left">
 
                 {{-- -------------------------------------Stripe Payment form ---------------------------- --}}
                 <div class="col-md-6 col-md-offset-3" id="pay">
                     <div class="panel panel-default credit-card-box">
-                        <div class="panel-heading display-table" style="background-color:  #8C52FF;">
+                        <div class="panel-heading display-table" style="background-color:  #8C52FF; color:#fff">
                             <h3 class="panel-title"><strong>Payment Details</strong></h3>
                         </div>
 
@@ -128,7 +128,7 @@ $page = 'ticket';
 
                                         <input type="hidden" name="lids" value="{{ json_encode($lids) }}">
 
-                                        <button class="btn btn-lg btn-block" style="background-color:  #8C52FF;"
+                                        <button class="btn btn-lg btn-block" style="background-color:  #8C52FF; color:#fff"
                                             type="submit"> <strong>Pay Now
                                                 ({{ $totalPrice }}
                                                 £) </strong></button>

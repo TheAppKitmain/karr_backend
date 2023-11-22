@@ -272,4 +272,13 @@ class superAdminController extends Controller
         $charges = City::all();
         return view('superAdmin.adminTolls',compact('tolls', 'charges'));
     }
+
+    public function privacy()
+    {
+        return view('superAdmin.privacy');
+    }
+    public function termsCondition()
+    {
+        return view('superAdmin.terms');
+    }
 }

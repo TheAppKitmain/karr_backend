@@ -68,6 +68,10 @@ $page = 'ticket';
             display: flex;
             justify-content: space-between;
         }
+        .main{
+            background: #8C52FF !important;
+            color: #FFF;
+        }
 
         .payMultiple {
             border-radius: 10px;
@@ -85,13 +89,11 @@ $page = 'ticket';
     <section class="create-services-screen">
         <div class="row create-services-screen-left">
             <div class="for-our-services">
-                {{-- <a href="#" id="selectAllCheckboxItems">Pay multiple Tickets</a> --}}
                 <div class="sort dropdown">
                     <p id="dropdown-toggle">Filter By<span class="caret"></span></p>
                     <div class="dropdown-content" id="dropdown-content">
                         <a href="#" id="paid">Paid</a>
                         <a href="#" id="unpaid">Unpaid</a>
-                        {{-- <a href="#" id="showTollsTable">Tolls</a> --}}
                     </div>
                 </div>
             </div>
@@ -137,7 +139,7 @@ $page = 'ticket';
                                         <td><a class="btn btn-success" href="{{ route('ticket.pay', $ticket->id) }}">Paid</a>
                                         </td>
                                     @elseif ($ticket->status == '0')
-                                        <td><a class="btn btn-danger" href="{{ route('ticket.pay', $ticket->id) }}">Pay Now</a>
+                                        <td><a class="btn main" href="{{ route('ticket.pay', $ticket->id) }}">Pay Now</a>
                                         </td>
                                     @elseif ($ticket->status == '2')
                                         <td><a class="btn btn-primary"
@@ -165,7 +167,7 @@ $page = 'ticket';
                                                 href="{{ route('toll.pay', ['id' => $toll->paytoll_id, 'd_id' => $toll->pd]) }}">Paid</a>
                                         </td>
                                     @elseif ($toll->status == 0)
-                                        <td><a class="btn btn-danger"
+                                        <td><a class="btn main"
                                                 href="{{ route('toll.pay', ['id' => $toll->paytoll_id, 'd_id' => $toll->pd]) }}">Pay
                                                 Now</a>
                                         </td>
@@ -195,7 +197,7 @@ $page = 'ticket';
                                                 href="{{ route('charges.pay', ['id' => $city->city_id, 'd_id' => $city->cd]) }}">Paid</a>
                                         </td>
                                     @elseif ($city->status == 0)
-                                        <td><a class="btn btn-danger"
+                                        <td><a class="btn main"
                                                 href="{{ route('charges.pay', ['id' => $city->city_id, 'd_id' => $city->cd]) }}">Pay
                                                 Now</a></td>
                                     @elseif ($city->status == 2)
@@ -255,7 +257,7 @@ $page = 'ticket';
                                         @elseif ($ticket->status == '0')
                                             <td>Unpaid</td>
                                             <td>
-                                                <a class="btn btn-danger" href="{{ route('ticket.pay', $ticket->id) }}">Pay
+                                                <a class="btn main" href="{{ route('ticket.pay', $ticket->id) }}">Pay
                                                     Now</a>
                                             </td>
                                         @elseif ($ticket->status == '2')
@@ -322,7 +324,7 @@ $page = 'ticket';
                                         @elseif ($ticket->status == '0')
                                             <td>Unpaid</td>
                                             <td>
-                                                <a class="btn btn-danger" href="{{ route('ticket.pay', $ticket->id) }}">Pay
+                                                <a class="btn main" href="{{ route('ticket.pay', $ticket->id) }}">Pay
                                                     Now</a>
                                             </td>
                                         @elseif ($ticket->status == '2')
@@ -384,7 +386,7 @@ $page = 'ticket';
                                         @elseif ($ticket->status == '0')
                                             <td>Unpaid</td>
                                             <td>
-                                                <a class="btn btn-danger" href="{{ route('ticket.pay', $ticket->id) }}">Pay
+                                                <a class="btn main" href="{{ route('ticket.pay', $ticket->id) }}">Pay
                                                     Now</a>
                                             </td>
                                         @elseif ($ticket->status == '2')

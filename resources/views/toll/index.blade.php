@@ -18,10 +18,16 @@ $page = 'tolls';
         }
 
         .homeChange {
-
             background: #8C52FF;
             color: white;
-
+        }
+        .homeCity {
+            background:  #FFB400;
+            color: white;
+        }
+        .homeToll {
+            background:  #5A9FD6;
+            color: white;
         }
 
         .scroll {
@@ -84,6 +90,10 @@ $page = 'tolls';
             display: flex;
             justify-content: space-between;
         }
+        .main{
+            background: #8C52FF !important;
+            color: #FFF;
+        }
 
         .payMultiple {
             border-radius: 10px;
@@ -106,7 +116,7 @@ $page = 'tolls';
                 <div class="welcome-screen-left">
                     <div class="welcome-inner-content" style="display:flex;  justify-content: start;">
                         <button href="#" id="ticket" class="home">
-                            Parking Tickets
+                            Parking Fines
                         </button>
                         <button id="toll" class="home">
                             Toll
@@ -123,14 +133,12 @@ $page = 'tolls';
     </section>
     <section class="create-services-screen" style="margin-top:10px ">
         <div class="row create-services-screen-left">
-            <div class="welcome-inner-content" style="display:flex;">
-                {{-- <a style="background:#8C52FF; margin-bottom:10px;" href="#" id="selectAllCheckboxItems">Pay multiple
-                    Tickets</a> --}}
-                <div class="sort dropdown" style="margin-bottom:15px;">
+            <div class="for-our-services">
+                <div class="sort dropdown">
                     <p id="dropdown-toggle">Filter By<span class="caret"></span></p>
-                    <div class="dropdown-content" id="dropdown-content">
-                        <a href="#" id="paid" style="background: #8C52FF">Paid</a>
-                        <a href="#" id="unpaid" style="background: #8C52FF">Unpaid</a>
+                    <div class="dropdown-content" id="dropdown-content" style="position: absolute; top: 100%;">
+                        <a href="#" id="paid">Paid</a>
+                        <a href="#" id="unpaid">Unpaid</a>
                     </div>
                 </div>
             </div>
@@ -167,7 +175,7 @@ $page = 'tolls';
                                         <td><a class="btn btn-success" href="{{ route('ticket.pay', $ticket->id) }}">Paid</a>
                                         </td>
                                     @elseif ($ticket->status == '0')
-                                        <td><a class="btn btn-danger" href="{{ route('ticket.pay', $ticket->id) }}">Pay Now</a>
+                                        <td><a class="btn main" href="{{ route('ticket.pay', $ticket->id) }}">Pay Now</a>
                                         </td>
                                     @elseif ($ticket->status == '2')
                                         <td><a class="btn btn-primary"
@@ -195,7 +203,7 @@ $page = 'tolls';
                                                 href="{{ route('toll.pay', ['id' => $toll->paytoll_id, 'd_id' => $toll->pd]) }}">Paid</a>
                                         </td>
                                     @elseif ($toll->status == 0)
-                                        <td><a class="btn btn-danger"
+                                        <td><a class="btn main"
                                                 href="{{ route('toll.pay', ['id' => $toll->paytoll_id, 'd_id' => $toll->pd]) }}">Pay
                                                 Now</a>
                                         </td>
@@ -225,7 +233,7 @@ $page = 'tolls';
                                                 href="{{ route('charges.pay', ['id' => $city->city_id, 'd_id' => $city->cd]) }}">Paid</a>
                                         </td>
                                     @elseif ($city->status == 0)
-                                        <td><a class="btn btn-danger"
+                                        <td><a class="btn main"
                                                 href="{{ route('charges.pay', ['id' => $city->city_id, 'd_id' => $city->cd]) }}">Pay
                                                 Now</a></td>
                                     @elseif ($city->status == 2)
@@ -285,7 +293,7 @@ $page = 'tolls';
                                     @elseif ($ticket->status == '0')
                                         <td>Unpaid</td>
                                         <td>
-                                            <a class="btn btn-danger" href="{{ route('ticket.pay', $ticket->id) }}">Pay Now</a>
+                                            <a class="btn main" href="{{ route('ticket.pay', $ticket->id) }}">Pay Now</a>
                                         </td>
                                     @elseif ($ticket->status == '2')
                                         <td>Disputed</td>
@@ -334,7 +342,7 @@ $page = 'tolls';
                                         </td>
                                     @elseif ($city->status == 0)
                                         <td>Unpaid</td>
-                                        <td><a class="btn btn-danger"
+                                        <td><a class="btn main"
                                                 href="{{ route('charges.pay', ['id' => $city->city_id, 'd_id' => $city->cd]) }}">Pay
                                                 Now</a></td>
                                     @elseif ($city->status == 2)
@@ -383,7 +391,7 @@ $page = 'tolls';
                                         </td>
                                     @elseif ($toll->status == 0)
                                         <td> Unpaid</td>
-                                        <td><a class="btn btn-danger"
+                                        <td><a class="btn main"
                                                 href="{{ route('toll.pay', ['id' => $toll->paytoll_id, 'd_id' => $toll->pd]) }}">Pay
                                                 Now</a>
                                         </td>
@@ -431,7 +439,7 @@ $page = 'tolls';
                                         <td><a class="btn btn-success" href="{{ route('ticket.pay', $ticket->id) }}">Paid</a>
                                         </td>
                                     @elseif ($ticket->status == '0')
-                                        <td><a class="btn btn-danger" href="{{ route('ticket.pay', $ticket->id) }}">Pay
+                                        <td><a class="btn main" href="{{ route('ticket.pay', $ticket->id) }}">Pay
                                                 Now</a>
                                         </td>
                                     @elseif ($ticket->status == '2')
@@ -460,7 +468,7 @@ $page = 'tolls';
                                                 href="{{ route('toll.pay', ['id' => $toll->paytoll_id, 'd_id' => $toll->pd]) }}">Paid</a>
                                         </td>
                                     @elseif ($toll->status == 0)
-                                        <td><a class="btn btn-danger"
+                                        <td><a class="btn main"
                                                 href="{{ route('toll.pay', ['id' => $toll->paytoll_id, 'd_id' => $toll->pd]) }}">Pay
                                                 Now</a>
                                         </td>
@@ -490,7 +498,7 @@ $page = 'tolls';
                                                 href="{{ route('charges.pay', ['id' => $city->city_id, 'd_id' => $city->cd]) }}">Paid</a>
                                         </td>
                                     @elseif ($city->status == 0)
-                                        <td><a class="btn btn-danger"
+                                        <td><a class="btn main"
                                                 href="{{ route('charges.pay', ['id' => $city->city_id, 'd_id' => $city->cd]) }}">Pay
                                                 Now</a></td>
                                     @elseif ($city->status == 2)
@@ -538,7 +546,7 @@ $page = 'tolls';
                                         <td><a class="btn btn-success" href="{{ route('ticket.pay', $ticket->id) }}">Paid</a>
                                         </td>
                                     @elseif ($ticket->status == '0')
-                                        <td><a class="btn btn-danger" href="{{ route('ticket.pay', $ticket->id) }}">Pay
+                                        <td><a class="btn main" href="{{ route('ticket.pay', $ticket->id) }}">Pay
                                                 Now</a>
                                         </td>
                                     @elseif ($ticket->status == '2')
@@ -567,7 +575,7 @@ $page = 'tolls';
                                                 href="{{ route('toll.pay', ['id' => $toll->paytoll_id, 'd_id' => $toll->pd]) }}">Paid</a>
                                         </td>
                                     @elseif ($toll->status == 0)
-                                        <td><a class="btn btn-danger"
+                                        <td><a class="btn main"
                                                 href="{{ route('toll.pay', ['id' => $toll->paytoll_id, 'd_id' => $toll->pd]) }}">Pay
                                                 Now</a>
                                         </td>
@@ -597,7 +605,7 @@ $page = 'tolls';
                                                 href="{{ route('charges.pay', ['id' => $city->city_id, 'd_id' => $city->cd]) }}">Paid</a>
                                         </td>
                                     @elseif ($city->status == 0)
-                                        <td><a class="btn btn-danger"
+                                        <td><a class="btn main"
                                                 href="{{ route('charges.pay', ['id' => $city->city_id, 'd_id' => $city->cd]) }}">Pay
                                                 Now</a></td>
                                     @elseif ($city->status == 2)
@@ -623,9 +631,9 @@ $page = 'tolls';
     <script>
         $(document).ready(function() {
             $("#toll").click(function() {
-                $(this).addClass('homeChange');
+                $(this).addClass('homeToll');
                 $("#ticket").removeClass('homeChange');
-                $("#charge").removeClass('homeChange');
+                $("#charge").removeClass('homeCity');
                 $("#tollsTable").show();
                 $("#tollsHeading").show();
                 $("#ticketsHeading").hide();
@@ -641,8 +649,8 @@ $page = 'tolls';
 
             $("#ticket").click(function() {
                 $(this).addClass('homeChange');
-                $("#toll").removeClass('homeChange');
-                $("#charge").removeClass('homeChange');
+                $("#toll").removeClass('homeToll');
+                $("#charge").removeClass('homeCity');
                 $("#tollsTable").hide();
                 $("#tollsHeading").hide();
                 $("#ticketsHeading").show();
@@ -657,8 +665,8 @@ $page = 'tolls';
             });
 
             $("#charge").click(function() {
-                $(this).addClass('homeChange');
-                $("#toll").removeClass('homeChange');
+                $(this).addClass('homeCity');
+                $("#toll").removeClass('homeToll');
                 $("#ticket").removeClass('homeChange');
                 $("#tollsTable").hide();
                 $("#tollsHeading").hide();

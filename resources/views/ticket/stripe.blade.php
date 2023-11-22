@@ -20,13 +20,13 @@ $page = 'ticket';
                 ADD CARD
             </button>
             <button id="payButton" class="justify-content-start btn-lg">
-                PAY
+                PAYMENT
             </button>
             <div class="row create-services-screen-left">
                 {{-- -------------------------------------Stripe Payment form ---------------------------- --}}
                 <div class="col-md-6 col-md-offset-3" id="pay" style="margin-top:60px ">
                     <div class="panel panel-default credit-card-box">
-                        <div class="panel-heading display-table" style="background-color:  #8C52FF;" >
+                        <div class="panel-heading display-table" style="background-color:  #8C52FF; color:#fff" >
                             <h3 class="panel-title"><strong>Payment Details</strong></h3>
                         </div>
                         <div class="panel-body">
@@ -121,7 +121,7 @@ $page = 'ticket';
 
                                         <input type="hidden" value="{{ $price }}" name="price">
                                         <input type="hidden" name="type" value="{{ $name }}">
-                                        <button class="btn btn-lg btn-block" style="background-color:  #8C52FF;" type="submit"> <strong>Pay Now
+                                        <button class="btn btn-lg btn-block" style="background-color:  #8C52FF; color:#fff" type="submit"> <strong>Pay Now
                                             ({{ $price }}
                                             £) </strong></button>
 

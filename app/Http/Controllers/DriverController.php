@@ -91,6 +91,13 @@ class DriverController extends Controller
         return view('drivers.index', compact('drivers'));
     }
 
+    public function download()
+    {
+        $path = public_path("driver.xlsx");
+        session()->flash('success', 'Check your downloads');
+        return response()->download($path, 'driver.xlsx');
+    }
+
 
     public function update(Request $request, $id)
     {

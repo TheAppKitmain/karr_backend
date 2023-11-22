@@ -130,7 +130,6 @@ class PaytollController extends Controller
         $toll  = Paytoll::find($id);
         $price = $toll->price;
         $collection = Card::where('user_id', Auth::user()->id)->get();
-        // return $collection;
         if ($type->status == '0') {
             return view('ticket.stripe', compact('type', 'name', 'collection', 'price'));
         } else if ($type->status == '1') {

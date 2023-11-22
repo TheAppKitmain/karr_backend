@@ -48,6 +48,7 @@ Route::controller(DriverController::class)->group(function () {
     Route::get('/driver/charge/{id}', 'driverCharge')->name('driver.charge');
     Route::get('/driver/ticket/{id}', 'driverTicket')->name('driver.ticket');
     Route::post('/import','import')->name('drivers.import');
+    Route::get('/download','download')->name('download.template');
 });
 
 
@@ -114,4 +115,7 @@ Route::controller(superAdminController::class)->group(function () {
     Route::get('/user-details/{id}','adminData')->name('admin.details');
     Route::get('unpaid/{id}/{name}/{d_id}','unpaid')->name('admin.unpaid');
     Route::get('/tolls/charges', 'tollCharges')->name('admin.tolls');
+    Route::get('/privacy', 'privacy');
+    Route::get('/terms-conditions','termsCondition');
+
 });

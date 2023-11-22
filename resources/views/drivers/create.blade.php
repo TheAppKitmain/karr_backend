@@ -3,11 +3,11 @@ $page = 'driver';
 ?>
 @extends('layouts.app')
 @section('content')
-<style>
-    .bulk{
-        margin: 10px;
-    }
-</style>
+    <style>
+        .bulk {
+            margin: 10px;
+        }
+    </style>
     <section class="content-header">
         <div class="back-button">
             <a href="{{ route('drivers.index') }}">
@@ -21,7 +21,7 @@ $page = 'driver';
                         fill="#2D927E"></path>
                 </svg>
             </a>
-            <h3>Add new Driver</h3>
+            <h3>Add New Driver</h3>
         </div>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
@@ -36,6 +36,11 @@ $page = 'driver';
                                     {{ Session::get('error') }}
                                 </div>
                             @endif
+                            @if (Session::has('success'))
+                            <div class="alert alert-success">
+                                {{ Session::get('success') }}
+                            </div>
+                        @endif
                             <div class="col-lg-6 col-md-6 form-group">
                                 <label>Driver Name</label>
                                 <input type="text" name="name" placeholder="Name" class="form-control" required>
@@ -66,7 +71,7 @@ $page = 'driver';
                 <button type="submit" class="btn btn-success">Create Driver</button>
             </div>
             </form>
-            <form action="{{route('drivers.import')}}" method="POST" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('drivers.import') }}" method="POST" method="POST" enctype="multipart/form-data">
                 @csrf
                 <h4 class="bulk">Add Record File</h4>
                 {{-- <span>Data should not be repeated and have unique emails and Licence plate number</span> --}}
@@ -76,5 +81,25 @@ $page = 'driver';
                 <button type="submit" class="btn btn-success">Add record</button>
             </form>
         </div>
+        <div class="col-4">
+            <div class="row">
+                <div style="text-align: start; padding: 15px; border: 1px solid #e0e0e0; border-radius: 8px; background-color: #f9f9f9;">
+                    <p>Welcome! To upload a file, please follow these guidelines:</p>
+                    <ul style="list-style-type: disc; margin-left: 20px;">
+                        <li>We only accept Excel files (.xlsx, .xls).</li>
+                        <li>Ensure your file adheres to our template to avoid any issues.</li>
+                        <li>If you're uploading data, please ensure that the content is unique and doesn't repeat existing entries.</li>
+                    </ul>
+                    <p>If you have any questions or face difficulties, feel free to reach out to our support team. Thank you for your cooperation!</p>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <a href="{{ route('download.template') }}" class="btn btn-primary">
+                    Download Template
+                </a>
+            </div>
+        </div>
+        
+
     </section>
 @endsection
