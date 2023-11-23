@@ -103,35 +103,6 @@ class HomeController extends Controller
 
             //---------------------------- End Section ------------------------------------
 
-            //------------------- Unpaid tickets tolls and charges -------------------------
-
-            $unpaidTolls = DB::table('paytolls')
-                ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
-                ->select('paytolls.*', 'paytoll__drivers.*')
-                ->where('paytoll__drivers.status', 0)->get();
-            foreach ($unpaidTolls as $toll) {
-                $toll->selectedDays = json_decode($toll->days);
-            }
-
-
-            $paidTolls = DB::table('paytolls')
-                ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
-                ->select('paytolls.*', 'paytoll__drivers.*')
-                ->where('paytoll__drivers.status', 1)->get();
-            foreach ($paidTolls as $toll) {
-                $toll->selectedDays = json_decode($toll->days);
-            }
-
-            $unpaidCharges = DB::table('cities')
-                ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
-                ->select('cities.*', 'city__drivers.*')->where('city__drivers.status', 0)->get();
-
-            $paidCharges = DB::table('cities')
-                ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
-                ->select('cities.*', 'city__drivers.*')->where('city__drivers.status', 1)->get();
-           
-            //---------------------------- End Section ------------------------------------
-
 
 
             // dd($unpaidTickets);
@@ -147,12 +118,6 @@ class HomeController extends Controller
                 'unpaidCharges',
                 'totalCharges',
                 'unpaid',
-                'unpaidTickets',
-                'unpaidTolls',
-                'unpaidCities',
-                'paidCities',
-                'paidTolls',
-                'paidTickets',
             ));
         }
 
@@ -229,49 +194,10 @@ class HomeController extends Controller
 
             $totalCharges = $citycharges + $tollsCharges;
 
-            //-------------------------------End Section-------------------------------------------
+            //-------------------------------End Section------------------------------------------
 
-            //----------------------unpaid and paid ticket section------------------------------------------
+          
 
-            $unpaidTickets = Ticket::whereHas('driver.user', function ($query) use ($userId) {
-                $query->where('id', $userId)->where('status', '0');
-            })->get();
-
-
-            $unpaidTolls = DB::table('paytolls')
-                ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
-                ->join('drivers', 'paytoll__drivers.driver_id', '=', 'drivers.id')
-                ->where('drivers.user_id', $userId)->where('paytoll__drivers.status', '0')
-                ->select('paytolls.*', 'drivers.name as user_name', 'paytoll__drivers.*')
-                ->get();
-
-            $unpaidCities = DB::table('cities')
-                ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
-                ->join('drivers', 'city__drivers.driver_id', '=', 'drivers.id')
-                ->where('drivers.user_id', $userId)->where('city__drivers.status', '0')
-                ->select('cities.*', 'drivers.name as user_name', 'city__drivers.*')
-                ->get();
-
-
-            $paidTickets = Ticket::whereHas('driver.user', function ($query) use ($userId) {
-                $query->where('id', $userId)->where('status', '1');
-            })->get();
-
-
-            $paidTolls = DB::table('paytolls')
-                ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
-                ->join('drivers', 'paytoll__drivers.driver_id', '=', 'drivers.id')
-                ->where('drivers.user_id', $userId)->where('paytoll__drivers.status', '1')
-                ->select('paytolls.*', 'drivers.name as user_name', 'paytoll__drivers.*')
-                ->get();
-
-            $paidCities = DB::table('cities')
-                ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
-                ->join('drivers', 'city__drivers.driver_id', '=', 'drivers.id')
-                ->where('drivers.user_id', $userId)->where('city__drivers.status', '1')
-                ->select('cities.*', 'drivers.name as user_name', 'city__drivers.*')
-                ->get();
-            //-------------------------------------End paid and unpaid Section---------------------------------
            
             // return $paidTolls;
             $page = 'dash';
@@ -285,12 +211,6 @@ class HomeController extends Controller
                 'unpaidCharges',
                 'totalCharges',
                 'unpaid',
-                'unpaidTickets',
-                'unpaidTolls',
-                'unpaidCities',
-                'paidCities',
-                'paidTolls',
-                'paidTickets',
             ));
         } else {
 

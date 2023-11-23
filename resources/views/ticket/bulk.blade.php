@@ -61,7 +61,7 @@ $page = 'ticket';
                                         <select name="name" id="card-name" class="form-control">
                                             <option value="">---Select Values---</option>
                                             @foreach ($collection as $item)
-                                                <option value="{{ $item->name }}" data-card-number="{{ $item->card }}"
+                                                <option value="{{ $item->name }}" data-card-number="{{ substr_replace($item->card, '************', 0, -4) }}"
                                                     data-card-cvc="{{ $item->cvc }}"
                                                     data-card-expiry-month="{{ $item->mon }}"
                                                     data-card-expiry-year="{{ $item->year }}">

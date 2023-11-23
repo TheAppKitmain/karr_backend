@@ -5,15 +5,15 @@ $page = 'ticket';
 @extends('layouts.app')
 @section('content')
     <script src="https://use.fontawesome.com/releases/v5.7.2/css/all.css"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <style>
         .button-clicked {
             background-color: #8C52FF;
             color: white;
             border: 1px solid black;
             /* height: 30px; */
-        } 
+        }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <div class="row">
         <section class="create-services-screen">
             <button id="addButton" class="justify-content-start btn-lg">
@@ -26,7 +26,7 @@ $page = 'ticket';
                 {{-- -------------------------------------Stripe Payment form ---------------------------- --}}
                 <div class="col-md-6 col-md-offset-3" id="pay" style="margin-top:60px ">
                     <div class="panel panel-default credit-card-box">
-                        <div class="panel-heading display-table" style="background-color:  #8C52FF; color:#fff" >
+                        <div class="panel-heading display-table" style="background-color:  #8C52FF; color:#fff">
                             <h3 class="panel-title"><strong>Payment Details</strong></h3>
                         </div>
                         <div class="panel-body">
@@ -57,7 +57,7 @@ $page = 'ticket';
                                         <select name="name" id="card-name" class="form-control">
                                             <option value="">---Select Values---</option>
                                             @foreach ($collection as $item)
-                                                <option value="{{ $item->name }}" data-card-number="{{ $item->card }}"
+                                                <option value="{{ $item->name }}" data-card-number="{{ substr_replace($item->card, '************', 0, -4) }}"
                                                     data-card-cvc="{{ $item->cvc }}"
                                                     data-card-expiry-month="{{ $item->mon }}"
                                                     data-card-expiry-year="{{ $item->year }}">
@@ -121,9 +121,10 @@ $page = 'ticket';
 
                                         <input type="hidden" value="{{ $price }}" name="price">
                                         <input type="hidden" name="type" value="{{ $name }}">
-                                        <button class="btn btn-lg btn-block" style="background-color:  #8C52FF; color:#fff" type="submit"> <strong>Pay Now
-                                            ({{ $price }}
-                                            £) </strong></button>
+                                        <button class="btn btn-lg btn-block" style="background-color:  #8C52FF; color:#fff"
+                                            type="submit"> <strong>Pay Now
+                                                ({{ $price }}
+                                                £) </strong></button>
 
                                     </div>
 
@@ -175,8 +176,8 @@ $page = 'ticket';
                                             <div class="form-outline">
                                                 <label class="form-label" for="formControlLgExpk">Expire Year</label>
                                                 <input type="test" id="formControlLgExpk"
-                                                    class="form-control form-control-lg" placeholder="YYYY" maxlength="4"
-                                                    name="year" min="2020" />
+                                                    class="form-control form-control-lg" placeholder="YYYY"
+                                                    maxlength="4" name="year" min="2020" />
                                             </div>
                                         </div>
                                         <div class="col-2 mb-3">
@@ -191,16 +192,15 @@ $page = 'ticket';
 
                                     <button class="btn btn-success btn-lg btn-block"
                                         style="background-color: #8C52FF; border: none;">Add card</button>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    {{-- ------------------------------------- End Add Card ---------------------------------- --}}
                 </div>
-                {{-- ------------------------------------- End Add Card ---------------------------------- --}}
-            </div>
-        </section>
-
-
+            </section>
+            
         <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 
 
@@ -361,7 +361,10 @@ $page = 'ticket';
                 });
             });
         </script>
-        <script>
+
+
+        {{-- {{-- <!-- Your first script --> --}}
+         <script>
             $(document).ready(function() {
                 // Add a change event listener to the dropdown
                 $('#card-name').change(function() {
@@ -373,7 +376,19 @@ $page = 'ticket';
                     $('#card-cvc').val(selectedOption.data('card-cvc'));
                     $('#card-expiry-month').val(selectedOption.data('card-expiry-month'));
                     $('#card-expiry-year').val(selectedOption.data('card-expiry-year'));
+
+                    // Update the displayed card number with masked version
+                    // var maskedCardNumber = maskCardNumber(selectedOption.data('card-number'));
+                    // selectedOption.text(selectedOption.val() + ' - ' + maskedCardNumber);
                 });
             });
         </script>
+        <!-- Your second script with the maskCardNumber function -->
+        {{-- <script>
+            // Define the maskCardNumber function separately
+            function maskCardNumber(cardNumber) {
+                // Replace all but the last 4 digits with asterisks
+                return cardNumber.replace(/.(?=.{4})/g, '*');
+            }
+        </script>  --}}
     @endsection
