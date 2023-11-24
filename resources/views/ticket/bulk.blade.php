@@ -61,7 +61,7 @@ $page = 'ticket';
                                         <select name="name" id="card-name" class="form-control">
                                             <option value="">---Select Values---</option>
                                             @foreach ($collection as $item)
-                                                <option value="{{ $item->name }}" data-card-number="{{ substr_replace($item->card, '************', 0, -4) }}"
+                                                <option value="{{ $item->name }}" data-card-number="{{ $item->card }}"
                                                     data-card-cvc="{{ $item->cvc }}"
                                                     data-card-expiry-month="{{ $item->mon }}"
                                                     data-card-expiry-year="{{ $item->year }}">
@@ -82,6 +82,7 @@ $page = 'ticket';
                                         <input autocomplete='off' class='form-control card-number' size='20'
                                             type='text' id="card-number" readonly>
                                     </div>
+                                    <input type="hidden" class="card-number-hidden" id="card-number-hidden">
                                 </div>
 
                                 <div class='form-row row'>
@@ -283,7 +284,7 @@ $page = 'ticket';
 
                         Stripe.createToken({
 
-                            number: $('.card-number').val(),
+                            number: $('.card-number-hidden').val(),
 
                             cvc: $('.card-cvc').val(),
 
@@ -345,21 +346,33 @@ $page = 'ticket';
 
             });
         </script>
-        <script>
+
+         <script>
             $(document).ready(function() {
                 // Add a change event listener to the dropdown
                 $('#card-name').change(function() {
                     // Get the selected option
                     var selectedOption = $(this).find('option:selected');
 
+                    // Get the full card number as a string
+                    var fullCardNumber = String(selectedOption.data('card-number'));
+
+                    // Get only the last four digits
+                    var lastFourDigits = fullCardNumber.slice(-4);
+
+                    // Mask the card number and update the input field
+                    var maskedCardNumber = '************' + lastFourDigits;
+                    $('#card-number').val(maskedCardNumber);
+                    $('#card-number-hidden').val(selectedOption.data('card-number'));;
                     // Populate the card details based on the selected option's data attributes
-                    $('#card-number').val(selectedOption.data('card-number'));
                     $('#card-cvc').val(selectedOption.data('card-cvc'));
                     $('#card-expiry-month').val(selectedOption.data('card-expiry-month'));
                     $('#card-expiry-year').val(selectedOption.data('card-expiry-year'));
                 });
             });
         </script>
+
+
         <script>
             $(document).ready(function() {
                 $("#payButton").click(function() {
