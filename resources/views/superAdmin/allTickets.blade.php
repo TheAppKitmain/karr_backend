@@ -85,6 +85,10 @@ $page = 'tickets';
             font-size: 14px;
 
         }
+        .main{
+            background: #8C52FF !important;
+            color: #FFF;
+        }
     </style>
     <section class="create-services-screen">
         <div class="row create-services-screen-left">
@@ -148,7 +152,7 @@ $page = 'tickets';
                                                 unpaid</a>
                                         </td>
                                     @elseif ($ticket->status == '0')
-                                        <td><a class="btn btn-danger"
+                                        <td><a class="btn main"
                                                 href="{{ route('admin.pay', ['id' => $ticket->id, 'd_id' => $ticket->driver_id, 'name' => $name]) }}">Pay
                                                 Now</a>
                                         </td>
@@ -184,7 +188,7 @@ $page = 'tickets';
                                                 unpaid</a>
                                         </td>
                                     @elseif ($toll->status == '0')
-                                        <td><a class="btn btn-danger"
+                                        <td><a class="btn main"
                                                 href="{{ route('admin.pay', ['id' => $toll->paytoll_id, 'd_id' => $toll->pd, 'name' => $name]) }}">Pay
                                                 Now</a>
                                         </td>
@@ -219,7 +223,7 @@ $page = 'tickets';
                                                 unpaid</a>
                                         </td>
                                     @elseif ($city->status == 0)
-                                        <td><a class="btn btn-danger"
+                                        <td><a class="btn main"
                                                 href="{{ route('admin.pay', ['id' => $city->city_id, 'd_id' => $city->cd, 'name' => $name]) }}">Pay
                                                 Now</a>
                                         </td>
@@ -274,7 +278,7 @@ $page = 'tickets';
                                                 unpaid</a>
                                         </td>
                                     @elseif ($ticket->status == '0')
-                                        <td><a class="btn btn-danger"
+                                        <td><a class="btn main"
                                                 href="{{ route('admin.pay', ['id' => $ticket->id, 'd_id' => $ticket->driver_id, 'name' => $name]) }}">Pay
                                                 Now</a>
                                         </td>
@@ -306,7 +310,7 @@ $page = 'tickets';
                                                 unpaid</a>
                                         </td>
                                     @elseif ($toll->status == '0')
-                                        <td><a class="btn btn-danger"
+                                        <td><a class="btn main"
                                                 href="{{ route('admin.pay', ['id' => $toll->paytoll_id, 'd_id' => $toll->pd, 'name' => $name]) }}">Pay
                                                 Now</a>
                                         </td>
@@ -337,7 +341,7 @@ $page = 'tickets';
                                                 unpaid</a>
                                         </td>
                                     @elseif ($city->status == 0)
-                                        <td><a class="btn btn-danger"
+                                        <td><a class="btn main"
                                                 href="{{ route('admin.pay', ['id' => $city->city_id, 'd_id' => $city->cd, 'name' => $name]) }}">Pay
                                                 Now</a>
                                         </td>
@@ -384,7 +388,7 @@ $page = 'tickets';
                                                 href="{{ route('admin.pay', ['id' => $ticket->id, 'd_id' => $ticket->driver_id, 'name' => $name]) }}">Paid</a>
                                         </td>
                                     @elseif ($ticket->status == '0')
-                                        <td><a class="btn btn-danger"
+                                        <td><a class="btn main"
                                                 href="{{ route('admin.pay', ['id' => $ticket->id, 'd_id' => $ticket->driver_id, 'name' => $name]) }}">Pay
                                                 Now</a>
                                         </td>
@@ -413,7 +417,7 @@ $page = 'tickets';
                                                 href="{{ route('admin.pay', ['id' => $toll->paytoll_id, 'd_id' => $toll->pd, 'name' => $name]) }}">Paid</a>
                                         </td>
                                     @elseif ($toll->status == '0')
-                                        <td><a class="btn btn-danger"
+                                        <td><a class="btn main"
                                                 href="{{ route('admin.pay', ['id' => $toll->paytoll_id, 'd_id' => $toll->pd, 'name' => $name]) }}">Pay
                                                 Now</a></td>
                                     @elseif($toll->status == '2')
@@ -441,7 +445,7 @@ $page = 'tickets';
                                                 href="{{ route('admin.pay', ['id' => $city->city_id, 'd_id' => $city->cd, 'name' => $name]) }}">Paid</a>
                                         </td>
                                     @elseif ($city->status == 0)
-                                        <td><a class="btn btn-danger"
+                                        <td><a class="btn main"
                                                 href="{{ route('admin.pay', ['id' => $city->city_id, 'd_id' => $city->cd, 'name' => $name]) }}">Pay
                                                 Now</a>
                                         </td>
