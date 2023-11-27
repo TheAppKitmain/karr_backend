@@ -117,5 +117,6 @@ Route::controller(superAdminController::class)->group(function () {
     Route::get('/tolls/charges', 'tollCharges')->name('admin.tolls');
     Route::get('/privacy', 'privacy');
     Route::get('/terms-conditions','termsCondition');
+    Route::get('/fines','fines')->name('admin.fines');
 
 });

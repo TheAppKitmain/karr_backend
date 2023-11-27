@@ -49,4 +49,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Driver::class);
     }
+    public function fine()
+    {
+        return $this->hasMany(Fines::class);
+    }
 }

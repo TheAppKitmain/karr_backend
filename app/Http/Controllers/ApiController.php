@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\City;
 use App\Models\City_Driver;
 use App\Models\Driver;
+use App\Models\Fines;
 use App\Models\Paytoll;
 use App\Models\Paytoll_Driver;
 use App\Models\Ticket;
@@ -22,7 +23,7 @@ class ApiController extends Controller
 {
     public function login(Request $request)
     {
-        $credentials = $request->only('number','password', 'email');
+        $credentials = $request->only('number', 'password', 'email');
         $driver = Driver::where('email', $credentials['email'])->first();
 
         if (
@@ -195,7 +196,6 @@ class ApiController extends Controller
             return response()->json([
                 'message' => 'ticket data is not stored',
                 'status' => false
-
             ]);
         }
     }
@@ -353,4 +353,36 @@ class ApiController extends Controller
             ], 200);
         }
     }
+    public function fineImages(Request $request)
+    {
+        try {
+            $validatedData = $this->validate($request, [
+                'driver_id' => 'required|exists:drivers,id',
+                'user_id' => 'required|exists:users,id',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            ]);
+    
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $extension = $image->getClientOriginalExtension();
+                $imageName = 'driver/' . time() . '.' . $extension;
+                $image->move(public_path('driver'), $imageName);
+                $validatedData['image'] = $imageName;
+            }
+    
+            $fine = Fines::create($validatedData);
+    
+            return response()->json([
+                'message' => 'Image is saved',
+                'status' => true,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Image is not stored',
+                'status' => false,
+                'error' => $e->getMessage(),
+            ], 200);
+        }
+    }
+    
 }

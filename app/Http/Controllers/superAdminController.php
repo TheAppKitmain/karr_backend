@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Card;
 use App\Models\City;
 use App\Models\City_Driver;
+use App\Models\Fines;
 use App\Models\Paytoll;
 use App\Models\Paytoll_Driver;
 use App\Models\Ticket;
@@ -271,6 +272,11 @@ class superAdminController extends Controller
         }
         $charges = City::all();
         return view('superAdmin.adminTolls',compact('tolls', 'charges'));
+    }
+    public function fines()
+    {
+        $fines = Fines::all();
+        return view('superAdmin.undetectedFines',compact('fines'));
     }
 
     public function privacy()

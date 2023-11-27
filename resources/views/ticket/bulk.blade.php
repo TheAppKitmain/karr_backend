@@ -13,6 +13,7 @@ $page = 'ticket';
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {{-- <script src="https://applepay.cdn.apple.com/jsapi/v1/apple-pay-sdk.js"></script> --}}
     <div class="row">
         <section class="create-services-screen">
             <button id="addButton" class="justify-content-start btn-lg">
@@ -44,7 +45,7 @@ $page = 'ticket';
                                 </div>
                             @endif
 
-
+                            {{-- <button id="apple-pay-button" style="background-color: #0000;">Apple Pay</button> --}}
 
                             <form role="form" action="{{ route('bulkStripe') }}" method="post"
                                 class="require-validation" data-cc-on-file="false"
@@ -139,7 +140,8 @@ $page = 'ticket';
                                 </div>
 
 
-
+                                <!-- Additional hidden field for Apple Pay token -->
+                                {{-- <input type="hidden" id="apple-pay-token" name="apple_pay_token"> --}}
                             </form>
 
                         </div>
@@ -347,7 +349,7 @@ $page = 'ticket';
             });
         </script>
 
-         <script>
+        <script>
             $(document).ready(function() {
                 // Add a change event listener to the dropdown
                 $('#card-name').change(function() {
@@ -400,4 +402,33 @@ $page = 'ticket';
                 });
             });
         </script>
+        <!-- Your JavaScript code -->
+        {{-- <script>
+            var request = {
+                countryCode: 'GB',
+                currencyCode: 'GBP',
+                supportedNetworks: ['amex', 'masterCard', 'visa'],
+                merchantCapabilities: ['supports3DS'],
+                total: {
+                    label: 'KARR',
+                    amount: '{{ $totalPrice }}', // Blade templating to output PHP variable
+                },
+            };
+
+            document.getElementById('apple-pay-button').addEventListener('click', function() {
+                // Create Apple Pay session
+                var session = new ApplePaySession(1, request);
+
+                // Handle Apple Pay session events here
+                session.onpaymentauthorized = function(event) {
+                    var payment = event.payment;
+                    document.getElementById('apple-pay-token').value = payment.token.paymentData;
+                    document.getElementById('payment-form').submit();
+                    session.completePayment(ApplePaySession.STATUS_SUCCESS);
+                };
+
+                // Begin the Apple Pay session
+                session.begin();
+            });
+        </script> --}}
     @endsection

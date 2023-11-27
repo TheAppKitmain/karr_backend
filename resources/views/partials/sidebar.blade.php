@@ -97,17 +97,17 @@
                         </li>
                     @endcan
                     @can('admin-ticket')
-                    <li class="treeview <?php if ($page == 'tolls') {
-                        echo 'active';
-                    } ?>">
-                        <a href="{{ route('admin.tolls') }}">
-                            <span>
-                                <img src="{{ asset('assets/dist/img/paytolls.svg') }}" width="24" height="24"
-                                    viewBox="0 0 24 24" alt="">
-                                Tolls & Charges</span>
-                        </a>
-                    </li>
-                @endcan
+                        <li class="treeview <?php if ($page == 'tolls') {
+                            echo 'active';
+                        } ?>">
+                            <a href="{{ route('admin.tolls') }}">
+                                <span>
+                                    <img src="{{ asset('assets/dist/img/paytolls.svg') }}" width="24" height="24"
+                                        viewBox="0 0 24 24" alt="">
+                                    Tolls & Charges</span>
+                            </a>
+                        </li>
+                    @endcan
 
                     @can('ticket-list')
                         <li class="treeview <?php if ($page == 'ticket') {
@@ -121,6 +121,21 @@
                             </a>
                         </li>
                     @endcan
+
+
+                    @can('admin-ticket')
+                        <li class="treeview <?php if ($page == 'fine') {
+                            echo 'active';
+                        } ?>">
+                            <a href="{{ route('admin.fines') }}">
+                                <span>
+                                    <img src="{{ asset('assets/dist/img/paytolls.svg') }}" width="24" height="24"
+                                        viewBox="0 0 24 24" alt="">
+                                Undectected Fines</span>
+                            </a>
+                        </li>
+                    @endcan
+
 
                     {{-- @can('toll-list')
                 <li class="treeview <?php if ($page == 'toll') {

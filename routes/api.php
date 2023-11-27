@@ -28,3 +28,4 @@ Route::post('/driver/ticket', [ApiController::class, 'driverTicket']);
 Route::post('/recent/activity',[ApiController::class, 'recentActivity']);
 Route::post('/add/notes',[ApiController::class, 'addNotes']);
 Route::post('/password', [ApiController::class, 'password']);
+Route::post('/fines',[ApiController::class,'fineImages']);
