@@ -129,7 +129,7 @@
                         } ?>">
                             <a href="{{ route('admin.fines') }}">
                                 <span>
-                                    <img src="{{ asset('assets/dist/img/paytolls.svg') }}" width="24" height="24"
+                                    <img src="{{ asset('assets/dist/img/wallet-fill.svg') }}" width="24" height="24"
                                         viewBox="0 0 24 24" alt="">
                                 Undectected Fines</span>
                             </a>

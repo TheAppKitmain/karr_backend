@@ -381,7 +381,7 @@ class ApiController extends Controller
                 'message' => 'Image is not stored',
                 'status' => false,
                 'error' => $e->getMessage(),
-            ], 200);
+            ], 401);
         }
     }
     

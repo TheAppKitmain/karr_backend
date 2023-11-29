@@ -22,7 +22,7 @@ $page = 'fine';
             @endif
             <div class="scroll" id="AllTable">
                 <table class="table" id="Alltable">
-                    <h4 style="margin-bottom: 10px">Undetacted Fines</h4>
+                    <h4 style="margin-bottom: 10px">Undetected Fines</h4>
                     <thead>
                         <tr style="background-color: #F8F8FA">
                             <!-- Define the table headers -->
