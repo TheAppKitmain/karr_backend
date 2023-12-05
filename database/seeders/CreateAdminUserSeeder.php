@@ -19,7 +19,10 @@ class CreateAdminUserSeeder extends Seeder
     {
         // Create the Super Admin user with all permissions
         $superAdmin = User::create([
-            'name' => 'S Admin',
+            'business' => 'S Admin',
+            'f_name' => 'S',
+            'l_name' => 'Admin',
+            'business' => 's admin',
             'email' => 'sadmin@gmail.com',
             'password' => bcrypt('123456')
         ]);
@@ -32,7 +35,9 @@ class CreateAdminUserSeeder extends Seeder
         //super Admin Panel 
 
         $superAdmin = User::create([
-            'name' => 'Super Admin',
+            'f_name' => 'Super',
+            'l_name' => 'Admin',
+            'business' => 'Super Admin',
             'email' => 'superadmin@gmail.com',
             'password' => bcrypt('123456')
         ]);
@@ -80,7 +85,9 @@ class CreateAdminUserSeeder extends Seeder
 
         // Create the Admin user with specific permissions
         $admin = User::create([
-            'name' => 'Admin',
+            'f_name' => 'Admin',
+            'l_name' => 'Admin',
+            'business' => 'Admin',
             'email' => 'admin@gmail.com',
             'password' => bcrypt('123456')
         ]);

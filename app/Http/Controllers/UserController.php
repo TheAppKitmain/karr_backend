@@ -52,11 +52,14 @@ class UserController extends Controller
     {
         try {
             $validatedData = $this->validate($request, [
-                'name' => 'required',
+                'f_name' => 'required',
+                'l_name' => 'required',
+                'business' => 'required',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|same:confirm-password',
                 'roles' => 'required',
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+                'number' => 'nullable',
             ]);
 
             if ($request->hasFile('image')) {
@@ -105,17 +108,21 @@ class UserController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'name' => 'required',
+                'f_name' => 'required',
+                'l_name' => 'required',
+                'business' => 'required',
                 'email' => 'required|email|unique:users,email,' . $id,
                 'password' => 'nullable|same:confirm-password',
                 'roles' => 'required',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+
             ]);
 
             $user = User::find($id);
 
             // Update name and email
-            $user->name = $validatedData['name'];
+            $user->f_name = $validatedData['f_name'];
+            $user->l_name = $validatedData['l_name'];
             $user->email = $validatedData['email'];
 
             // Update password if provided
@@ -215,7 +222,8 @@ class UserController extends Controller
      */
     public function delete($id)
     {
-        User::find($id)->delete();
+        $user = User::findOrFail($id);
+        $user->delete();
         return redirect()->route('users.index')
             ->with('success', 'User deleted successfully');
     }

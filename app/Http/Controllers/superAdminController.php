@@ -87,14 +87,14 @@ class superAdminController extends Controller
         $tickets = DB::table('tickets')
         ->join('drivers', 'tickets.driver_id', '=', 'drivers.id')
         ->join('users', 'drivers.user_id', '=', 'users.id')
-        ->select('tickets.*' ,'drivers.name as driver', 'users.name as user_name')
+        ->select('tickets.*' ,'drivers.name as driver', 'users.business as user_name')
         ->get();
 
         $cities = DB::table('cities')
         ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
         ->join('drivers', 'city__drivers.driver_id', '=', 'drivers.id')
         ->join('users', 'drivers.user_id', '=', 'users.id')
-        ->select('cities.*', 'city__drivers.*','drivers.name as driver', 'users.name as user_name')
+        ->select('cities.*', 'city__drivers.*','drivers.name as driver', 'users.business as user_name')
         ->get();
 
 
@@ -102,7 +102,7 @@ class superAdminController extends Controller
         ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
         ->join('drivers', 'paytoll__drivers.driver_id', '=', 'drivers.id')
         ->join('users', 'drivers.user_id', '=', 'users.id')
-        ->select('paytolls.*', 'paytoll__drivers.*', 'users.name as user_name')
+        ->select('paytolls.*', 'paytoll__drivers.*', 'users.business as user_name')
         ->get();
     
         foreach ($tolls as $toll) {
@@ -287,4 +287,5 @@ class superAdminController extends Controller
     {
         return view('superAdmin.terms');
     }
+
 }

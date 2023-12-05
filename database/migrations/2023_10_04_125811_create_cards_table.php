@@ -20,6 +20,11 @@ return new class extends Migration
             $table->string('year');
             $table->string('mon');
             $table->string('cvc');
+            $table->string('customer_id')->nullable();
+            $table->string('trial_start')->nullable();
+            $table->string('trial_end')->nullable();
+            $table->string('subscription_id')->nullable();
+            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }

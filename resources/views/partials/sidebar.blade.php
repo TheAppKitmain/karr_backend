@@ -131,11 +131,23 @@
                                 <span>
                                     <img src="{{ asset('assets/dist/img/wallet-fill.svg') }}" width="24" height="24"
                                         viewBox="0 0 24 24" alt="">
-                                Undectected Fines</span>
+                                    Undectected Fines</span>
                             </a>
                         </li>
                     @endcan
 
+                    @can('ticket-list')
+                        <li class="treeview <?php if ($page == 'account') {
+                            echo 'active';
+                        } ?>">
+                            <a href="{{ route('user.account') }}">
+                                <span>
+                                    <img src="{{ asset('assets/dist/img/ticket.svg') }}" width="24" height="24"
+                                        viewBox="0 0 24 24" alt="">
+                                    Account</span>
+                            </a>
+                        </li>
+                    @endcan
 
                     {{-- @can('toll-list')
                 <li class="treeview <?php if ($page == 'toll') {

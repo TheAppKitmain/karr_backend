@@ -35,7 +35,7 @@
                         <div class="form-group">
                             <label>First Name</label>
                             <input id="f_name" type="text" placeholder="First Name"
-                                class="form-control @error('name') is-invalid @enderror" name="name"
+                                class="form-control @error('name') is-invalid @enderror" name="f_name"
                                 value="{{ old('f_name') }}" required autocomplete="name" autofocus>
 
                             @error('f_name')
@@ -75,7 +75,7 @@
                     <div class="col-md-12 col-sm-12 col-12">
                         <div class="form-group">
                             <label>Number</label>
-                            <input type="number" class="form-control" name="text" placeholder="Contact Number">
+                            <input type="number" class="form-control" name="number" placeholder="Contact Number">
                         </div>
                     </div>
                     <div class="col-md-12 col-sm-12 col-12">
@@ -112,7 +112,7 @@
 
 
             <div class="signup-image">
-                <img src="{{ asset('assets/dist/img/signup.png') }}" alt="">
+                <img src="{{ asset('assets/dist/img/signup.png') }}" style="object-fit:cover">
             </div>
         </section>
 

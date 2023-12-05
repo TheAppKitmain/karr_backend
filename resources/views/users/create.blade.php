@@ -21,22 +21,38 @@ $page = 'user';
                                     </div>
                                 @endif
                                 <div class="form-group">
-                                    <label>Name</label>
-                                    <input type="text" name="name" placeholder="Name" class="form-control">
+                                    <label>First Name</label>
+                                    <input type="text" name="f_name" placeholder="First Name" class="form-control"
+                                        required>
                                 </div>
                                 <div class="form-group">
+                                    <label>Last Name</label>
+                                    <input type="text" name="l_name" placeholder="Last Name" class="form-control"
+                                        required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Business Name</label>
+                                    <input type="text" name="business" placeholder="Business Name" class="form-control"
+                                        required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Contact Number</label>
+                                    <input type="text" name="number" placeholder="Contact Number" class="form-control">
+                                </div>
+
+                                <div class="form-group">
                                     <label>Email</label>
-                                    <input type="email" name="email" placeholder="Email" class="form-control">
+                                    <input type="email" name="email" placeholder="Email" class="form-control" required>
                                 </div>
 
                                 <div class="form-group">
                                     <label>Password</label>
-                                    <input type="password" name="password" placeholder="Password" class="form-control">
+                                    <input type="password" name="password" placeholder="Password" class="form-control" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Confirm Password</label>
                                     <input type="password" name="confirm-password" placeholder="Confirm Password"
-                                        class="form-control">
+                                        class="form-control" required>
                                 </div>
                                 @can('role-list')
                                     <div class="form-group">

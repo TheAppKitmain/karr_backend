@@ -78,7 +78,7 @@
 
 
     <!-- Bootstrap 3.3.2 JS -->
-    <script src="{{ asset('assets/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/bootstrap/js/bootstrap.min.js') }}" style="object-fit: cover;" type="text/javascript"></script>
     <script>
         // Array of image URLs
         var imageArray = [
