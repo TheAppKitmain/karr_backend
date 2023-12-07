@@ -50,7 +50,7 @@ class CardController extends Controller
 
     public function myAccount()
     {
-        $user = Card::where('user_id', Auth::user()->id)->first();
+        $user = Card::where('user_id', Auth::user()->id)->where('status' , 1)->first();
         if ($user) {
             return view('profile.my-account', compact('user'));
         } else {
@@ -65,8 +65,7 @@ class CardController extends Controller
 
             Stripe::setApiKey(env('STRIPE_SECRET'));
             $user_id = Auth::user()->id;
-
-            $check = Card::where('card', $request->card)->first();            
+            $check = Card::where('card', $request->card)->first(); 
             // if there is already existence of card
             if ($check) {
 
@@ -74,7 +73,7 @@ class CardController extends Controller
                 $customer = Customer::create([
                     'email' => $request->user()->email,
                     'source' => $request->input('stripeToken'),
-                    'name'  => $request->input('card-name'),
+                    'name'  => $request->input('name'),
                 ]);
 
                 $subscription = Subscription::create([
@@ -94,7 +93,7 @@ class CardController extends Controller
                 $customer = Customer::create([
                     'email' => $request->user()->email,
                     'source' => $request->input('stripeToken'),
-                    'name'  => $request->input('card-name'),
+                    'name'  => $request->input('name'),
                 ]);
 
                 $subscription = Subscription::create([
@@ -127,6 +126,7 @@ class CardController extends Controller
             $user = User::find($user_id);
             $adminRole = Role::where('name', 'admin')->first();
             $user->assignRole($adminRole);
+            $user->removeRole('user');
 
             return redirect()->back()->with('success', 'Subscription created successfully.');
         } catch (Exception $e) {
@@ -143,13 +143,13 @@ class CardController extends Controller
             if (!$user) {
                 return redirect()->back()->with('error', 'User not found');
             }
-
-            $subscriptionDetails = Card::where('user_id', $user->id)->first();
+            $subscriptionDetails = Card::where('user_id', $user->id)->where('card', $request->card)->first();
+            // return $subscriptionDetails->customer_id;
 
             if (!$subscriptionDetails) {
                 return redirect()->back()->with('error', 'Subscription details not found');
             }
-
+            //   dd($subscriptionDetails->customer_id);
             $customer = Customer::retrieve($subscriptionDetails->customer_id);
             $subscription = Subscription::retrieve($subscriptionDetails->subscription_id);
 
@@ -160,8 +160,8 @@ class CardController extends Controller
             $subscriptionDetails->save();
 
             // Assign the 'user' role to the user
-            $user->syncRoles(['user']);
-
+            $user->syncRoles(['User']);
+            $user->removeRole('Admin');
             // Logout the user
             Auth::logout();
 

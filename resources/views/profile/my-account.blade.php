@@ -36,7 +36,7 @@ $page = 'account';
                             </div>
                             <div class="form-group">
                                 <label>Card Number</label>
-                                <input  class="form-control" value="{{$user->card}}" readonly>
+                                <input  class="form-control" name="card" value="{{$user->card}}" readonly>
                             </div>
                         </div>
 

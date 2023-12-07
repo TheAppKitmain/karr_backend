@@ -37,9 +37,9 @@
                     </li>
                     @can('users-list')
                         <li class="treeview 
-                <?php if ($page == 'user') {
-                    echo 'active';
-                } ?>">
+                        <?php if ($page == 'user') {
+                            echo 'active';
+                        } ?>">
                             <a href="{{ route('users.index') }}">
                                 <span>
 
