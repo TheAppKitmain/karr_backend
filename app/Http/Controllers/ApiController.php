@@ -165,12 +165,12 @@ class ApiController extends Controller
             $validator = Validator::make($request->all(), [
                 'driver_id' => 'required|exists:drivers,id',
                 'pcn' => 'required',
-                'date' => 'required',
+                'date' => 'required|date', // Make sure it's a valid date format
                 'price' => 'required',
                 'ticket_issuer' => 'required',
                 'notes' => 'nullable',
             ]);
-    
+
             if ($validator->fails()) {
                 return response()->json([
                     'message' => 'Validation failed',
@@ -178,16 +178,9 @@ class ApiController extends Controller
                     'status' => false
                 ]);
             } else {
-                $validateData = $request->validate([
-                    'pcn' => 'required',
-                    'date' => 'required',
-                    'price' => 'required',
-                    'ticket_issuer' => 'required',
-                    'driver_id' => 'required|exists:drivers,id',
-                    'notes' => 'nullable',
-
-                ]);
-    
+                $validateData = $validator->validated();
+                // Convert the date to the desired format (Y-m-d)
+                $validateData['date'] = date('Y-m-d', strtotime($validateData['date']));
                 Ticket::create($validateData);
                 return response()->json([
                     'message' => 'Ticket is stored',
@@ -202,7 +195,6 @@ class ApiController extends Controller
             ]);
         }
     }
-    
 
     public function driverTicket(Request $request)
     {
@@ -365,7 +357,7 @@ class ApiController extends Controller
                 'user_id' => 'required|exists:users,id',
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             ]);
-    
+
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
                 $extension = $image->getClientOriginalExtension();
@@ -373,9 +365,9 @@ class ApiController extends Controller
                 $image->move(public_path('driver'), $imageName);
                 $validatedData['image'] = $imageName;
             }
-    
+
             $fine = Fines::create($validatedData);
-    
+
             return response()->json([
                 'message' => 'Image is saved',
                 'status' => true,
@@ -388,5 +380,4 @@ class ApiController extends Controller
             ], 401);
         }
     }
-    
 }
