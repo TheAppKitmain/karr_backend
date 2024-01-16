@@ -233,6 +233,7 @@ $page = 'ticket';
                                 @can('ticket-pay')
                                     <th>Pay</th>
                                 @endcan
+                                <th>Delete</th>
                             </tr>
                         </thread>
                         <tbody>
@@ -267,6 +268,13 @@ $page = 'ticket';
                                                     href="{{ route('ticket.pay', $ticket->id) }}">Disputed</a>
                                             </td>
                                         @endif
+                                        <td>
+                                            <form action="{{ route('ticket.delete', $ticket->id) }}" method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this ticket?')">Delete</button>
+                                            </form>
+                                        </td>
                                     @endcan
                             @endforeach
                         </tbody>

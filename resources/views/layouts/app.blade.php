@@ -9,7 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>KARR</title>
-    <link rel="icon" href="{{ url('assets/dist/img/favicon.ico') }}">
+    <link rel="icon" href="{{ url('assets/dist/img/logo.jpeg') }}">
 
     <link rel="stylesheet" href="{{ asset('assets/bootstrap/css/bootstrap.min.css') }}">
 

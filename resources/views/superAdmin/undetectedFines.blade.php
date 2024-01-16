@@ -39,8 +39,8 @@ $page = 'fine';
                                         <img src="{{ asset($fine->image) }}" width="100" height="80" alt="User Image">
                                     </a>
                                 </td>
-                                <td>{{ $fine->user->business }}</td>
                                 <td>{{ $fine->driver->name }}</td>
+                                <td>{{ $fine->user->name }}</td>
                             </tr>
                         @endforeach
                     </tbody>

@@ -290,4 +290,10 @@ class TicketController extends Controller
         // dd($cids,$lids,$tids);
         return redirect()->back()->with('success', 'Payment has been done');
     }
+    public function deleteTicket($id)
+    {
+        $ticket = Ticket::find($id);
+        $ticket->delete();
+        return redirect()->route('tickets')->with('success', 'Deleted');
+    }
 }

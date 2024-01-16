@@ -27,20 +27,8 @@ $page = 'user';
                                     </div>
                                 @endif
                                 <div class="form-group">
-                                    <label>First Name</label>
-                                    <input type="text" name="f_name" value={{ $user->f_name }} class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label>Last Name</label>
-                                    <input type="text" name="l_name" value={{ $user->l_name }} class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label>Business Name</label>
-                                    <input type="text" name="business" value={{ $user->business }} class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label>Contact Number</label>
-                                    <input type="text" name="number" value={{ $user->number }} class="form-control">
+                                    <label>Name</label>
+                                    <input type="text" name="name" value={{ $user->name }} class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label>Email</label>

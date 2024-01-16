@@ -52,14 +52,11 @@ class UserController extends Controller
     {
         try {
             $validatedData = $this->validate($request, [
-                'f_name' => 'required',
-                'l_name' => 'required',
-                'business' => 'required',
+                'name' => 'required',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|same:confirm-password',
                 'roles' => 'required',
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
-                'number' => 'nullable',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             ]);
 
             if ($request->hasFile('image')) {
@@ -108,21 +105,17 @@ class UserController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'f_name' => 'required',
-                'l_name' => 'required',
-                'business' => 'required',
+                'name' => 'required',
                 'email' => 'required|email|unique:users,email,' . $id,
                 'password' => 'nullable|same:confirm-password',
                 'roles' => 'required',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
-
             ]);
 
             $user = User::find($id);
 
             // Update name and email
-            $user->f_name = $validatedData['f_name'];
-            $user->l_name = $validatedData['l_name'];
+            $user->name = $validatedData['name'];
             $user->email = $validatedData['email'];
 
             // Update password if provided
@@ -222,8 +215,7 @@ class UserController extends Controller
      */
     public function delete($id)
     {
-        $user = User::findOrFail($id);
-        $user->delete();
+        User::find($id)->delete();
         return redirect()->route('users.index')
             ->with('success', 'User deleted successfully');
     }
@@ -310,7 +302,6 @@ class UserController extends Controller
             foreach ($ticketsData as $ticketMonth => $values) {
                 // Calculate the total price for the month
                 $totalPrice = $values->sum('price');
-
                 $ticketMonths[] = $ticketMonth;
                 $ticketPrice[] = $totalPrice;
             }

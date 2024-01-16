@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Signup</title>
     <link rel="stylesheet" href="{{ asset('assets/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="icon" href="{{ url('assets/dist/img/logo.jpeg') }}">
 
     <!-- admin style -->
     <link rel="stylesheet" href="{{ asset('assets/dist/css/style.css') }}">
@@ -34,11 +35,11 @@
                     <div class="col-md-6 col-sm-6 col-12">
                         <div class="form-group">
                             <label>First Name</label>
-                            <input id="f_name" type="text" placeholder="First Name"
-                                class="form-control @error('name') is-invalid @enderror" name="f_name"
-                                value="{{ old('f_name') }}" required autocomplete="name" autofocus>
+                            <input id="name" type="text" placeholder="First Name"
+                                class="form-control @error('name') is-invalid @enderror" name="name"
+                                value="{{ old('name') }}" required autocomplete="name" autofocus>
 
-                            @error('f_name')
+                            @error('name')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -75,7 +76,7 @@
                     <div class="col-md-12 col-sm-12 col-12">
                         <div class="form-group">
                             <label>Number</label>
-                            <input type="number" class="form-control" name="number" placeholder="Contact Number">
+                            <input type="number" class="form-control" name="text" placeholder="Contact Number">
                         </div>
                     </div>
                     <div class="col-md-12 col-sm-12 col-12">
@@ -112,7 +113,7 @@
 
 
             <div class="signup-image">
-                <img src="{{ asset('assets/dist/img/signup.png') }}" style="object-fit:cover">
+                <img src="{{ asset('assets/dist/img/signup.png') }}" alt="">
             </div>
         </section>
 

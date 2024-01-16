@@ -46,7 +46,7 @@ $page = 'user';
 
                     @foreach ($users as $key => $user)
                         <tr>
-                            <td><a href=""></a>{{ $user->business }}</td>
+                            <td><a href=""></a>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>
                                 @can('role-list')

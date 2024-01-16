@@ -10,6 +10,7 @@ use App\Models\Paytoll;
 use App\Models\Paytoll_Driver;
 use App\Models\Ticket;
 use App\Models\User;
+use Carbon\Carbon;
 use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
@@ -40,7 +41,7 @@ class ApiController extends Controller
                     'logo' => 'No image found',
                 ], 200);
             } else {
-                $imageUrl = 'http://54.146.4.118/image/' . $image;
+                $imageUrl = 'https://dashboard.karrcompany.co.uk/image/' . $image;
                 return response()->json([
                     'status' => true,
                     'message' => 'Login successful',
@@ -169,6 +170,7 @@ class ApiController extends Controller
                 'ticket_issuer' => 'required',
                 'notes' => 'nullable',
             ]);
+    
             if ($validator->fails()) {
                 return response()->json([
                     'message' => 'Validation failed',
@@ -185,20 +187,22 @@ class ApiController extends Controller
                     'notes' => 'nullable',
 
                 ]);
-
+    
                 Ticket::create($validateData);
                 return response()->json([
-                    'message' => 'ticket is stored',
+                    'message' => 'Ticket is stored',
                     'status' => true,
                 ], 200);
             }
         } catch (Exception $e) {
             return response()->json([
-                'message' => 'ticket data is not stored',
-                'status' => false
+                'message' => 'Ticket data is not stored',
+                'status' => false,
+                'error' => $e->getMessage(),
             ]);
         }
     }
+    
 
     public function driverTicket(Request $request)
     {

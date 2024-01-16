@@ -11,15 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cards', function (Blueprint $table) {
+        Schema::create('subscriptiondbs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->string('name');
-            $table->string('card');
-            $table->string('year');
-            $table->string('mon');
-            $table->string('cvc');
             $table->timestamps();
         });
     }
@@ -29,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cards');
+        Schema::dropIfExists('subscriptiondbs');
     }
 };

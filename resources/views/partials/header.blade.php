@@ -24,7 +24,7 @@ $image = Auth::user()->image;
             <ul class="nav navbar-nav">
                 <li style="margin-top: 20px;">
                     <a style="color: #000000; text-align:bottom">
-                        {{ Auth::user()->business }}
+                        {{ Auth::user()->name }}
                     </a>
                 </li>
                 {{-- <li class="dropdown tasks-menu">

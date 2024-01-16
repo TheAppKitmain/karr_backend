@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login</title>
     <link rel="stylesheet" href="{{ asset('assets/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="icon" href="{{ url('assets/dist/img/logo.jpeg') }}">
 
     <!-- admin style -->
     <link rel="stylesheet" href="{{ asset('assets/dist/css/style.css') }}">
@@ -78,7 +79,7 @@
 
 
     <!-- Bootstrap 3.3.2 JS -->
-    <script src="{{ asset('assets/bootstrap/js/bootstrap.min.js') }}" style="object-fit: cover;" type="text/javascript"></script>
+    <script src="{{ asset('assets/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
     <script>
         // Array of image URLs
         var imageArray = [
