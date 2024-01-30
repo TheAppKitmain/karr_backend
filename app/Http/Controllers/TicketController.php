@@ -86,7 +86,7 @@ class TicketController extends Controller
         $city = City::find($id);
         $city->cityDrivers()->delete();
         $city->delete();
-        return redirect()->route('city')->with('success', 'City charges has been deleted successfully.');
+        return redirect()->back()->with('success', 'City charges has been deleted successfully.');
     }
     public function cityEdit($id)
     {
