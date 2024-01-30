@@ -168,7 +168,7 @@ class PaytollController extends Controller
             $toll->days = json_encode($data['days']);
             $toll->save();
 
-            return redirect()->route('toll')->with('success', 'Toll has been created successfully.');
+            return redirect()->route('admin.tolls')->with('success', 'Toll has been created successfully.');
         } catch (\Exception $e) {
 
             return back()->with('error', $e . 'Failed to create toll. Please try again.');

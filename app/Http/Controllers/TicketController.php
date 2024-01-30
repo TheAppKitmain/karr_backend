@@ -75,7 +75,7 @@ class TicketController extends Controller
             $input = $request->all();
             City::create($input);
 
-            return redirect()->route('city')->with('success', 'City charges has been created successfully.');
+            return redirect()->route('admin.tolls')->with('success', 'City charges has been created successfully.');
         } catch (\Exception $e) {
 
             return back()->with('error', 'Failed to create charges. Please try again.');
