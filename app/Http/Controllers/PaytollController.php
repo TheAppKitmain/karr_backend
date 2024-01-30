@@ -206,7 +206,7 @@ class PaytollController extends Controller
                 }
             }
             $toll->update($data);
-            return redirect()->route('toll')->with('success', 'Toll has been updated successfully.');
+            return redirect()->route('admin.tolls')->with('success', 'Toll has been updated successfully.');
         } catch (\Exception $e) {
 
             return back()->with('error', 'Failed to update toll. Please try again.');

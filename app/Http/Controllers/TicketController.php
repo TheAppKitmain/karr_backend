@@ -106,7 +106,7 @@ class TicketController extends Controller
             $city = City::find($id);
             $city->update($input);
 
-            return redirect()->route('city')->with('success', 'City charges has been updated successfully.');
+            return redirect()->route('admin.tolls')->with('success', 'City charges has been updated successfully.');
         } catch (\Exception $e) {
             // Log the exception for debugging
 
