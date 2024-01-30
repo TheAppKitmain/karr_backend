@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->uuid('pd')->unique();
             $table->unsignedBigInteger('paytoll_id');
-            $table->foreign('paytoll_id')->references('id')->on('paytolls');
+            $table->foreign('paytoll_id')->references('id')->on('paytolls')->onDelete('cascade');
             $table->unsignedBigInteger('driver_id');
-            $table->foreign('driver_id')->references('id')->on('drivers');
+            $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
             $table->string('status')->default('0');
             $table->string('way');
             $table->string('date');

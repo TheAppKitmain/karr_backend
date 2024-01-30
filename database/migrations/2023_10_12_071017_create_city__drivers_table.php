@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->uuid('cd')->unique();            
             $table->unsignedBigInteger('city_id');
-            $table->foreign('city_id')->references('id')->on('cities');
+            $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
             $table->unsignedBigInteger('driver_id');
-            $table->foreign('driver_id')->references('id')->on('drivers');
+            $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
             $table->string('status')->default('0');
             $table->string('date');
             $table->unsignedBigInteger('user_id');

@@ -215,6 +215,7 @@ class PaytollController extends Controller
     public function delete($id)
     {
         $toll = Paytoll::find($id);
+        $toll->tollDrivers()->delete();
         $toll->delete();
         return redirect()->route('toll')->with('success', 'Toll has been deleted Successfully');
     }
