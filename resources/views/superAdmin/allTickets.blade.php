@@ -66,6 +66,7 @@ $page = 'tickets';
         .table td {
             font-size: 12px;
         }
+
         .pay {
             display: flex;
             justify-content: space-between;
@@ -85,7 +86,8 @@ $page = 'tickets';
             font-size: 14px;
 
         }
-        .main{
+
+        .main {
             background: #8C52FF !important;
             color: #FFF;
         }
@@ -114,7 +116,7 @@ $page = 'tickets';
             @endif
             <div class="scroll" id="AllTable">
                 <table class="table" id="Alltable">
-                    <h4  style="margin-bottom: 10px">Tickets & charges</h4>
+                    <h4 style="margin-bottom: 10px">Tickets & charges</h4>
                     <thead>
                         <tr style="background-color: #F8F8FA">
                             <!-- Define the table headers -->
@@ -126,6 +128,7 @@ $page = 'tickets';
                             <th>Issued by</th>
                             <th>Type</th>
                             <th>Price</th>
+                            <th>Notes</th>
                             <th>Status</th>
                         </tr>
                     </thead>
@@ -134,9 +137,10 @@ $page = 'tickets';
                             <?php $name = 'tk'; ?>
                             <tr>
                                 <td>
-                                    <input type="checkbox" class="table-checkbox" data-table="tickets" data-price="{{ $ticket->price }}"
-                                        data-toll-id="{{ $ticket->id }}" data-driver-id="{{ $ticket->driver_id }}"
-                                        name="selected_items[]" value="{{ $ticket->id }}">
+                                    <input type="checkbox" class="table-checkbox" data-table="tickets"
+                                        data-price="{{ $ticket->price }}" data-toll-id="{{ $ticket->id }}"
+                                        data-driver-id="{{ $ticket->driver_id }}" name="selected_items[]"
+                                        value="{{ $ticket->id }}">
                                 </td>
                                 <!-- ... Rest of the table row ... -->
                                 <td>{{ $ticket->driver }}</td>
@@ -145,7 +149,9 @@ $page = 'tickets';
                                 <td>{{ $ticket->user_name }} </td>
                                 <td>{{ $ticket->ticket_issuer }}</td>
                                 <td>Ticket</td>
-                                <td>£ {{ number_format($ticket->price, 2) }}</td> @can('admin-ticket')
+                                <td>£ {{ number_format($ticket->price, 2) }}</td>
+                                <td>{{ $ticket->notes }}</td>
+                                @can('admin-ticket')
                                     @if ($ticket->status == '1')
                                         <td><a class="btn btn-success"
                                                 href="{{ route('admin.unpaid', ['id' => $ticket->id, 'd_id' => $ticket->driver_id, 'name' => $name]) }}">Mark
@@ -169,9 +175,10 @@ $page = 'tickets';
                             <?php $name = 'tl'; ?>
                             <tr>
                                 <td>
-                                    <input type="checkbox" class="table-checkbox" data-table="tolls"  data-price="{{ $toll->price }}"
-                                        data-toll-id="{{ $toll->paytoll_id }}" data-driver-id="{{ $toll->pd }}"
-                                        name="selected_items[]" value="{{ $toll->paytoll_id }}">
+                                    <input type="checkbox" class="table-checkbox" data-table="tolls"
+                                        data-price="{{ $toll->price }}" data-toll-id="{{ $toll->paytoll_id }}"
+                                        data-driver-id="{{ $toll->pd }}" name="selected_items[]"
+                                        value="{{ $toll->paytoll_id }}">
                                 </td>
                                 <!-- ... Rest of the table row ... -->
                                 <td>{{ $toll->name }}</td>
@@ -181,6 +188,7 @@ $page = 'tickets';
                                 <td></td>
                                 <td>Toll</td>
                                 <td>£ {{ number_format($toll->price, 2) }}</td>
+                                <td>{{ $toll->notes }}</td>
                                 @can('admin-ticket')
                                     @if ($toll->status == '1')
                                         <td><a class="btn btn-success"
@@ -205,9 +213,10 @@ $page = 'tickets';
                             <?php $name = 'ct'; ?>
                             <tr>
                                 <td>
-                                    <input type="checkbox" class="table-checkbox" data-table="city"  data-price="{{ $city->price }}"
-                                        data-toll-id="{{ $city->city_id }}" data-driver-id="{{ $city->cd }}"
-                                        name="selected_items[]" value="{{ $city->city_id }}">
+                                    <input type="checkbox" class="table-checkbox" data-table="city"
+                                        data-price="{{ $city->price }}" data-toll-id="{{ $city->city_id }}"
+                                        data-driver-id="{{ $city->cd }}" name="selected_items[]"
+                                        value="{{ $city->city_id }}">
                                 </td>
                                 <!-- ... Rest of the table row ... -->
                                 <td>{{ $city->city }}</td>
@@ -216,7 +225,9 @@ $page = 'tickets';
                                 <td>{{ $city->user_name }}</td>
                                 <td></td>
                                 <td>Charges</td>
-                                <td>£ {{ number_format($city->price, 2) }}</td> @can('admin-ticket')
+                                <td>£ {{ number_format($city->price, 2) }}</td>
+                                <td>{{ $city->notes }}</td>
+                                @can('admin-ticket')
                                     @if ($city->status == '1')
                                         <td><a class="btn btn-success"
                                                 href="{{ route('admin.unpaid', ['id' => $city->city_id, 'd_id' => $city->cd, 'name' => $name]) }}">Mark
@@ -257,6 +268,7 @@ $page = 'tickets';
                             <th>Issued by</th>
                             <th>Type</th>
                             <th>Price</th>
+                            <th>Notes</th>
                             <th>Status</th>
                         </tr>
                     </thead>
@@ -271,7 +283,9 @@ $page = 'tickets';
                                 <td>{{ $ticket->date }}</td>
                                 <td>{{ $ticket->ticket_issuer }}</td>
                                 <td>Ticket</td>
-                                <td>£ {{ number_format($ticket->price, 2) }}</td> @can('admin-ticket')
+                                <td>£ {{ number_format($ticket->price, 2) }}</td>
+                                <td>{{ $ticket->notes }}</td>
+                                @can('admin-ticket')
                                     @if ($ticket->status == '1')
                                         <td><a class="btn btn-success"
                                                 href="{{ route('admin.pay', ['id' => $ticket->id, 'd_id' => $ticket->driver_id, 'name' => $name]) }}">Mark
@@ -303,7 +317,9 @@ $page = 'tickets';
                                 <td>{{ $toll->date }}</td>
                                 <td></td>
                                 <td>Toll</td>
-                                <td>£ {{ number_format($toll->price, 2) }}</td> @can('admin-ticket')
+                                <td>£ {{ number_format($toll->price, 2) }}</td>
+                                <td>{{ $toll->notes }}</td>
+                                @can('admin-ticket')
                                     @if ($toll->status == '1')
                                         <td><a class="btn btn-success"
                                                 href="{{ route('admin.unpaid', ['id' => $toll->paytoll_id, 'd_id' => $toll->pd, 'name' => $name]) }}">Mark
@@ -325,7 +341,8 @@ $page = 'tickets';
 
                         @foreach ($unpaidCharges as $city)
                             <tr>
-                                <td><input type="checkbox" class="" data-table="" name="" value=""></td>
+                                <td><input type="checkbox" class="" data-table="" name="" value="">
+                                </td>
                                 <!-- ... Rest of the table row ... -->
                                 <td></td>
                                 <td>{{ $city->city }}</td>
@@ -333,6 +350,7 @@ $page = 'tickets';
                                 <td></td>
                                 <td>Charges</td>
                                 <td>£ {{ number_format($city->price, 2) }}</td>
+                                <td>{{ $city->notes }}</td>
                                 @can('admin-ticket')
                                     @if ($city->status == '1')
                                         <td>
@@ -368,6 +386,7 @@ $page = 'tickets';
                             <th>Issued by</th>
                             <th>Type</th>
                             <th>Price</th>
+                            <th>Notes</th>
                             <th>Status</th>
                         </tr>
                     </thead>
@@ -382,7 +401,9 @@ $page = 'tickets';
                                 <td>{{ $ticket->date }}</td>
                                 <td>{{ $ticket->ticket_issuer }}</td>
                                 <td>Ticket</td>
-                                <td>£ {{ number_format($ticket->price, 2) }}</td> @can('admin-ticket')
+                                <td>£ {{ number_format($ticket->price, 2) }}</td>
+                                <td>{{ $ticket->notes }}</td>
+                                @can('admin-ticket')
                                     @if ($ticket->status == '1')
                                         <td><a class="btn btn-success"
                                                 href="{{ route('admin.pay', ['id' => $ticket->id, 'd_id' => $ticket->driver_id, 'name' => $name]) }}">Paid</a>
@@ -411,7 +432,9 @@ $page = 'tickets';
                                 <td>{{ $toll->date }}</td>
                                 <td></td>
                                 <td>Toll</td>
-                                <td>£ {{ number_format($toll->price, 2) }}</td> @can('admin-ticket')
+                                <td>£ {{ number_format($toll->price, 2) }}</td>
+                                <td>{{ $toll->notes }}</td>
+                                @can('admin-ticket')
                                     @if ($toll->status == '1')
                                         <td><a class="btn btn-success"
                                                 href="{{ route('admin.pay', ['id' => $toll->paytoll_id, 'd_id' => $toll->pd, 'name' => $name]) }}">Paid</a>
@@ -439,7 +462,9 @@ $page = 'tickets';
                                 <td>{{ $city->time }}</td>
                                 <td></td>
                                 <td>Charges</td>
-                                <td>£ {{ number_format($city->price, 2) }}</td> @can('admin-ticket')
+                                <td>£ {{ number_format($city->price, 2) }}</td>
+                                <td>{{ $city->notes }}</td>
+                                @can('admin-ticket')
                                     @if ($city->status == '1')
                                         <td><a class="btn btn-success"
                                                 href="{{ route('admin.pay', ['id' => $city->city_id, 'd_id' => $city->cd, 'name' => $name]) }}">Paid</a>
@@ -564,9 +589,9 @@ $page = 'tickets';
             });
         });
     </script>
-        <script>
-            $(document).ready(function() {
-                $('#Alltable').DataTable();
-            });
-        </script>
+    <script>
+        $(document).ready(function() {
+            $('#Alltable').DataTable();
+        });
+    </script>
 @endsection

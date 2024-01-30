@@ -21,12 +21,14 @@ $page = 'tolls';
             background: #8C52FF;
             color: white;
         }
+
         .homeCity {
-            background:  #FFB400;
+            background: #FFB400;
             color: white;
         }
+
         .homeToll {
-            background:  #5A9FD6;
+            background: #5A9FD6;
             color: white;
         }
 
@@ -56,7 +58,7 @@ $page = 'tolls';
         .dropdown {
             display: flex;
             /* align-items: flex-end;
-                align-content: space-around; */
+                                                                        align-content: space-around; */
             justify-content: flex-end;
 
         }
@@ -90,7 +92,8 @@ $page = 'tolls';
             display: flex;
             justify-content: space-between;
         }
-        .main{
+
+        .main {
             background: #8C52FF !important;
             color: #FFF;
         }
@@ -155,6 +158,7 @@ $page = 'tolls';
                             <th>Issued by</th>
                             <th>Type</th>
                             <th>Price</th>
+                            <th>Notes</th>
                             <th>Status</th>
                         </tr>
                     </thead>
@@ -170,6 +174,7 @@ $page = 'tolls';
                                 <td>{{ $ticket->ticket_issuer }}</td>
                                 <td>Ticket</td>
                                 <td>£ {{ number_format($ticket->price, 2) }}</td>
+                                <td>{{ $ticket->notes }}</td>
                                 @can('toll-pay')
                                     @if ($ticket->status == '1')
                                         <td><a class="btn btn-success" href="{{ route('ticket.pay', $ticket->id) }}">Paid</a>
@@ -197,6 +202,7 @@ $page = 'tolls';
                                 <td></td>
                                 <td>Tolls</td>
                                 <td>£ {{ number_format($toll->price, 2) }}</td>
+                                <td>{{ $toll->notes }}</td>
                                 @can('toll-pay')
                                     @if ($toll->status == 1)
                                         <td><a class="btn btn-success"
@@ -227,6 +233,7 @@ $page = 'tolls';
                                 <td></td>
                                 <td>Charges</td>
                                 <td>£ {{ number_format($city->price, 2) }}</td>
+                                <td>{{ $city->notes }}</td>
                                 @can('toll-pay')
                                     @if ($city->status == 1)
                                         <td><a class="btn btn-success"
@@ -268,6 +275,7 @@ $page = 'tolls';
                             <th>Ticket Issuer</th>
                             <th>Type</th>
                             <th>Price</th>
+                            <th>Notes</th>
                             <th>Status</th>
                             @can('ticket-pay')
                                 <th>Pay</th>
@@ -285,6 +293,7 @@ $page = 'tolls';
                                 <td>{{ $ticket->ticket_issuer }}</td>
                                 <td>Ticket</td>
                                 <td>£ {{ number_format($ticket->price, 2) }}</td>
+                                <td>{{ $ticket->notes }}</td>
                                 @can('toll-pay')
                                     @if ($ticket->status == '1')
                                         <td>Paid</td>
@@ -318,6 +327,7 @@ $page = 'tolls';
                             <th>Time</th>
                             <th>Price</th>
                             <th>Type</th>
+                            <th>Notes</th>
                             <th>Status</th>
                             @can('charges-pay')
                                 <th>Pay</th>
@@ -333,6 +343,7 @@ $page = 'tolls';
                                 <td>{{ $city->user_name }}</td>
                                 <td>{{ $city->date }}</td>
                                 <td>£ {{ number_format($city->price, 2) }}</td>
+                                <td>{{ $city->notes }}</td>
                                 <td>Charges</td>
                                 @can('toll-pay')
                                     @if ($city->status == 1)
@@ -366,6 +377,7 @@ $page = 'tolls';
                             <th>Date</th>
                             <th>Type</th>
                             <th>Price</th>
+                            <th>Notes</th>
                             <th>Status</th>
                             @can('toll-pay')
                                 <th>Pay</th>
@@ -383,6 +395,7 @@ $page = 'tolls';
                                 </td>
                                 <td>Tolls</td>
                                 <td>£ {{ number_format($toll->price, 2) }}</td>
+                                <td>{{ $toll->notes }}</td>
                                 @can('toll-pay')
                                     @if ($toll->status == 1)
                                         <td> Paid </td>
@@ -419,6 +432,7 @@ $page = 'tolls';
                             <th>Issued by</th>
                             <th>Type</th>
                             <th>Price</th>
+                            <th>Notes</th>
                             <th>Status</th>
                         </tr>
                     </thead>
@@ -434,6 +448,7 @@ $page = 'tolls';
                                 <td>{{ $ticket->ticket_issuer }}</td>
                                 <td>Ticket</td>
                                 <td>£ {{ number_format($ticket->price, 2) }}</td>
+                                <td>{{ $ticket->notes }}</td>
                                 @can('toll-pay')
                                     @if ($ticket->status == '1')
                                         <td><a class="btn btn-success" href="{{ route('ticket.pay', $ticket->id) }}">Paid</a>
@@ -462,6 +477,7 @@ $page = 'tolls';
                                 <td></td>
                                 <td>Tolls</td>
                                 <td>£ {{ number_format($toll->price, 2) }}</td>
+                                <td>{{ $toll->notes }}</td>
                                 @can('toll-pay')
                                     @if ($toll->status == 1)
                                         <td><a class="btn btn-success"
@@ -492,6 +508,7 @@ $page = 'tolls';
                                 <td></td>
                                 <td>Charges</td>
                                 <td>£ {{ number_format($city->price, 2) }}</td>
+                                <td>{{ $city->notes }}</td>
                                 @can('toll-pay')
                                     @if ($city->status == 1)
                                         <td><a class="btn btn-success"
@@ -526,6 +543,7 @@ $page = 'tolls';
                             <th>Issued by</th>
                             <th>Type</th>
                             <th>Price</th>
+                            <th>Notes</th>
                             <th>Status</th>
                         </tr>
                     </thead>
@@ -541,6 +559,7 @@ $page = 'tolls';
                                 <td>{{ $ticket->ticket_issuer }}</td>
                                 <td>Ticket</td>
                                 <td>£ {{ number_format($ticket->price, 2) }}</td>
+                                <td>{{ $ticket->notes }}</td>
                                 @can('toll-pay')
                                     @if ($ticket->status == '1')
                                         <td><a class="btn btn-success" href="{{ route('ticket.pay', $ticket->id) }}">Paid</a>
@@ -569,6 +588,7 @@ $page = 'tolls';
                                 <td></td>
                                 <td>Tolls</td>
                                 <td>£ {{ number_format($toll->price, 2) }}</td>
+                                <td>{{ $toll->notes }}</td>
                                 @can('toll-pay')
                                     @if ($toll->status == 1)
                                         <td><a class="btn btn-success"
@@ -599,6 +619,7 @@ $page = 'tolls';
                                 <td></td>
                                 <td>Charges</td>
                                 <td>£ {{ number_format($city->price, 2) }}</td>
+                                <td>{{ $city->notes }}</td>
                                 @can('toll-pay')
                                     @if ($city->status == 1)
                                         <td><a class="btn btn-success"

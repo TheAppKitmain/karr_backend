@@ -68,7 +68,8 @@ $page = 'ticket';
             display: flex;
             justify-content: space-between;
         }
-        .main{
+
+        .main {
             background: #8C52FF !important;
             color: #FFF;
         }
@@ -229,6 +230,7 @@ $page = 'ticket';
                                 <th>Ticket Issuer</th>
                                 <th>Type</th>
                                 <th>Price</th>
+                                <th>Notes</th>
                                 <th>Status</th>
                                 @can('ticket-pay')
                                     <th>Pay</th>
@@ -239,8 +241,9 @@ $page = 'ticket';
                         <tbody>
                             @foreach ($tickets as $key => $ticket)
                                 <tr>
-                                    <td><input type="checkbox" class="table-checkbox" data-table="tickets" data-price="{{ $ticket->price }}"
-                                            name="ticket_ids[]" value="{{ $ticket->id }}"></td>
+                                    <td><input type="checkbox" class="table-checkbox" data-table="tickets"
+                                            data-price="{{ $ticket->price }}" name="ticket_ids[]"
+                                            value="{{ $ticket->id }}"></td>
                                     {{-- <td><input type="checkbox" name="" id="" value="{{ $ticket->id }}"></td> --}}
                                     <!-- ... Rest of the table row ... -->
                                     <td>{{ $ticket->driver->name }}</td>
@@ -249,6 +252,7 @@ $page = 'ticket';
                                     <td>{{ $ticket->ticket_issuer }}</td>
                                     <td>Ticket</td>
                                     <td>£ {{ number_format($ticket->price, 2) }}</td>
+                                    <td>{{ $ticket->notes }}</td>
                                     @can('toll-pay')
                                         @if ($ticket->status == '1')
                                             <td>Paid</td>
@@ -307,6 +311,7 @@ $page = 'ticket';
                                 <th>Ticket Issuer</th>
                                 <th>Type</th>
                                 <th>Price</th>
+                                <th>Notes</th>
                                 <th>Status</th>
                                 @can('ticket-pay')
                                     <th>Pay</th>
@@ -323,6 +328,7 @@ $page = 'ticket';
                                     <td>{{ $ticket->ticket_issuer }}</td>
                                     <td>Ticket</td>
                                     <td>£ {{ number_format($ticket->price, 2) }}</td>
+                                    <td>{{ $ticket->notes }}</td>
                                     @can('toll-pay')
                                         @if ($ticket->status == '1')
                                             <td>Paid</td>
@@ -369,6 +375,7 @@ $page = 'ticket';
                                 <th>Ticket Issuer</th>
                                 <th>Type</th>
                                 <th>Price</th>
+                                <th>Notes</th>
                                 <th>Status</th>
                                 @can('ticket-pay')
                                     <th>Pay</th>
@@ -385,6 +392,7 @@ $page = 'ticket';
                                     <td>{{ $ticket->ticket_issuer }}</td>
                                     <td>Ticket</td>
                                     <td>£ {{ number_format($ticket->price, 2) }}</td>
+                                    <td>{{ $ticket->notes }}</td>
                                     @can('toll-pay')
                                         @if ($ticket->status == '1')
                                             <td>Paid</td>
@@ -522,34 +530,34 @@ $page = 'ticket';
     <script>
         $(document).ready(function() {
             var totalPrice = 0.00;
-    
+
             // Attach a change event handler to the checkboxes
             $('.table-checkbox').on('change', function() {
                 var isChecked = $(this).prop('checked');
                 var price = parseFloat($(this).data('price'));
-    
+
                 // Update the total price based on whether the checkbox is checked or unchecked
                 if (isChecked) {
                     totalPrice += price;
                 } else {
                     totalPrice -= price;
                 }
-    
+
                 // Update the displayed total price
                 $('#totalPriceDisplay').text('Total Price: £ ' + totalPrice.toFixed(2));
             });
-    
+
             // // Handle the "Pay multiple" button click
             // $('#selectAllCheckboxItems').click(function(event) {
             //     event.preventDefault();
-    
+
             //     // At this point, the variable 'totalPrice' contains the cumulative price
             //     // for the selected checkboxes. You can use it to perform further actions.
-    
+
             //     // For example, you can redirect to the payment page with the selected IDs and total price:
             //     window.location.href = "{{ route('bulk') }}?ids=" + selectedIds.join(',') + "&totalPrice=" + totalPrice;
             // });
         });
     </script>
-    
+
 @endsection
