@@ -14,10 +14,6 @@ class Driver extends Model
         'name', 'number', 'license', 'password',
         'email', 'user_id',
     ];
-    public function car()
-    {
-        return $this->belongsTo(Car::class);
-    }
     public function paytolls()
     {
         return $this->belongsToMany(Paytoll::class);
@@ -41,7 +37,7 @@ class Driver extends Model
     }
     public function tollDrivers()
     {
-        return $this->hasMany(Paytoll::class);
+        return $this->hasMany(Paytoll_Driver::class);
     }
     
 }

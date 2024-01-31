@@ -152,6 +152,9 @@ class DriverController extends Controller
     public function destroy($id)
     {
         $driver = Driver::find($id);
+        $driver->cityDrivers()->delete();
+        $driver->tickets()->delete();
+        $driver->tollDrivers()->delete();
         $driver->delete();
 
         return redirect()->route('drivers.index')

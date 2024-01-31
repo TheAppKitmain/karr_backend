@@ -54,7 +54,7 @@ $page = 'driver';
                                     fill="#2D927E" mask="url(#path-1-inside-1_105_1242)" />
                             </svg>
 
-                            Create new driver
+                            Create New Driver
                         </a>
                     @endcan
                 </div>
