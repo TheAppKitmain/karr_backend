@@ -155,6 +155,7 @@ class DriverController extends Controller
         $driver->cityDrivers()->delete();
         $driver->tickets()->delete();
         $driver->tollDrivers()->delete();
+        $driver->fi
         $driver->delete();
 
         return redirect()->route('drivers.index')

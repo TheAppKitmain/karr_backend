@@ -39,5 +39,9 @@ class Driver extends Model
     {
         return $this->hasMany(Paytoll_Driver::class);
     }
+    public function fines()
+    {
+        return $this->hasMany(Fines::class);
+    }
     
 }

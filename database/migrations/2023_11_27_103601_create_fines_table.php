@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('image');
             $table->unsignedBigInteger('driver_id');
-            $table->foreign('driver_id')->references('id')->on('drivers');
+            $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
             $table->timestamps();
         });
     }
