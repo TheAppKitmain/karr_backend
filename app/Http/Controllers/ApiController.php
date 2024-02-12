@@ -180,7 +180,7 @@ class ApiController extends Controller
             } else {
                 $validateData = $validator->validated();
                 // Convert the date to the desired format (Y-m-d)
-                $validateData['date'] = date('Y-m-d', strtotime($validateData['date']));
+                $validateData['date'] = date('d-m-Y', strtotime($validateData['date']));
                 Ticket::create($validateData);
                 return response()->json([
                     'message' => 'Ticket is stored',
