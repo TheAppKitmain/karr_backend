@@ -385,52 +385,69 @@ class ApiController extends Controller
         $validator = Validator::make($request->all(), [
             'ticket_id' => 'required|exists:tickets,id',
         ]);
-    
+
         // Check if validation fails
         if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Validation failed',
-                'errors' => $validator->errors(),
-            ], 200);
-        }   
+            $err = $validator->errors()->getMessages();
+            $msg = array_values($err)[0][0];
+            $res['status'] = false;
+            $res['message'] = $msg;
+
+            return response()->json($res);
+        }
         $ticket = Ticket::findOrFail($request->ticket_id);
         $ticket->delete();
         return response()->json([
             'message' => 'Ticket is deleted',
             'status' => true,
-        ],200);
+        ], 200);
     }
     public function updateTicket(Request $request)
     {
-        $ticket = Ticket::findOrFail($request->ticket_id);
-    
-        $validator = Validator::make($request->all(), [
-            'ticket_id' => 'required|exists:tickets,id',
-            'driver_id' => 'required|exists:drivers,id',
-            'pcn' => 'required|unique:tickets,pcn,' . $ticket->id,
-            'date' => 'required|date',
-            'price' => 'required',
-            'ticket_issuer' => 'required',
-            'notes' => 'nullable',
-        ]);
-    
-        if ($validator->fails()) {
+        try {
+            $ticket = Ticket::find($request->ticket_id);
+            $validator = Validator::make($request->all(), [
+                'ticket_id' => 'required|exists:tickets,id',
+                'driver_id' => 'required|exists:drivers,id',
+                'pcn' => 'required|unique:tickets,pcn,' . $ticket->id,
+                'date' => 'required|date',
+                'price' => 'required',
+                'ticket_issuer' => 'required',
+                'notes' => 'nullable',
+            ]);
+
+            // if ($validator->fails()) {
+
+            //     return response()->json([
+            //         'status' => false,
+            //         'message' => 'Validation failed',
+            //         'errors' => $validator->errors(),
+            //     ], 200);
+            // }
+            //Send failed response if request is not valid
+            if ($validator->fails()) {
+                $err = $validator->errors()->getMessages();
+                $msg = array_values($err)[0][0];
+                $res['status'] = false;
+                $res['message'] = $msg;
+
+                return response()->json($res);
+            }
+
+            // Update the ticket with the validated data
+            $ticket->update($request->all());
+
+            // Return a success response
+            return response()->json([
+                'status' => true,
+                'message' => 'Ticket updated successfully',
+                'data' => $ticket,
+            ], 200);
+        } catch (Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Validation failed',
-                'errors' => $validator->errors(),
+                'message' => $e->getMessage(),
             ], 200);
         }
-    
-        // Update the ticket with the validated data
-        $ticket->update($request->all());
-    
-        // Return a success response
-        return response()->json([
-            'status' => true,
-            'message' => 'Ticket updated successfully',
-            'data' => $ticket,
-        ], 200);
     }
 }
