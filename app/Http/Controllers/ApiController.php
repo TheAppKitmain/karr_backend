@@ -78,7 +78,20 @@ class ApiController extends Controller
     public function driverCharge(Request $request)
     {
         $data = $request->input(); // Get the entire request data as an array.
+        $validator = Validator::make($request->all(), [
+            'driver_id' => 'required|exists:drivers,id',
+            'date' => 'required|date', // Make sure it's a valid date format
+            'cities' => 'required',
+            'notes' => 'nullable',
+        ]);
+        if ($validator->fails()) {
+            $err = $validator->errors()->getMessages();
+            $msg = array_values($err)[0][0];
+            $res['status'] = false;
+            $res['message'] = $msg;
 
+            return response()->json($res);
+        }
         $driverId = $data['driver_id'];
         $date = $data['date'];
         $cities = $data['cities'];
@@ -128,6 +141,21 @@ class ApiController extends Controller
     {
 
         $data = $request->input(); // Get the entire request data as an array.
+        $validator = Validator::make($request->all(), [
+            'driver_id' => 'required|exists:drivers,id',
+            'way' => 'required',
+            'date' => 'required|date', // Make sure it's a valid date format
+            'tolls' => 'required',
+            'notes' => 'nullable',
+        ]);
+        if ($validator->fails()) {
+            $err = $validator->errors()->getMessages();
+            $msg = array_values($err)[0][0];
+            $res['status'] = false;
+            $res['message'] = $msg;
+
+            return response()->json($res);
+        }
 
         $driverId = $data['driver_id'];
         $date = $data['date'];
@@ -172,11 +200,12 @@ class ApiController extends Controller
             ]);
 
             if ($validator->fails()) {
-                return response()->json([
-                    'message' => 'Validation failed',
-                    'errors' => $validator->errors(),
-                    'status' => false
-                ]);
+                $err = $validator->errors()->getMessages();
+                $msg = array_values($err)[0][0];
+                $res['status'] = false;
+                $res['message'] = $msg;
+
+                return response()->json($res);
             } else {
                 $validateData = $validator->validated();
                 // Convert the date to the desired format (Y-m-d)
