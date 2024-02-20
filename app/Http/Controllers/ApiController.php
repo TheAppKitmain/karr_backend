@@ -382,6 +382,18 @@ class ApiController extends Controller
     }
     public function deleteTicket(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'ticket_id' => 'required|exists:tickets,id',
+        ]);
+    
+        // Check if validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validation failed',
+                'errors' => $validator->errors(),
+            ], 200);
+        }   
         $ticket = Ticket::findOrFail($request->ticket_id);
         $ticket->delete();
         return response()->json([
@@ -394,6 +406,7 @@ class ApiController extends Controller
         $ticket = Ticket::findOrFail($request->ticket_id);
     
         $validator = Validator::make($request->all(), [
+            'ticket_id' => 'required|exists:tickets,id',
             'driver_id' => 'required|exists:drivers,id',
             'pcn' => 'required|unique:tickets,pcn,' . $ticket->id,
             'date' => 'required|date',
