@@ -164,7 +164,7 @@ class ApiController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'driver_id' => 'required|exists:drivers,id',
-                'pcn' => 'required',
+                'pcn' => 'required|unique:tickets,pcn',
                 'date' => 'required|date', // Make sure it's a valid date format
                 'price' => 'required',
                 'ticket_issuer' => 'required',
@@ -379,5 +379,45 @@ class ApiController extends Controller
                 'error' => $e->getMessage(),
             ], 401);
         }
+    }
+    public function deleteTicket(Request $request)
+    {
+        $ticket = Ticket::findOrFail($request->ticket_id);
+        $ticket->delete();
+        return response()->json([
+            'message' => 'Ticket is deleted',
+            'status' => true,
+        ],200);
+    }
+    public function updateTicket(Request $request)
+    {
+        $ticket = Ticket::findOrFail($request->ticket_id);
+    
+        $validator = Validator::make($request->all(), [
+            'driver_id' => 'required|exists:drivers,id',
+            'pcn' => 'required|unique:tickets,pcn,' . $ticket->id,
+            'date' => 'required|date',
+            'price' => 'required',
+            'ticket_issuer' => 'required',
+            'notes' => 'nullable',
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validation failed',
+                'errors' => $validator->errors(),
+            ], 200);
+        }
+    
+        // Update the ticket with the validated data
+        $ticket->update($request->all());
+    
+        // Return a success response
+        return response()->json([
+            'status' => true,
+            'message' => 'Ticket updated successfully',
+            'data' => $ticket,
+        ], 200);
     }
 }

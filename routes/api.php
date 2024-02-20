@@ -4,6 +4,8 @@ use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Spatie\FlareClient\Api;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -29,3 +31,5 @@ Route::post('/recent/activity',[ApiController::class, 'recentActivity']);
 Route::post('/add/notes',[ApiController::class, 'addNotes']);
 Route::post('/password', [ApiController::class, 'password']);
 Route::post('/fines',[ApiController::class,'fineImages']);
+Route::delete('/deleteTicket',[ApiController::class,'deleteTicket']);
+Route::put('/updateTicket',[ApiController::class,'updateTicket']);
