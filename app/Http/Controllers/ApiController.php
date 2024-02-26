@@ -110,6 +110,7 @@ class ApiController extends Controller
                 'date' => $date,
                 'notes' => $note,
                 'user_id' => $userId,
+                'created_at' => now()
             ]);
         }
 
@@ -178,6 +179,7 @@ class ApiController extends Controller
                 'date' => $date,
                 'notes' => $note,
                 'user_id' => $userId,
+                'created_at' => now(),
             ]);
         }
 
@@ -445,15 +447,6 @@ class ApiController extends Controller
                 'notes' => 'nullable',
             ]);
 
-            // if ($validator->fails()) {
-
-            //     return response()->json([
-            //         'status' => false,
-            //         'message' => 'Validation failed',
-            //         'errors' => $validator->errors(),
-            //     ], 200);
-            // }
-            //Send failed response if request is not valid
             if ($validator->fails()) {
                 $err = $validator->errors()->getMessages();
                 $msg = array_values($err)[0][0];
@@ -478,5 +471,31 @@ class ApiController extends Controller
                 'message' => $e->getMessage(),
             ], 200);
         }
+    }
+    public function countRecord(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:drivers,id',
+        ]);
+
+        if ($validator->fails()) {
+            $err = $validator->errors()->getMessages();
+            $msg = array_values($err)[0][0];
+            $res['status'] = false;
+            $res['message'] = $msg;
+
+            return response()->json($res);
+        }
+
+        $ticketsCount = Ticket::where('driver_id', $request->id)->count();
+        $tollCount = Paytoll_Driver::where('driver_id', $request->id)->count();
+        $cityCount = City_Driver::where('driver_id', $request->id)->count();
+        return response()->json([
+            'status' => true,
+            'message' => 'Count of driver activity',
+            'tickets' => $ticketsCount,
+            'city charges' => $cityCount,
+            'tolls' => $tollCount,
+        ], 200);
     }
 }
