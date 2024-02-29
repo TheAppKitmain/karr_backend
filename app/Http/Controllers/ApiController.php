@@ -198,7 +198,7 @@ class ApiController extends Controller
                 'price' => 'required',
                 'ticket_issuer' => 'required',
                 'notes' => 'nullable',
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+                'image' => 'nullable|file|mimes:jpeg,png,jpg,gif',
             ]);
 
             if ($validator->fails()) {
