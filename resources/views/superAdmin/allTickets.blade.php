@@ -121,6 +121,7 @@ $page = 'tickets';
                         <tr style="background-color: #F8F8FA">
                             <!-- Define the table headers -->
                             <th><input type="checkbox" id="select-all" /> Select All</th>
+                            <th>Image</th>
                             <th>Name</th>
                             <th>PCN</th>
                             <th>Date</th>
@@ -143,6 +144,11 @@ $page = 'tickets';
                                         value="{{ $ticket->id }}">
                                 </td>
                                 <!-- ... Rest of the table row ... -->
+                                @if ($ticket->image)
+                                    <td><img width="100" height="80" src="{{ asset('ticket/' . $ticket->image) }}">
+                                    @else
+                                    <td></td>
+                                @endif
                                 <td>{{ $ticket->driver }}</td>
                                 <td>{{ $ticket->pcn }}</td>
                                 <td>{{ $ticket->date }}</td>
@@ -180,7 +186,7 @@ $page = 'tickets';
                                         data-driver-id="{{ $toll->pd }}" name="selected_items[]"
                                         value="{{ $toll->paytoll_id }}">
                                 </td>
-                                <!-- ... Rest of the table row ... -->
+                                <td></td>
                                 <td>{{ $toll->name }}</td>
                                 <td></td>
                                 <td>{{ $toll->date }}</td>
@@ -218,7 +224,7 @@ $page = 'tickets';
                                         data-driver-id="{{ $city->cd }}" name="selected_items[]"
                                         value="{{ $city->city_id }}">
                                 </td>
-                                <!-- ... Rest of the table row ... -->
+                                <td></td>
                                 <td>{{ $city->city }}</td>
                                 <td></td>
                                 <td>{{ $city->date }}</td>
@@ -261,6 +267,7 @@ $page = 'tickets';
                     <thead>
                         <tr style="background-color: #F8F8FA">
                             <!-- Define the table headers -->
+                            <th>Image</th>
                             <th>Check</th>
                             <th>PCN</th>
                             <th>Name</th>
@@ -277,7 +284,11 @@ $page = 'tickets';
                             <tr>
                                 <td><input type="checkbox" class="" data-table="" name=""
                                         value="{{ $ticket->id }}"></td>
-                                <!-- ... Rest of the table row ... -->
+                                @if ($ticket->image)
+                                    <td><img width="100" height="80" src="{{ asset('ticket/' . $ticket->image) }}">
+                                    @else
+                                    <td></td>
+                                @endif
                                 <td>{{ $ticket->pcn }}</td>
                                 <td>{{ $ticket->driver->name }}</td>
                                 <td>{{ $ticket->date }}</td>
@@ -311,7 +322,7 @@ $page = 'tickets';
                                     <input type="checkbox" class="" data-table="" name="" value="">
 
                                 </td>
-                                <!-- ... Rest of the table row ... -->
+                                <td></td>
                                 <td></td>
                                 <td>{{ $toll->name }}</td>
                                 <td>{{ $toll->date }}</td>
@@ -344,6 +355,7 @@ $page = 'tickets';
                                 <td><input type="checkbox" class="" data-table="" name="" value="">
                                 </td>
                                 <!-- ... Rest of the table row ... -->
+                                <td></td>
                                 <td></td>
                                 <td>{{ $city->city }}</td>
                                 <td>{{ $city->time }}</td>
@@ -379,6 +391,7 @@ $page = 'tickets';
                     <thead>
                         <tr style="background-color: #F8F8FA">
                             <!-- Define the table headers -->
+                            <th>Image</th>
                             <th>Check</th>
                             <th>PCN</th>
                             <th>Name</th>
@@ -396,6 +409,12 @@ $page = 'tickets';
                                 <td><input type="checkbox" class="" data-table="" name=""
                                         value="{{ $ticket->id }}"></td>
                                 <!-- ... Rest of the table row ... -->
+                                @if ($ticket->image)
+                                    <td><img width="100" height="80"
+                                            src="{{ asset('ticket/' . $ticket->image) }}">
+                                    @else
+                                    <td></td>
+                                @endif
                                 <td>{{ $ticket->pcn }}</td>
                                 <td>{{ $ticket->driver->name }}</td>
                                 <td>{{ $ticket->date }}</td>
@@ -428,6 +447,7 @@ $page = 'tickets';
                                         value="{{ $toll->paytoll_id }}"></td>
                                 <!-- ... Rest of the table row ... -->
                                 <td></td>
+                                <td></td>
                                 <td>{{ $toll->name }}</td>
                                 <td>{{ $toll->date }}</td>
                                 <td></td>
@@ -457,6 +477,7 @@ $page = 'tickets';
                                 <td><input type="checkbox" class="" data-table="" name=""
                                         value="{{ $city->city_id }}"></td>
                                 <!-- ... Rest of the table row ... -->
+                                <td></td>
                                 <td></td>
                                 <td>{{ $city->city }}</td>
                                 <td>{{ $city->time }}</td>

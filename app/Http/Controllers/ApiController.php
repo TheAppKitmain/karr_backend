@@ -188,17 +188,17 @@ class ApiController extends Controller
             'message' => 'IDs stored successfully',
         ], 200);
     }
-
     public function ticket(Request $request)
     {
         try {
             $validator = Validator::make($request->all(), [
                 'driver_id' => 'required|exists:drivers,id',
                 'pcn' => 'required|unique:tickets,pcn',
-                'date' => 'required|date', // Make sure it's a valid date format
+                'date' => 'required|date',
                 'price' => 'required',
                 'ticket_issuer' => 'required',
                 'notes' => 'nullable',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
             ]);
 
             if ($validator->fails()) {
@@ -210,12 +210,19 @@ class ApiController extends Controller
                 return response()->json($res);
             } else {
                 $validateData = $validator->validated();
-                // Convert the date to the desired format (Y-m-d)
-                $validateData['date'] = date('d-m-Y', strtotime($validateData['date']));
-                Ticket::create($validateData);
+                if ($request->hasFile('image')) {
+                    $image = $request->file('image');
+                    $extension = $image->getClientOriginalExtension();
+                    $imageName = $validateData['pcn'] . '.' . $extension;
+                    $image->move(public_path('ticket'), $imageName);
+                    $validateData['image'] = $imageName;
+                }
+                $validateData['date'] = date('Y-m-d', strtotime($validateData['date']));
+                $ticket = Ticket::create($validateData);
                 return response()->json([
                     'message' => 'Ticket is stored',
                     'status' => true,
+                    'ticket' => $ticket
                 ], 200);
             }
         } catch (Exception $e) {

@@ -224,6 +224,7 @@ $page = 'ticket';
                             <h4 id="ticketsHeading" style="display:none; ">Tickets</h4>
                             <tr style="background-color: #F8F8FA">
                                 <th><input type="checkbox" id="select-all" /> Select All</th>
+                                <th>Image</th>
                                 <th>Name</th>
                                 <th>Date</th>
                                 <th>PCN</th>
@@ -244,8 +245,13 @@ $page = 'ticket';
                                     <td><input type="checkbox" class="table-checkbox" data-table="tickets"
                                             data-price="{{ $ticket->price }}" name="ticket_ids[]"
                                             value="{{ $ticket->id }}"></td>
-                                    {{-- <td><input type="checkbox" name="" id="" value="{{ $ticket->id }}"></td> --}}
-                                    <!-- ... Rest of the table row ... -->
+                                    @if ($ticket->image)
+                                        <td><img width="100" height="80"
+                                                src="{{ asset('ticket/' . $ticket->image) }}">
+                                        @else
+                                        <td>No Image</td>
+                                    @endif
+                                    </td>
                                     <td>{{ $ticket->driver->name }}</td>
                                     <td>{{ $ticket->date }}</td>
                                     <td>{{ $ticket->pcn }}</td>
@@ -305,6 +311,7 @@ $page = 'ticket';
                         <thread>
                             <h4 id="unpaidHeading" style="display:none; ">Unpaid Tickets</h4>
                             <tr style="background-color: #F8F8FA">
+                                <th>Image</th>
                                 <th>Name</th>
                                 <th>Date</th>
                                 <th>PCN</th>
@@ -322,6 +329,12 @@ $page = 'ticket';
                             @foreach ($unpaid as $key => $ticket)
                                 <tr>
                                     <!-- ... Rest of the table row ... -->
+                                    @if ($ticket->image)
+                                        <td><img width="100" height="80"
+                                                src="{{ asset('ticket/' . $ticket->image) }}">
+                                        @else
+                                        <td>No Image</td>
+                                    @endif
                                     <td>{{ $ticket->driver->name }}</td>
                                     <td>{{ $ticket->date }}</td>
                                     <td>{{ $ticket->pcn }}</td>
@@ -369,6 +382,7 @@ $page = 'ticket';
                         <thread>
                             <h4 id="paidHeading" style="display:none; ">Paid Tickets</h4>
                             <tr style="background-color: #F8F8FA">
+                                <th>Image</th>
                                 <th>Name</th>
                                 <th>Date</th>
                                 <th>PCN</th>
@@ -386,6 +400,12 @@ $page = 'ticket';
                             @foreach ($paid as $key => $ticket)
                                 <tr>
                                     <!-- ... Rest of the table row ... -->
+                                    @if ($ticket->image)
+                                        <td><img width="100" height="80"
+                                                src="{{ asset('ticket/' . $ticket->image) }}">
+                                        @else
+                                        <td>No Image</td>
+                                    @endif
                                     <td>{{ $ticket->driver->name }}</td>
                                     <td>{{ $ticket->date }}</td>
                                     <td>{{ $ticket->pcn }}</td>

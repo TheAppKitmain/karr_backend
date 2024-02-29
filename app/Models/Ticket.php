@@ -17,6 +17,7 @@ class Ticket extends Model
         'status',
         'price',
         'notes',
+        'image',
     ];
     public function driver()
     {
