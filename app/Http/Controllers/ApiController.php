@@ -505,4 +505,60 @@ class ApiController extends Controller
             'tolls' => $tollCount,
         ], 200);
     }
+
+    public function dataDisplay(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:drivers,id',
+        ]);
+
+        if ($validator->fails()) {
+            $err = $validator->errors()->getMessages();
+            $msg = array_values($err)[0][0];
+            $res['status'] = false;
+            $res['message'] = $msg;
+
+            return response()->json($res);
+        }
+
+        $tickets = Ticket::where('driver_id', $request->id)
+            ->select('date', 'id', 'notes','pcn')
+            ->get()
+            ->map(function ($item) {
+                $item->type = 'ticket';
+                $item->pd = '';
+                $item->cd = '';
+                return $item;
+            });
+
+        $tolls = Paytoll_Driver::where('driver_id', $request->id)
+            ->join('paytolls', 'paytoll__drivers.paytoll_id', '=', 'paytolls.id')
+            ->select('paytolls.name as name', 'paytoll__drivers.date', 'paytoll__drivers.pd', 'paytoll__drivers.notes')
+            ->get()
+            ->map(function ($item) {
+                $item->type = 'toll';
+                $item->id = '';
+                $item->cd = '';
+                return $item;
+            });
+
+        $cityCharges = City_Driver::where('driver_id', $request->id)
+            ->join('cities', 'city__drivers.city_id', '=', 'cities.id')
+            ->select('cities.area as name', 'city__drivers.date', 'city__drivers.cd', 'city__drivers.notes')
+            ->get()
+            ->map(function ($item) {
+                $item->type = 'city charges';
+                $item->id = '';
+                $item->pd = '';
+                return $item;
+            });
+
+        $data = $tickets->concat($tolls)->concat($cityCharges);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Data of driver',
+            'notes' => $data->toArray(),
+        ], 200);
+    }
 }

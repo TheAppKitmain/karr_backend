@@ -34,3 +34,4 @@ Route::post('/fines', [ApiController::class, 'fineImages']);
 Route::delete('/deleteTicket', [ApiController::class, 'deleteTicket']);
 Route::put('/updateTicket', [ApiController::class, 'updateTicket']);
 Route::get('/driver/record', [ApiController::class, 'countRecord']);
+Route::get('driver/data', [ApiController::class, 'dataDisplay']);
