@@ -522,7 +522,7 @@ class ApiController extends Controller
         }
 
         $tickets = Ticket::where('driver_id', $request->id)
-            ->select('date', 'id', 'notes','pcn')
+            ->select('date', 'id', 'notes','pcn as name')
             ->get()
             ->map(function ($item) {
                 $item->type = 'ticket';
