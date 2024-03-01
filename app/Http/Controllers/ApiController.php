@@ -522,34 +522,28 @@ class ApiController extends Controller
         }
 
         $tickets = Ticket::where('driver_id', $request->id)
-            ->select('date', 'id', 'notes','pcn as name')
+            ->select('date', 'id as note_id', 'notes','pcn as name')
             ->get()
             ->map(function ($item) {
                 $item->type = 'ticket';
-                $item->pd = '';
-                $item->cd = '';
                 return $item;
             });
 
         $tolls = Paytoll_Driver::where('driver_id', $request->id)
             ->join('paytolls', 'paytoll__drivers.paytoll_id', '=', 'paytolls.id')
-            ->select('paytolls.name as name', 'paytoll__drivers.date', 'paytoll__drivers.pd', 'paytoll__drivers.notes')
+            ->select('paytolls.name as name', 'paytoll__drivers.date', 'paytoll__drivers.pd as note_id', 'paytoll__drivers.notes')
             ->get()
             ->map(function ($item) {
                 $item->type = 'toll';
-                $item->id = '';
-                $item->cd = '';
                 return $item;
             });
 
         $cityCharges = City_Driver::where('driver_id', $request->id)
             ->join('cities', 'city__drivers.city_id', '=', 'cities.id')
-            ->select('cities.area as name', 'city__drivers.date', 'city__drivers.cd', 'city__drivers.notes')
+            ->select('cities.area as name', 'city__drivers.date', 'city__drivers.cd as note_id', 'city__drivers.notes')
             ->get()
             ->map(function ($item) {
                 $item->type = 'city charges';
-                $item->id = '';
-                $item->pd = '';
                 return $item;
             });
 
