@@ -217,7 +217,7 @@ class ApiController extends Controller
                     $image->move(public_path('ticket'), $imageName);
                     $validateData['image'] = $imageName;
                 }
-                $validateData['date'] = date('Y-m-d', strtotime($validateData['date']));
+                // $validateData['date'] = date('Y-m-d', strtotime($validateData['date']));
                 $ticket = Ticket::create($validateData);
                 return response()->json([
                     'message' => 'Ticket is stored',
