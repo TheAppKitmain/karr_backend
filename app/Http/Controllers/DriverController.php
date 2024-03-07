@@ -31,7 +31,7 @@ class DriverController extends Controller
 
         // For Super Admins
         if ($roles->contains('name', 'Super Admin')) {
-            $drivers = Driver::all();
+            $drivers = Driver::orderBy('created_at', 'desc')->get();
             return view('drivers.index', compact('drivers'));
         }
         // For Admin

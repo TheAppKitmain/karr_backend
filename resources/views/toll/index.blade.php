@@ -343,8 +343,8 @@ $page = 'tolls';
                                 <td>{{ $city->user_name }}</td>
                                 <td>{{ $city->date }}</td>
                                 <td>£ {{ number_format($city->price, 2) }}</td>
-                                <td>{{ $city->notes }}</td>
                                 <td>Charges</td>
+                                <td>{{ $city->notes }}</td>
                                 @can('toll-pay')
                                     @if ($city->status == 1)
                                         <td>Paid</td>
