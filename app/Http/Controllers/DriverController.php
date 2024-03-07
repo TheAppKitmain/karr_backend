@@ -36,7 +36,7 @@ class DriverController extends Controller
         }
         // For Admin
         elseif ($roles->contains('name', 'Admin')) {
-            $drivers = Driver::where('user_id', $id)->get();
+            $drivers = Driver::where('user_id', $id)->orderBy('created_at', 'desc')->get();
             return view('drivers.index', compact('drivers'));
         }
     }
@@ -102,24 +102,35 @@ class DriverController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            request()->validate([
-                'name' => 'required',
-                'number' => 'required',
-                'license' => 'required',
-                'password' => 'required|min:6',
-                'email' => 'required'
+            // Define validation rules
+            $validateData = $request->validate([
+                'name' => 'required|string',
+                'license' => 'required|string',
+                'number' => 'required|string',
+                'password' => 'nullable|same:confirm-password',
+                'email' => 'required',
             ]);
-            $input = $request->all();
-            $input['password'] = Hash::make($input['password']);
-            $driver = Driver::find($id);
-            $driver->update($input);
 
-            return redirect()->route('drivers.index')
-                ->with('success', 'Driver updated successfully');
+            // If password is provided, add password validation rule
+            $driver = Driver::find($id);
+
+            $driver->name = $validateData['name'];
+            $driver->email = $validateData['email'];
+            $driver->number = $validateData['number'];
+            $driver->license = $validateData['license'];
+
+            if (!empty($validatedData['password'])) {
+                $driver->password = Hash::make($validatedData['password']);
+            }
+            // Update the driver
+            $driver->save();
+
+            return redirect()->route('drivers.index')->with('success', 'Driver updated successfully');
         } catch (\Exception $e) {
-            return back()->with('error', 'Failed to create driver. Please try again.');
+            return back()->with('error', 'Failed to update driver.' . $e->getMessage());
         }
     }
+
     public function assigndriver($id)
     {
         $driver = Driver::find($id);

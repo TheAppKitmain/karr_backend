@@ -8,6 +8,9 @@ $page = 'tickets';
     <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
     <style>
         .sort {
             width: 180px;
@@ -145,7 +148,10 @@ $page = 'tickets';
                                 </td>
                                 <!-- ... Rest of the table row ... -->
                                 @if ($ticket->image)
-                                    <td><img width="100" height="80" src="{{ asset('ticket/' . $ticket->image) }}">
+                                    <td> <a href="{{ asset('ticket/' . $ticket->image) }}" data-fancybox="gallery">
+                                            <img width="100" height="80"
+                                                src="{{ asset('ticket/' . $ticket->image) }}">
+                                        </a>
                                     @else
                                     <td></td>
                                 @endif
@@ -285,7 +291,11 @@ $page = 'tickets';
                                 <td><input type="checkbox" class="" data-table="" name=""
                                         value="{{ $ticket->id }}"></td>
                                 @if ($ticket->image)
-                                    <td><img width="100" height="80" src="{{ asset('ticket/' . $ticket->image) }}">
+                                    <td>
+                                        <a href="{{ asset('ticket/' . $ticket->image) }}" data-fancybox="gallery">
+                                            <img width="100" height="80"
+                                                src="{{ asset('ticket/' . $ticket->image) }}">
+                                        </a>
                                     @else
                                     <td></td>
                                 @endif
@@ -410,8 +420,10 @@ $page = 'tickets';
                                         value="{{ $ticket->id }}"></td>
                                 <!-- ... Rest of the table row ... -->
                                 @if ($ticket->image)
-                                    <td><img width="100" height="80"
-                                            src="{{ asset('ticket/' . $ticket->image) }}">
+                                    <td> <a href="{{ asset('ticket/' . $ticket->image) }}" data-fancybox="gallery">
+                                            <img width="100" height="80"
+                                                src="{{ asset('ticket/' . $ticket->image) }}">
+                                        </a>
                                     @else
                                     <td></td>
                                 @endif

@@ -32,15 +32,21 @@ class TicketController extends Controller
         $userId = Auth::user()->id;
         $tickets = Ticket::whereHas('driver.user', function ($query) use ($userId) {
             $query->where('id', $userId);
-        })->paginate(5);
+        })
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
         $unpaid = Ticket::whereHas('driver.user', function ($query) use ($userId) {
             $query->where('id', $userId)->where('status', '0');
-        })->paginate(5);
+        })
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
         $paid = Ticket::whereHas('driver.user', function ($query) use ($userId) {
             $query->where('id', $userId)->where('status', '1');
-        })->paginate(5);
-    //    return $paid;
-        return view('ticket.index', compact('tickets','paid','unpaid'));
+        })
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
+        //    return $paid;
+        return view('ticket.index', compact('tickets', 'paid', 'unpaid'));
     }
     public function ticketDelete($id)
     {
@@ -110,7 +116,7 @@ class TicketController extends Controller
         } catch (\Exception $e) {
             // Log the exception for debugging
 
-            return back()->with('error', 'Failed to update charges. Please try again.');
+            return back()->with('error', 'Failed to update charges.' . $e->getMessage());
         }
     }
 
@@ -127,17 +133,13 @@ class TicketController extends Controller
         $collection = Card::where('user_id', Auth::user()->id)->get();
         if ($type->status == '0') {
             return view('ticket.stripe', compact('type', 'name', 'collection', 'price'));
-        } 
-        else if ($type->status == '1') {
+        } else if ($type->status == '1') {
             return redirect()->route('tickets')->with('error', 'City Charges is paid');
-        } 
-        elseif ($type->status == '2') {
+        } elseif ($type->status == '2') {
             return redirect()->back()->with('error', 'City Charges has disputed status');
-        } 
-        else {
+        } else {
             return redirect()->back()->with('error', 'Error occured');
         }
-
     }
 
 
@@ -199,7 +201,7 @@ class TicketController extends Controller
 
         // Decode the JSON-encoded IDs and convert them back to an array
         $selectedIds = json_decode(urldecode($encodedIds), true);
-        
+
 
         // Initialize the total price and arrays for IDs
         $totalPrice = 0;
@@ -225,7 +227,7 @@ class TicketController extends Controller
                         }
                     case 'tolls':
                         $toll = Paytoll_Driver::where('pd', $id)->first();
-                        $item = Paytoll::where('id',$toll->paytoll_id)->first();
+                        $item = Paytoll::where('id', $toll->paytoll_id)->first();
                         // return $toll;
                         if ($toll->status == 1) {
                             return back()->with('error', 'selected ticket is already paid');
@@ -236,7 +238,7 @@ class TicketController extends Controller
                         }
                     case 'city':
                         $city = City_Driver::where('cd', $id)->first();
-                        $item = City::where('id',$city->city_id)->first();
+                        $item = City::where('id', $city->city_id)->first();
                         $cid = $city->cd;
                         if ($city->status == '1') {
                             return back()->with('error', 'selected ticket is already paid');

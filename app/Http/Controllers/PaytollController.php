@@ -27,7 +27,7 @@ class PaytollController extends Controller
         $userId = Auth::user()->id;
         $tickets = Ticket::whereHas('driver.user', function ($query) use ($userId) {
             $query->where('id', $userId);
-        })->get();
+        })->orderBy('created_at', 'desc')->get();
 
 
         $tolls = DB::table('paytolls')
@@ -35,13 +35,13 @@ class PaytollController extends Controller
             ->join('drivers', 'paytoll__drivers.driver_id', '=', 'drivers.id')
             ->where('drivers.user_id', $userId)
             ->select('paytolls.*', 'drivers.name as user_name', 'paytoll__drivers.*')
-            ->get();
+            ->orderBy('paytoll__drivers.id', 'desc')->get();
 
         $cities = DB::table('cities')
             ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
             ->join('drivers', 'city__drivers.driver_id', '=', 'drivers.id')
             ->where('drivers.user_id', $userId)
-            ->select('cities.*', 'drivers.name as user_name', 'city__drivers.*')
+            ->select('cities.*', 'drivers.name as user_name', 'city__drivers.*')->orderBy('city__drivers.id', 'desc')
             ->get();
 
         // Merge the arrays
@@ -49,10 +49,10 @@ class PaytollController extends Controller
 
         // Define the current page
         $page = request()->query('page', 1);
-        
+
         // Define the number of items per page
         $perPage = 10;
-        
+
         // Create a LengthAwarePaginator instance
         $paginatedData = new LengthAwarePaginator(
             $mergedData->forPage($page, $perPage),
@@ -65,7 +65,7 @@ class PaytollController extends Controller
 
         $unpaidTickets = Ticket::whereHas('driver.user', function ($query) use ($userId) {
             $query->where('id', $userId)->where('status', '0');
-        })->get();
+        })->orderBy('created_at', 'desc')->get();
 
 
         $unpaidTolls = DB::table('paytolls')
@@ -73,6 +73,7 @@ class PaytollController extends Controller
             ->join('drivers', 'paytoll__drivers.driver_id', '=', 'drivers.id')
             ->where('drivers.user_id', $userId)->where('paytoll__drivers.status', '0')
             ->select('paytolls.*', 'drivers.name as user_name', 'paytoll__drivers.*')
+            ->orderBy('paytoll__drivers.id', 'desc')
             ->get();
 
         $unpaidCities = DB::table('cities')
@@ -80,12 +81,13 @@ class PaytollController extends Controller
             ->join('drivers', 'city__drivers.driver_id', '=', 'drivers.id')
             ->where('drivers.user_id', $userId)->where('city__drivers.status', '0')
             ->select('cities.*', 'drivers.name as user_name', 'city__drivers.*')
+            ->orderBy('city__drivers.id', 'desc')
             ->get();
 
 
         $paidTickets = Ticket::whereHas('driver.user', function ($query) use ($userId) {
             $query->where('id', $userId)->where('status', '1');
-        })->get();
+        })->orderBy('created_at', 'desc')->get();
 
 
         $paidTolls = DB::table('paytolls')
@@ -93,6 +95,7 @@ class PaytollController extends Controller
             ->join('drivers', 'paytoll__drivers.driver_id', '=', 'drivers.id')
             ->where('drivers.user_id', $userId)->where('paytoll__drivers.status', '1')
             ->select('paytolls.*', 'drivers.name as user_name', 'paytoll__drivers.*')
+            ->orderBy('paytoll__drivers.id', 'desc')
             ->get();
 
         $paidCities = DB::table('cities')
@@ -100,6 +103,7 @@ class PaytollController extends Controller
             ->join('drivers', 'city__drivers.driver_id', '=', 'drivers.id')
             ->where('drivers.user_id', $userId)->where('city__drivers.status', '1')
             ->select('cities.*', 'drivers.name as user_name', 'city__drivers.*')
+            ->orderBy('city__drivers.id', 'desc')
             ->get();
 
 
@@ -186,13 +190,15 @@ class PaytollController extends Controller
             $data = $request->validate([
                 'name' => 'required|string',
                 'price' => 'required',
-                'days' => 'required|array',
+                'days' => 'nullable|array',
                 'status' => 'boolean',
             ]);
 
             $toll = Paytoll::find($id);
 
-
+            if (empty($data['days'])) {
+                $data['days'] = $toll->days;
+            }
             $existingTolls = Paytoll::where('name', $data['name'])
                 ->where('id', '<>', $id)
                 ->get();
@@ -209,7 +215,7 @@ class PaytollController extends Controller
             return redirect()->route('admin.tolls')->with('success', 'Toll has been updated successfully.');
         } catch (\Exception $e) {
 
-            return back()->with('error', 'Failed to update toll. Please try again.');
+            return back()->with('error', 'Failed to update toll.' . $e->getMessage());
         }
     }
     public function delete($id)

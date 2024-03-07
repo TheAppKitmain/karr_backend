@@ -87,7 +87,7 @@ $count = 1;
         .dropdown {
             display: flex;
             /* align-items: flex-end;
-                                        align-content: space-around; */
+                                                align-content: space-around; */
             justify-content: flex-end;
 
         }
@@ -124,7 +124,7 @@ $count = 1;
 
                         <div class="home" style="background: #8C52FF;">
                             <div class="homeText" style="">
-                                <a @if (Auth::user()->id == 2) href="{{ route('admin.tickets') }}"
+                                <a @if (Auth::user()->roles->contains('name', 'Super Admin')) href="{{ route('admin.tickets') }}"
                                     @else
                                         href="{{ route('tickets') }}" @endif
                                     class="custom">
@@ -137,7 +137,10 @@ $count = 1;
                         </div>
                         <div class="home" style="background: #5A9FD6; ">
                             <div class="homeText">
-                                <a href="{{ route('tickets') }}" style="" class="custom">Unpaid Tickets</a>
+                                <a @if (Auth::user()->roles->contains('name', 'Super Admin')) href="{{ route('admin.tickets') }}"
+                                    @else
+                                        href="{{ route('tickets') }}" @endif
+                                    class="custom">Unpaid Tickets</a>
                                 <span>{{ $unpaidTicket }}</span>
                             </div>
 

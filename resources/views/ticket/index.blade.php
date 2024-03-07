@@ -5,6 +5,9 @@ $page = 'ticket';
 @extends('layouts.app')
 @section('content')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
     <style>
         .sort {
             width: 180px;
@@ -246,8 +249,10 @@ $page = 'ticket';
                                             data-price="{{ $ticket->price }}" name="ticket_ids[]"
                                             value="{{ $ticket->id }}"></td>
                                     @if ($ticket->image)
-                                        <td><img width="100" height="80"
-                                                src="{{ asset('ticket/' . $ticket->image) }}">
+                                        <td> <a href="{{ asset('ticket/' . $ticket->image) }}" data-fancybox="gallery">
+                                                <img width="100" height="80"
+                                                    src="{{ asset('ticket/' . $ticket->image) }}">
+                                            </a>
                                         @else
                                         <td>No Image</td>
                                     @endif
@@ -330,8 +335,10 @@ $page = 'ticket';
                                 <tr>
                                     <!-- ... Rest of the table row ... -->
                                     @if ($ticket->image)
-                                        <td><img width="100" height="80"
-                                                src="{{ asset('ticket/' . $ticket->image) }}">
+                                        <td> <a href="{{ asset('ticket/' . $ticket->image) }}" data-fancybox="gallery">
+                                                <img width="100" height="80"
+                                                    src="{{ asset('ticket/' . $ticket->image) }}">
+                                            </a>
                                         @else
                                         <td>No Image</td>
                                     @endif
@@ -401,8 +408,11 @@ $page = 'ticket';
                                 <tr>
                                     <!-- ... Rest of the table row ... -->
                                     @if ($ticket->image)
-                                        <td><img width="100" height="80"
-                                                src="{{ asset('ticket/' . $ticket->image) }}">
+                                        <td>
+                                            <a href="{{ asset('ticket/' . $ticket->image) }}" data-fancybox="gallery">
+                                                <img width="100" height="80"
+                                                    src="{{ asset('ticket/' . $ticket->image) }}">
+                                            </a>
                                         @else
                                         <td>No Image</td>
                                     @endif

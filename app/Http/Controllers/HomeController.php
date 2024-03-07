@@ -40,7 +40,7 @@ class HomeController extends Controller
                 ->join('drivers', 'tickets.driver_id', '=', 'drivers.id')
                 ->join('users', 'drivers.user_id', '=', 'users.id')
                 ->select('tickets.*', 'drivers.name as driver', 'users.name as user_name')
-                ->orderBy('tickets.id', 'desc')->get();
+                ->orderBy('tickets.id', 'desc')->orderBy('created_at', 'desc')->get();
 
             $tolls = DB::table('paytolls')
                 ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
@@ -98,8 +98,8 @@ class HomeController extends Controller
             //---------------------------- End Section ------------------------------------
 
             //---------------------- Unpaid/ paid tickets ---------------------------------
-            $unpaidTickets = Ticket::where('status', '0')->get();
-            $paidTickets = Ticket::where('status', '1')->get();
+            $unpaidTickets = Ticket::where('status', '0')->orderBy('created_at', 'desc')->get();
+            $paidTickets = Ticket::where('status', '1')->orderBy('created_at', 'desc')->get();
 
             //---------------------------- End Section ------------------------------------
 
@@ -129,21 +129,21 @@ class HomeController extends Controller
             //-----------------Tickets Tolls and charges of admin------------------------------------
             $tickets = Ticket::whereHas('driver.user', function ($query) use ($userId) {
                 $query->where('id', $userId);
-            })->get();
+            })->orderBy('created_at', 'desc')->get();
 
             $tolls = DB::table('paytolls')
                 ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
                 ->join('drivers', 'paytoll__drivers.driver_id', '=', 'drivers.id')
                 ->where('drivers.user_id', $userId)
                 ->select('paytolls.*', 'drivers.name as user_name', 'paytoll__drivers.*')
-                ->orderBy('paytolls.id', 'desc')->limit(3)->get();
+                ->orderBy('paytoll__drivers.id', 'desc')->limit(3)->get();
 
             $cities = DB::table('cities')
                 ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
                 ->join('drivers', 'city__drivers.driver_id', '=', 'drivers.id')
                 ->where('drivers.user_id', $userId)
                 ->select('cities.*', 'drivers.name as user_name', 'city__drivers.*')
-                ->get();
+                ->orderBy('city__drivers.id', 'desc')->get();
 
             //----------------------------End Section------------------------------------------
 

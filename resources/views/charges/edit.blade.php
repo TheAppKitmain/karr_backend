@@ -8,7 +8,7 @@ $page = 'city';
             <div class="col-lg-8 col-md-8 col-sm-12">
                 <div class="welcome-screen-left">
                     <div class="welcome-inner-content">
-                        <h3>edit city charges</h3>
+                        <h3>Edit City Charges</h3>
                     </div>
                     <form action="{{ route('charges.update', $charge->id) }}" method="POST">
                         @csrf

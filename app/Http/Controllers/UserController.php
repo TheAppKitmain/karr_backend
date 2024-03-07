@@ -146,7 +146,7 @@ class UserController extends Controller
 
             return redirect()->back()->with('success', 'User updated successfully');
         } catch (\Exception $e) {
-            return back()->with('error', $e.'Failed to update user. Please try again.');
+            return back()->with('error, '.$e->getMessage().' Failed to update user.');
         }
     }
 
@@ -169,7 +169,6 @@ class UserController extends Controller
                 $user->name = $validatedData['name'];
                 $user->email = $validatedData['email'];
 
-                // Update password if provided
                 if (!empty($validatedData['password'])) {
                     $user->password = Hash::make($validatedData['password']);
                 }
@@ -194,15 +193,12 @@ class UserController extends Controller
 
                 $user->save();
 
-                // Handle roles, but ensure you assign roles properly here.
-                // You can use the input data from $validatedData for this.
-
                 return redirect()->back()->with('success', 'User updated successfully');
             } else {
                 return back()->with('error', 'Failed to update user. Password is incorrect.');
             }
         } catch (\Exception $e) {
-            return back()->with('error', 'Failed to update user. Please try again.');
+            return back()->with('error, Failed to update user.'.$e->getMessage());
         }
     }
 
