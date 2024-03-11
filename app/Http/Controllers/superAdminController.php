@@ -88,6 +88,7 @@ class superAdminController extends Controller
         ->join('drivers', 'tickets.driver_id', '=', 'drivers.id')
         ->join('users', 'drivers.user_id', '=', 'users.id')
         ->select('tickets.*' ,'drivers.name as driver', 'users.name as user_name')
+        ->orderBy('created_at', 'desc')
         ->get();
 
         $cities = DB::table('cities')
@@ -95,6 +96,7 @@ class superAdminController extends Controller
         ->join('drivers', 'city__drivers.driver_id', '=', 'drivers.id')
         ->join('users', 'drivers.user_id', '=', 'users.id')
         ->select('cities.*', 'city__drivers.*','drivers.name as driver', 'users.name as user_name')
+        ->orderBy('city__drivers.id', 'desc')
         ->get();
 
 
@@ -103,6 +105,7 @@ class superAdminController extends Controller
         ->join('drivers', 'paytoll__drivers.driver_id', '=', 'drivers.id')
         ->join('users', 'drivers.user_id', '=', 'users.id')
         ->select('paytolls.*', 'paytoll__drivers.*', 'users.name as user_name')
+        ->orderBy('paytoll__drivers.id', 'desc')
         ->get();
     
         foreach ($tolls as $toll) {
