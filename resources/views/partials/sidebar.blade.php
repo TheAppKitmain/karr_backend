@@ -131,7 +131,7 @@
                                 <span>
                                     <img src="{{ asset('assets/dist/img/wallet-fill.svg') }}" width="24" height="24"
                                         viewBox="0 0 24 24" alt="">
-                                Undectected Fines</span>
+                                    Undectected Fines</span>
                             </a>
                         </li>
                     @endcan
@@ -151,6 +151,19 @@
                 </li>
             @endcan --}}
 
+
+                    <li class="treeview 
+                    <?php if ($page == 'analytics') {
+                        echo 'active';
+                    } ?>">
+                        <a href="{{ route('users.analytics') }}">
+                            <span>
+                                <img src="{{ asset('assets/dist/img/analytics.svg') }}" width="24" height="24"
+                                    viewBox="0 0 24 24" alt="">
+                                Analytics </span>
+                        </a>
+                    </li>
+                    
                     <li class="treeview <?php if ($page == 'setting') {
                         echo 'active';
                     } ?>">
@@ -161,31 +174,7 @@
                                 Settings</span>
                         </a>
                     </li>
-                    <li class="treeview <?php if ($page == 'analytics') {
-                        echo 'active';
-                    } ?>">
-                        <a href="{{ route('users.analytics') }}">
-                            <span>
-                                <img src="{{ asset('assets/dist/img/analytics.svg') }}" width="24" height="24"
-                                    viewBox="0 0 24 24" alt="">
-                                Analytics </span>
-                        </a>
-                    </li>
 
-
-                    {{-- @can('charges-list')
-                <li class="treeview   <?php if ($page == 'city') {
-                    echo 'active';
-                } ?>">
-                    <a href="{{ route('city') }}">
-                        <span>
-                            <img src="{{ asset('assets/dist/img/money.png') }}" width="24" height="24"
-                                alt="">
-                            City Charges</span>
-                    </a>
-
-                </li>
-            @endcan --}}
                     <li class="treeview">
                         <a href="#" data-toggle="modal" data-target="#logoutModal">
                             <span>

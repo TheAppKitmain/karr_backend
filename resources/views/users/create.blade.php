@@ -68,12 +68,10 @@ $page = 'user';
                                 <p>Create Driver.</p>
                             </div>
                             <div class="quick-review-img">
-
                                 <label>Image</label>
-                                <img id="image-preview" src="#" alt="Image Preview">
+                                <img id="image-preview" src="{{asset('assets/dist/img/users.svg')}}" alt="Image Preview">
                                 <input type="file" name="image" id="image" accept="image/*" class="form-control"
                                     onchange="previewImage()">
-
                             </div>
                         </div>
                     </div>

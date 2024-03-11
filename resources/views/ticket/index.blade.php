@@ -250,10 +250,10 @@ $page = 'ticket';
                                             value="{{ $ticket->id }}"></td>
                                     @if ($ticket->image)
                                         <td> <a href="{{ asset('ticket/' . $ticket->image) }}" data-fancybox="gallery">
-                                                <img width="100" height="80"
-                                                    src="{{ asset('ticket/' . $ticket->image) }}">
+                                                <img src="{{ asset('assets/dist/img/eye.png') }}">
                                             </a>
-                                        @else
+                                        </td>
+                                    @else
                                         <td>No Image</td>
                                     @endif
                                     </td>
@@ -336,10 +336,10 @@ $page = 'ticket';
                                     <!-- ... Rest of the table row ... -->
                                     @if ($ticket->image)
                                         <td> <a href="{{ asset('ticket/' . $ticket->image) }}" data-fancybox="gallery">
-                                                <img width="100" height="80"
-                                                    src="{{ asset('ticket/' . $ticket->image) }}">
+                                                <img src="{{ asset('assets/dist/img/eye.png') }}">
                                             </a>
-                                        @else
+                                        </td>
+                                    @else
                                         <td>No Image</td>
                                     @endif
                                     <td>{{ $ticket->driver->name }}</td>
@@ -410,10 +410,10 @@ $page = 'ticket';
                                     @if ($ticket->image)
                                         <td>
                                             <a href="{{ asset('ticket/' . $ticket->image) }}" data-fancybox="gallery">
-                                                <img width="100" height="80"
-                                                    src="{{ asset('ticket/' . $ticket->image) }}">
+                                                <img src="{{ asset('assets/dist/img/eye.png') }}">
                                             </a>
-                                        @else
+                                        </td>
+                                    @else
                                         <td>No Image</td>
                                     @endif
                                     <td>{{ $ticket->driver->name }}</td>

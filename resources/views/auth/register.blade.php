@@ -13,21 +13,20 @@
     <link rel="stylesheet" href="{{ asset('assets/dist/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/dist/css/responsive.css') }}">
     <style>
-        .signup-form{
+        .signup-form {
             overflow-y: scroll;
         }
     </style>
-    
+
 </head>
 
 <body class="skin-blue">
     <div class="wrapper">
         <section class="sign-up-screen">
-            <div class="signup-form" >
+            <div class="signup-form">
                 <div class="col-md-12 col-sm-12 col-12">
                     <div class="welocme-to-login">
                         <h3>Let's Create Your Account</h3>
-                        <p>It is a long established fact that a reader.</p>
                     </div>
                 </div>
                 <form method="POST" action="{{ route('register') }}">
@@ -123,7 +122,7 @@
 
 
     <script src="{{ asset('assets/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
-    
+
 
 </body>
 

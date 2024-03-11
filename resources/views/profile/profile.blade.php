@@ -48,7 +48,7 @@ $page = 'setting';
 
                                     <a href="#">cancel</a>
 
-                                    <button type="submit" class="btn btn-primary">Updated</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
                                 </div>
                             </div>
                         </div>
@@ -59,7 +59,6 @@ $page = 'setting';
                     <div class="welcome-screen-right">
                         <div class="quick-review-contant">
                             <h3>Change Password</h3>
-                            <p>Update your password with new strong password?</p>
                         </div>
                         <div class="welcome-screen-form">
                             <div class="form-group">
@@ -74,7 +73,7 @@ $page = 'setting';
 
 
                             <div class="form-group">
-                                <label>Confirm password</label>
+                                <label>Confirm Password</label>
                                 <input type="password" name="confirm-password" placeholder="Confirm Password"
                                     class="form-control">
                             </div>

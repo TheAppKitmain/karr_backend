@@ -24,8 +24,8 @@ $page = 'toll';
                                 <input type="text" name="name" id="" placeholder="Name" class="form-control">
                             </div>
                             <div class="form-group">
-                                <label>Charges</label>
-                                <input type="float" name="price" placeholder="Charges" class="form-control">
+                                <label>Toll Fee</label>
+                                <input type="float" name="price" placeholder="£ Toll Fee" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label>Days</label>
@@ -57,7 +57,7 @@ $page = 'toll';
 
                 </div>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-12" id="quick-sticky">
+            {{-- <div class="col-lg-4 col-md-4 col-sm-12" id="quick-sticky">
                 <div class="guest-screen-right">
                     <div class="quick-review-contant">
                         <h3>Quick preview</h3>
@@ -67,7 +67,7 @@ $page = 'toll';
                         <img src="{{ asset('assets/dist/img/thanks.jpg') }}">
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
         </div>
     </section>

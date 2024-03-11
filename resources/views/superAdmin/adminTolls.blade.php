@@ -26,13 +26,12 @@ $page = 'tolls';
         }
 
         /* .for-our-services {
-            justify-content: start !important;
-        } */
+                justify-content: start !important;
+            } */
 
         .for-our-services a {
             margin-left: 10px;
-            width: 150px;
-            /* height: 100px; */
+            font-size: 12px;
         }
 
         .sort {

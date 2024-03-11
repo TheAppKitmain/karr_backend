@@ -72,39 +72,42 @@ $page = 'tickets';
 
         .pay {
             display: flex;
-            justify-content: space-between;
-        }
-
-        .payMultiple {
-            border-radius: 10px;
-            background: #8C52FF;
-            padding: 20px 8px;
-            color: var(--white, #FFF);
-            height: fit-content;
-            font-weight: 500;
-            width: 150px;
-            margin-top: 10px;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-
+            margin-bottom: 20px;
         }
 
         .main {
             background: #8C52FF !important;
             color: #FFF;
         }
+
+        .for-our-services {
+            margin-bottom: 20px;
+        }
+
+        .btn-dark {
+            color: #fff;
+            background-color: #000;
+
+        }
     </style>
     <section class="create-services-screen">
         <div class="row create-services-screen-left">
             <div class="for-our-services">
                 {{-- <a href="#" id="selectAllCheckboxItems">Pay multiple Tickets</a> --}}
+                <div>
+                    <a href="#" class="payMultiple" id="selectAllCheckboxItems">Pay Multiple Tickets</a>
+                </div>
                 <div class="sort dropdown">
                     <p id="dropdown-toggle">Filter By<span class="caret"></span></p>
                     <div class="dropdown-content" id="dropdown-content">
                         <a href="#" id="showPaidTable">Paid</a>
                         <a href="#" id="showUnpaidTable">Unpaid</a>
                     </div>
+                </div>
+            </div>
+            <div class="pay">
+                <div id="totalPriceDisplay" style="margin-top: 10px; font-size 14px; ">
+                    Total Price: £ 0.00
                 </div>
             </div>
             @if (Session::has('success'))
@@ -119,7 +122,7 @@ $page = 'tickets';
             @endif
             <div class="scroll" id="AllTable">
                 <table class="table" id="Alltable">
-                    <h4 style="margin-bottom: 10px">Tickets & charges</h4>
+                    <h4 style="margin-bottom: 10px">Tickets & Charges</h4>
                     <thead>
                         <tr style="background-color: #F8F8FA">
                             <!-- Define the table headers -->
@@ -148,11 +151,19 @@ $page = 'tickets';
                                 </td>
                                 <!-- ... Rest of the table row ... -->
                                 @if ($ticket->image)
-                                    <td> <a href="{{ asset('ticket/' . $ticket->image) }}" data-fancybox="gallery">
-                                            <img width="100" height="80"
-                                                src="{{ asset('ticket/' . $ticket->image) }}">
+                                    <td>
+                                        {{-- <div class="img">
+                                            <a href="{{ asset('ticket/' . $ticket->image) }}" data-fancybox="gallery">
+                                                <img width="100" height="80"
+                                                    src="{{ asset('ticket/' . $ticket->image) }}">
+                                            </a>
+                                        </div> --}}
+                                        <a href="{{ asset('ticket/' . $ticket->image) }}" data-fancybox="gallery">
+                                            <img src="{{ asset('assets/dist/img/eye.png') }}">
                                         </a>
-                                    @else
+
+                                    </td>
+                                @else
                                     <td></td>
                                 @endif
                                 <td>{{ $ticket->driver }}</td>
@@ -162,15 +173,19 @@ $page = 'tickets';
                                 <td>{{ $ticket->ticket_issuer }}</td>
                                 <td>Ticket</td>
                                 <td>£ {{ number_format($ticket->price, 2) }}</td>
-                                <td>{{ $ticket->notes }}</td>
+
+                                <td>
+                                    {{ $ticket->notes }}
+                                </td>
+
+
                                 @can('admin-ticket')
                                     @if ($ticket->status == '1')
-                                        <td><a class="btn btn-success"
-                                                href="{{ route('admin.unpaid', ['id' => $ticket->id, 'd_id' => $ticket->driver_id, 'name' => $name]) }}">Mark
-                                                unpaid</a>
+                                        <td><a class="btn btn-dark"
+                                                href="{{ route('admin.unpaid', ['id' => $ticket->id, 'd_id' => $ticket->driver_id, 'name' => $name]) }}">Paid</a>
                                         </td>
                                     @elseif ($ticket->status == '0')
-                                        <td><a class="btn main"
+                                        <td><a class="btn btn-success"
                                                 href="{{ route('admin.pay', ['id' => $ticket->id, 'd_id' => $ticket->driver_id, 'name' => $name]) }}">Pay
                                                 Now</a>
                                         </td>
@@ -200,15 +215,18 @@ $page = 'tickets';
                                 <td></td>
                                 <td>Toll</td>
                                 <td>£ {{ number_format($toll->price, 2) }}</td>
-                                <td>{{ $toll->notes }}</td>
+
+                                <td>
+                                    {{ $toll->notes }}
+                               
+                                </td>
                                 @can('admin-ticket')
                                     @if ($toll->status == '1')
-                                        <td><a class="btn btn-success"
-                                                href="{{ route('admin.unpaid', ['id' => $toll->paytoll_id, 'd_id' => $toll->pd, 'name' => $name]) }}">Mark
-                                                unpaid</a>
+                                        <td><a class="btn btn-dark"
+                                                href="{{ route('admin.unpaid', ['id' => $toll->paytoll_id, 'd_id' => $toll->pd, 'name' => $name]) }}">Paid</a>
                                         </td>
                                     @elseif ($toll->status == '0')
-                                        <td><a class="btn main"
+                                        <td><a class="btn btn-success"
                                                 href="{{ route('admin.pay', ['id' => $toll->paytoll_id, 'd_id' => $toll->pd, 'name' => $name]) }}">Pay
                                                 Now</a>
                                         </td>
@@ -238,15 +256,16 @@ $page = 'tickets';
                                 <td></td>
                                 <td>Charges</td>
                                 <td>£ {{ number_format($city->price, 2) }}</td>
-                                <td>{{ $city->notes }}</td>
+                                <td>
+                                    {{ $city->notes }}
+                                </td>
                                 @can('admin-ticket')
                                     @if ($city->status == '1')
-                                        <td><a class="btn btn-success"
-                                                href="{{ route('admin.unpaid', ['id' => $city->city_id, 'd_id' => $city->cd, 'name' => $name]) }}">Mark
-                                                unpaid</a>
+                                        <td><a class="btn btn-dark"
+                                                href="{{ route('admin.unpaid', ['id' => $city->city_id, 'd_id' => $city->cd, 'name' => $name]) }}">Paid</a>
                                         </td>
                                     @elseif ($city->status == 0)
-                                        <td><a class="btn main"
+                                        <td><a class="btn btn-success"
                                                 href="{{ route('admin.pay', ['id' => $city->city_id, 'd_id' => $city->cd, 'name' => $name]) }}">Pay
                                                 Now</a>
                                         </td>
@@ -260,13 +279,7 @@ $page = 'tickets';
                         @endforeach
                     </tbody>
                 </table>
-                <div class="pay">
-                    <a href="#" class="payMultiple" id="selectAllCheckboxItems">Pay multiple Tickets</a>
 
-                </div>
-                <div id="totalPriceDisplay" style="margin-top: 10px; font-size 14px; ">
-                    Total Price: £ 0.00
-                </div>
             </div>
             <div class="scroll">
                 <table class="table" id="unpaidTable" style="display: none" <?php $count = 1; ?>>
@@ -293,8 +306,7 @@ $page = 'tickets';
                                 @if ($ticket->image)
                                     <td>
                                         <a href="{{ asset('ticket/' . $ticket->image) }}" data-fancybox="gallery">
-                                            <img width="100" height="80"
-                                                src="{{ asset('ticket/' . $ticket->image) }}">
+                                            <img src="{{ asset('assets/dist/img/eye.png') }}">
                                         </a>
                                     @else
                                     <td></td>
@@ -308,12 +320,12 @@ $page = 'tickets';
                                 <td>{{ $ticket->notes }}</td>
                                 @can('admin-ticket')
                                     @if ($ticket->status == '1')
-                                        <td><a class="btn btn-success"
+                                        <td><a class="btn btn-dark"
                                                 href="{{ route('admin.pay', ['id' => $ticket->id, 'd_id' => $ticket->driver_id, 'name' => $name]) }}">Mark
                                                 unpaid</a>
                                         </td>
                                     @elseif ($ticket->status == '0')
-                                        <td><a class="btn main"
+                                        <td><a class="btn btn-success"
                                                 href="{{ route('admin.pay', ['id' => $ticket->id, 'd_id' => $ticket->driver_id, 'name' => $name]) }}">Pay
                                                 Now</a>
                                         </td>
@@ -342,12 +354,12 @@ $page = 'tickets';
                                 <td>{{ $toll->notes }}</td>
                                 @can('admin-ticket')
                                     @if ($toll->status == '1')
-                                        <td><a class="btn btn-success"
+                                        <td><a class="btn btn-dark"
                                                 href="{{ route('admin.unpaid', ['id' => $toll->paytoll_id, 'd_id' => $toll->pd, 'name' => $name]) }}">Mark
                                                 unpaid</a>
                                         </td>
                                     @elseif ($toll->status == '0')
-                                        <td><a class="btn main"
+                                        <td><a class="btn btn-success"
                                                 href="{{ route('admin.pay', ['id' => $toll->paytoll_id, 'd_id' => $toll->pd, 'name' => $name]) }}">Pay
                                                 Now</a>
                                         </td>
@@ -376,12 +388,12 @@ $page = 'tickets';
                                 @can('admin-ticket')
                                     @if ($city->status == '1')
                                         <td>
-                                            <a class="btn btn-success"
+                                            <a class="btn btn-dark"
                                                 href="{{ route('admin.unpaid', ['id' => $city->city_id, 'd_id' => $city->cd, 'name' => $name]) }}">Mark
                                                 unpaid</a>
                                         </td>
                                     @elseif ($city->status == 0)
-                                        <td><a class="btn main"
+                                        <td><a class="btn btn-success"
                                                 href="{{ route('admin.pay', ['id' => $city->city_id, 'd_id' => $city->cd, 'name' => $name]) }}">Pay
                                                 Now</a>
                                         </td>
@@ -420,11 +432,12 @@ $page = 'tickets';
                                         value="{{ $ticket->id }}"></td>
                                 <!-- ... Rest of the table row ... -->
                                 @if ($ticket->image)
-                                    <td> <a href="{{ asset('ticket/' . $ticket->image) }}" data-fancybox="gallery">
-                                            <img width="100" height="80"
-                                                src="{{ asset('ticket/' . $ticket->image) }}">
+                                    <td>
+                                        <a href="{{ asset('ticket/' . $ticket->image) }}" data-fancybox="gallery">
+                                            <img src="{{ asset('assets/dist/img/eye.png') }}">
                                         </a>
-                                    @else
+                                    </td>
+                                @else
                                     <td></td>
                                 @endif
                                 <td>{{ $ticket->pcn }}</td>
@@ -436,11 +449,11 @@ $page = 'tickets';
                                 <td>{{ $ticket->notes }}</td>
                                 @can('admin-ticket')
                                     @if ($ticket->status == '1')
-                                        <td><a class="btn btn-success"
+                                        <td><a class="btn btn-dark"
                                                 href="{{ route('admin.pay', ['id' => $ticket->id, 'd_id' => $ticket->driver_id, 'name' => $name]) }}">Paid</a>
                                         </td>
                                     @elseif ($ticket->status == '0')
-                                        <td><a class="btn main"
+                                        <td><a class="btn btn-success"
                                                 href="{{ route('admin.pay', ['id' => $ticket->id, 'd_id' => $ticket->driver_id, 'name' => $name]) }}">Pay
                                                 Now</a>
                                         </td>
@@ -468,11 +481,11 @@ $page = 'tickets';
                                 <td>{{ $toll->notes }}</td>
                                 @can('admin-ticket')
                                     @if ($toll->status == '1')
-                                        <td><a class="btn btn-success"
+                                        <td><a class="btn btn-dark"
                                                 href="{{ route('admin.pay', ['id' => $toll->paytoll_id, 'd_id' => $toll->pd, 'name' => $name]) }}">Paid</a>
                                         </td>
                                     @elseif ($toll->status == '0')
-                                        <td><a class="btn main"
+                                        <td><a class="btn btn-success"
                                                 href="{{ route('admin.pay', ['id' => $toll->paytoll_id, 'd_id' => $toll->pd, 'name' => $name]) }}">Pay
                                                 Now</a></td>
                                     @elseif($toll->status == '2')
@@ -499,11 +512,11 @@ $page = 'tickets';
                                 <td>{{ $city->notes }}</td>
                                 @can('admin-ticket')
                                     @if ($city->status == '1')
-                                        <td><a class="btn btn-success"
+                                        <td><a class="btn btn-dark"
                                                 href="{{ route('admin.pay', ['id' => $city->city_id, 'd_id' => $city->cd, 'name' => $name]) }}">Paid</a>
                                         </td>
                                     @elseif ($city->status == 0)
-                                        <td><a class="btn main"
+                                        <td><a class="btn btn-success"
                                                 href="{{ route('admin.pay', ['id' => $city->city_id, 'd_id' => $city->cd, 'name' => $name]) }}">Pay
                                                 Now</a>
                                         </td>
@@ -589,6 +602,26 @@ $page = 'tickets';
             }
         });
     </script>
+    <script>
+        function toggleImage(event, ticketId) {
+            event.preventDefault();
+            var notesContainer = document.querySelector(`#notesContainer-${ticketId}`);
+            if (notesContainer.style.display === 'none') {
+                hideAllNotes();
+                notesContainer.style.display = 'block';
+            } else {
+                notesContainer.style.display = 'none';
+            }
+        }
+
+        function hideAllNotes() {
+            var allNotesContainers = document.querySelectorAll('.notes-container');
+            allNotesContainers.forEach(function(container) {
+                container.style.display = 'none';
+            });
+        }
+    </script>
+
     <script>
         $(document).ready(function() {
             var totalPrice = 0.00;

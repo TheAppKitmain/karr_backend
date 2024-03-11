@@ -60,7 +60,7 @@ $page = 'driver';
                             </div>
                             <div class="col-lg-6 col-md-6 form-group">
                                 <label>License Plate Number</label>
-                                <input type="text" name="license" placeholder="License" class="form-control" required>
+                                <input type="text" name="license" placeholder="License" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
                             </div>
                         </div>
                 </div>
