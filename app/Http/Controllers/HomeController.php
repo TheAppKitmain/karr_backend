@@ -39,7 +39,7 @@ class HomeController extends Controller
             $tickets = DB::table('tickets')
                 ->join('drivers', 'tickets.driver_id', '=', 'drivers.id')
                 ->join('users', 'drivers.user_id', '=', 'users.id')
-                ->select('tickets.*', 'drivers.name as driver', 'users.name as user_name')
+                ->select('tickets.*', 'drivers.name as driver', 'users.name as user_name', DB::raw('DATE_FORMAT(tickets.date, "%d %b %Y") as date'))
                 ->orderBy('tickets.id', 'desc')->orderBy('created_at', 'desc')->get();
 
             $tolls = DB::table('paytolls')

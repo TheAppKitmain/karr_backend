@@ -72,7 +72,7 @@ $page = 'tickets';
 
         .pay {
             display: flex;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .main {
@@ -81,7 +81,7 @@ $page = 'tickets';
         }
 
         .for-our-services {
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .btn-dark {
@@ -89,14 +89,26 @@ $page = 'tickets';
             background-color: #000;
 
         }
+
+        .payMultiple {
+            padding: 10px;
+            margin-left: 10px;
+            background-color: #8C52FF;
+            color: #FFF;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .notes {
+            display: none;
+            /* Hide notes by default */
+        }
     </style>
     <section class="create-services-screen">
         <div class="row create-services-screen-left">
             <div class="for-our-services">
+                <h4 style="margin-bottom: 10px"><strong>Tickets & Charges</strong></h4>
                 {{-- <a href="#" id="selectAllCheckboxItems">Pay multiple Tickets</a> --}}
-                <div>
-                    <a href="#" class="payMultiple" id="selectAllCheckboxItems">Pay Multiple Tickets</a>
-                </div>
                 <div class="sort dropdown">
                     <p id="dropdown-toggle">Filter By<span class="caret"></span></p>
                     <div class="dropdown-content" id="dropdown-content">
@@ -105,11 +117,15 @@ $page = 'tickets';
                     </div>
                 </div>
             </div>
+
             <div class="pay">
-                <div id="totalPriceDisplay" style="margin-top: 10px; font-size 14px; ">
-                    Total Price: £ 0.00
-                </div>
+                <a href="#" class="payMultiple" id="selectAllCheckboxItems">Pay Multiple Tickets</a>
             </div>
+            <div id="totalPriceDisplay" style="font-size 14px; margin-left:10px ">
+                Total Price: £0.00
+            </div>
+            {{-- <div class="pay">
+            </div> --}}
             @if (Session::has('success'))
                 <div class="alert alert-success">
                     {{ Session::get('success') }}
@@ -122,19 +138,18 @@ $page = 'tickets';
             @endif
             <div class="scroll" id="AllTable">
                 <table class="table" id="Alltable">
-                    <h4 style="margin-bottom: 10px">Tickets & Charges</h4>
                     <thead>
                         <tr style="background-color: #F8F8FA">
                             <!-- Define the table headers -->
                             <th><input type="checkbox" id="select-all" /> Select All</th>
-                            <th>Image</th>
                             <th>Name</th>
                             <th>PCN</th>
                             <th>Date</th>
                             <th>Business</th>
-                            <th>Issued by</th>
+                            <th>Issued</th>
                             <th>Type</th>
                             <th>Price</th>
+                            <th>Image</th>
                             <th>Notes</th>
                             <th>Status</th>
                         </tr>
@@ -150,14 +165,15 @@ $page = 'tickets';
                                         value="{{ $ticket->id }}">
                                 </td>
                                 <!-- ... Rest of the table row ... -->
+                                <td>{{ $ticket->driver }}</td>
+                                <td>{{ $ticket->pcn }}</td>
+                                <td>{{ $ticket->date }}</td>
+                                <td>{{ $ticket->user_name }} </td>
+                                <td>{{ $ticket->ticket_issuer }}</td>
+                                <td>Ticket</td>
+                                <td>£{{ number_format($ticket->price, 2) }}</td>
                                 @if ($ticket->image)
                                     <td>
-                                        {{-- <div class="img">
-                                            <a href="{{ asset('ticket/' . $ticket->image) }}" data-fancybox="gallery">
-                                                <img width="100" height="80"
-                                                    src="{{ asset('ticket/' . $ticket->image) }}">
-                                            </a>
-                                        </div> --}}
                                         <a href="{{ asset('ticket/' . $ticket->image) }}" data-fancybox="gallery">
                                             <img src="{{ asset('assets/dist/img/eye.png') }}">
                                         </a>
@@ -166,17 +182,18 @@ $page = 'tickets';
                                 @else
                                     <td></td>
                                 @endif
-                                <td>{{ $ticket->driver }}</td>
-                                <td>{{ $ticket->pcn }}</td>
-                                <td>{{ $ticket->date }}</td>
-                                <td>{{ $ticket->user_name }} </td>
-                                <td>{{ $ticket->ticket_issuer }}</td>
-                                <td>Ticket</td>
-                                <td>£ {{ number_format($ticket->price, 2) }}</td>
-
                                 <td>
-                                    {{ $ticket->notes }}
+                                    @if ($ticket->notes)
+                                        <div class="notes-container">
+                                            <a href="#" class="toggle-notes">
+                                                <img src="{{ asset('assets/dist/img/eye.png') }}" alt="notes">
+                                            </a>
+                                            <div class="notes">{{ $ticket->notes }}</div>
+
+                                        </div>
+                                    @endif
                                 </td>
+
 
 
                                 @can('admin-ticket')
@@ -207,18 +224,22 @@ $page = 'tickets';
                                         data-driver-id="{{ $toll->pd }}" name="selected_items[]"
                                         value="{{ $toll->paytoll_id }}">
                                 </td>
-                                <td></td>
                                 <td>{{ $toll->name }}</td>
                                 <td></td>
                                 <td>{{ $toll->date }}</td>
                                 <td>{{ $toll->user_name }}</td>
                                 <td></td>
                                 <td>Toll</td>
-                                <td>£ {{ number_format($toll->price, 2) }}</td>
-
+                                <td>£{{ number_format($toll->price, 2) }}</td>
+                                <td></td>
                                 <td>
-                                    {{ $toll->notes }}
-                               
+                                    <div class="notes-container">
+                                        <a href="#" class="toggle-notes">
+                                            <img src="{{ asset('assets/dist/img/eye.png') }}" alt="notes">
+                                        </a>
+                                        <div class="notes">{{ $toll->notes }}</div>
+                                    </div>
+
                                 </td>
                                 @can('admin-ticket')
                                     @if ($toll->status == '1')
@@ -248,16 +269,21 @@ $page = 'tickets';
                                         data-driver-id="{{ $city->cd }}" name="selected_items[]"
                                         value="{{ $city->city_id }}">
                                 </td>
-                                <td></td>
                                 <td>{{ $city->city }}</td>
                                 <td></td>
                                 <td>{{ $city->date }}</td>
                                 <td>{{ $city->user_name }}</td>
                                 <td></td>
                                 <td>Charges</td>
-                                <td>£ {{ number_format($city->price, 2) }}</td>
+                                <td>£{{ number_format($city->price, 2) }}</td>
+                                <td></td>
                                 <td>
-                                    {{ $city->notes }}
+                                    <div class="notes-container">
+                                        <a href="#" class="toggle-notes">
+                                            <img src="{{ asset('assets/dist/img/eye.png') }}" alt="notes">
+                                        </a>
+                                        <div class="notes">{{ $city->notes }}</div>
+                                    </div>
                                 </td>
                                 @can('admin-ticket')
                                     @if ($city->status == '1')
@@ -279,21 +305,20 @@ $page = 'tickets';
                         @endforeach
                     </tbody>
                 </table>
-
             </div>
             <div class="scroll">
                 <table class="table" id="unpaidTable" style="display: none" <?php $count = 1; ?>>
                     <thead>
                         <tr style="background-color: #F8F8FA">
                             <!-- Define the table headers -->
-                            <th>Image</th>
                             <th>Check</th>
                             <th>PCN</th>
                             <th>Name</th>
                             <th>Time</th>
-                            <th>Issued by</th>
+                            <th>Issued</th>
                             <th>Type</th>
                             <th>Price</th>
+                            <th>Image</th>
                             <th>Notes</th>
                             <th>Status</th>
                         </tr>
@@ -303,6 +328,12 @@ $page = 'tickets';
                             <tr>
                                 <td><input type="checkbox" class="" data-table="" name=""
                                         value="{{ $ticket->id }}"></td>
+                                <td>{{ $ticket->pcn }}</td>
+                                <td>{{ $ticket->driver->name }}</td>
+                                <td>{{ $ticket->date }}</td>
+                                <td>{{ $ticket->ticket_issuer }}</td>
+                                <td>Ticket</td>
+                                <td>£{{ number_format($ticket->price, 2) }}</td>
                                 @if ($ticket->image)
                                     <td>
                                         <a href="{{ asset('ticket/' . $ticket->image) }}" data-fancybox="gallery">
@@ -311,12 +342,6 @@ $page = 'tickets';
                                     @else
                                     <td></td>
                                 @endif
-                                <td>{{ $ticket->pcn }}</td>
-                                <td>{{ $ticket->driver->name }}</td>
-                                <td>{{ $ticket->date }}</td>
-                                <td>{{ $ticket->ticket_issuer }}</td>
-                                <td>Ticket</td>
-                                <td>£ {{ number_format($ticket->price, 2) }}</td>
                                 <td>{{ $ticket->notes }}</td>
                                 @can('admin-ticket')
                                     @if ($ticket->status == '1')
@@ -345,12 +370,12 @@ $page = 'tickets';
 
                                 </td>
                                 <td></td>
-                                <td></td>
                                 <td>{{ $toll->name }}</td>
                                 <td>{{ $toll->date }}</td>
                                 <td></td>
                                 <td>Toll</td>
                                 <td>£ {{ number_format($toll->price, 2) }}</td>
+                                <td></td>
                                 <td>{{ $toll->notes }}</td>
                                 @can('admin-ticket')
                                     @if ($toll->status == '1')
@@ -377,13 +402,14 @@ $page = 'tickets';
                                 <td><input type="checkbox" class="" data-table="" name="" value="">
                                 </td>
                                 <!-- ... Rest of the table row ... -->
-                                <td></td>
+
                                 <td></td>
                                 <td>{{ $city->city }}</td>
                                 <td>{{ $city->time }}</td>
                                 <td></td>
                                 <td>Charges</td>
                                 <td>£ {{ number_format($city->price, 2) }}</td>
+                                <td></td>
                                 <td>{{ $city->notes }}</td>
                                 @can('admin-ticket')
                                     @if ($city->status == '1')
@@ -413,14 +439,14 @@ $page = 'tickets';
                     <thead>
                         <tr style="background-color: #F8F8FA">
                             <!-- Define the table headers -->
-                            <th>Image</th>
                             <th>Check</th>
                             <th>PCN</th>
                             <th>Name</th>
                             <th>Time</th>
-                            <th>Issued by</th>
+                            <th>Issued</th>
                             <th>Type</th>
                             <th>Price</th>
+                            <th>Image</th>
                             <th>Notes</th>
                             <th>Status</th>
                         </tr>
@@ -431,6 +457,13 @@ $page = 'tickets';
                                 <td><input type="checkbox" class="" data-table="" name=""
                                         value="{{ $ticket->id }}"></td>
                                 <!-- ... Rest of the table row ... -->
+
+                                <td>{{ $ticket->pcn }}</td>
+                                <td>{{ $ticket->driver->name }}</td>
+                                <td>{{ $ticket->date }}</td>
+                                <td>{{ $ticket->ticket_issuer }}</td>
+                                <td>Ticket</td>
+                                <td>£{{ number_format($ticket->price, 2) }}</td>
                                 @if ($ticket->image)
                                     <td>
                                         <a href="{{ asset('ticket/' . $ticket->image) }}" data-fancybox="gallery">
@@ -440,12 +473,6 @@ $page = 'tickets';
                                 @else
                                     <td></td>
                                 @endif
-                                <td>{{ $ticket->pcn }}</td>
-                                <td>{{ $ticket->driver->name }}</td>
-                                <td>{{ $ticket->date }}</td>
-                                <td>{{ $ticket->ticket_issuer }}</td>
-                                <td>Ticket</td>
-                                <td>£ {{ number_format($ticket->price, 2) }}</td>
                                 <td>{{ $ticket->notes }}</td>
                                 @can('admin-ticket')
                                     @if ($ticket->status == '1')
@@ -472,12 +499,12 @@ $page = 'tickets';
                                         value="{{ $toll->paytoll_id }}"></td>
                                 <!-- ... Rest of the table row ... -->
                                 <td></td>
-                                <td></td>
                                 <td>{{ $toll->name }}</td>
                                 <td>{{ $toll->date }}</td>
                                 <td></td>
                                 <td>Toll</td>
-                                <td>£ {{ number_format($toll->price, 2) }}</td>
+                                <td>£{{ number_format($toll->price, 2) }}</td>
+                                <td></td>
                                 <td>{{ $toll->notes }}</td>
                                 @can('admin-ticket')
                                     @if ($toll->status == '1')
@@ -503,12 +530,12 @@ $page = 'tickets';
                                         value="{{ $city->city_id }}"></td>
                                 <!-- ... Rest of the table row ... -->
                                 <td></td>
-                                <td></td>
                                 <td>{{ $city->city }}</td>
                                 <td>{{ $city->time }}</td>
                                 <td></td>
                                 <td>Charges</td>
-                                <td>£ {{ number_format($city->price, 2) }}</td>
+                                <td>£{{ number_format($city->price, 2) }}</td>
+                                <td></td>
                                 <td>{{ $city->notes }}</td>
                                 @can('admin-ticket')
                                     @if ($city->status == '1')
@@ -639,7 +666,7 @@ $page = 'tickets';
                 }
 
                 // Update the displayed total price
-                $('#totalPriceDisplay').text('Total Price: £ ' + totalPrice.toFixed(2));
+                $('#totalPriceDisplay').text('Total Price: £' + totalPrice.toFixed(2));
             });
             $('#select-all').click(function(event) {
                 if (this.checked) {
@@ -652,6 +679,16 @@ $page = 'tickets';
                         this.checked = false;
                     });
                 }
+            });
+            $(document).ready(function() {
+                $('.toggle-notes').click(function(e) {
+                    e.preventDefault(); // Prevent the default anchor behavior
+                    var notesContainer = $(this).closest('tr').find('.notes-container');
+                    notesContainer.find('.notes')
+                        .toggle();
+                    notesContainer.find('img')
+                        .toggle();
+                });
             });
         });
     </script>

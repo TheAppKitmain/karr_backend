@@ -32,9 +32,8 @@ class TicketController extends Controller
         $userId = Auth::user()->id;
         $tickets = Ticket::whereHas('driver.user', function ($query) use ($userId) {
             $query->where('id', $userId);
-        })
-            ->orderBy('created_at', 'desc')
-            ->paginate(5);
+        })->orderBy('created_at', 'desc')->paginate(5);
+        
         $unpaid = Ticket::whereHas('driver.user', function ($query) use ($userId) {
             $query->where('id', $userId)->where('status', '0');
         })

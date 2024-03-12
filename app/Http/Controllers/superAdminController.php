@@ -29,18 +29,18 @@ class superAdminController extends Controller
         })->get();
 
         $tollData = DB::table('paytolls')
-        ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
-        ->join('drivers', 'paytoll__drivers.driver_id', '=', 'drivers.id')
-        ->where('drivers.user_id', $id)
-        ->select('paytolls.*', 'drivers.name As user_name','paytoll__drivers.*')
-        ->get();
+            ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
+            ->join('drivers', 'paytoll__drivers.driver_id', '=', 'drivers.id')
+            ->where('drivers.user_id', $id)
+            ->select('paytolls.*', 'drivers.name As user_name', 'paytoll__drivers.*')
+            ->get();
         // return $tollData;
         $cityData = DB::table('cities')
-        ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
-        ->join('drivers', 'city__drivers.driver_id', '=', 'drivers.id')
-        ->where('drivers.user_id', $id)
-        ->select('cities.*','drivers.name As user_name', 'city__drivers.*')
-        ->get();
+            ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
+            ->join('drivers', 'city__drivers.driver_id', '=', 'drivers.id')
+            ->where('drivers.user_id', $id)
+            ->select('cities.*', 'drivers.name As user_name', 'city__drivers.*')
+            ->get();
 
         $bank = Card::where('user_id', $id)->get();
 
@@ -85,29 +85,30 @@ class superAdminController extends Controller
     {
 
         $tickets = DB::table('tickets')
-        ->join('drivers', 'tickets.driver_id', '=', 'drivers.id')
-        ->join('users', 'drivers.user_id', '=', 'users.id')
-        ->select('tickets.*' ,'drivers.name as driver', 'users.name as user_name')
-        ->orderBy('created_at', 'desc')
-        ->get();
+            ->join('drivers', 'tickets.driver_id', '=', 'drivers.id')
+            ->join('users', 'drivers.user_id', '=', 'users.id')
+            ->select('tickets.*', 'drivers.name as driver', 'users.name as user_name', DB::raw('DATE_FORMAT(tickets.date, "%d %b %Y") as date'))
+            ->orderBy('tickets.created_at', 'desc')
+            ->get();
+
 
         $cities = DB::table('cities')
-        ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
-        ->join('drivers', 'city__drivers.driver_id', '=', 'drivers.id')
-        ->join('users', 'drivers.user_id', '=', 'users.id')
-        ->select('cities.*', 'city__drivers.*','drivers.name as driver', 'users.name as user_name')
-        ->orderBy('city__drivers.id', 'desc')
-        ->get();
+            ->join('city__drivers', 'cities.id', '=', 'city__drivers.city_id')
+            ->join('drivers', 'city__drivers.driver_id', '=', 'drivers.id')
+            ->join('users', 'drivers.user_id', '=', 'users.id')
+            ->select('cities.*', 'city__drivers.*', 'drivers.name as driver', 'users.name as user_name')
+            ->orderBy('city__drivers.id', 'desc')
+            ->get();
 
 
         $tolls = DB::table('paytolls')
-        ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
-        ->join('drivers', 'paytoll__drivers.driver_id', '=', 'drivers.id')
-        ->join('users', 'drivers.user_id', '=', 'users.id')
-        ->select('paytolls.*', 'paytoll__drivers.*', 'users.name as user_name')
-        ->orderBy('paytoll__drivers.id', 'desc')
-        ->get();
-    
+            ->join('paytoll__drivers', 'paytolls.id', '=', 'paytoll__drivers.paytoll_id')
+            ->join('drivers', 'paytoll__drivers.driver_id', '=', 'drivers.id')
+            ->join('users', 'drivers.user_id', '=', 'users.id')
+            ->select('paytolls.*', 'paytoll__drivers.*', 'users.name as user_name')
+            ->orderBy('paytoll__drivers.id', 'desc')
+            ->get();
+
         foreach ($tolls as $toll) {
             $toll->selectedDays = json_decode($toll->days);
         }
@@ -192,12 +193,12 @@ class superAdminController extends Controller
     public function markedPay(Request $request)
     {
         $items = $request->query('items');
-        $selectedItems = json_decode($items); 
+        $selectedItems = json_decode($items);
         foreach ($selectedItems as $item) {
             $table = $item->table;      // table has name of the table.
             $tid = $item->toll_id;      // toll_id is has ticket_id, paytoll_id, city_id.
             $did = $item->driver_id;    // In driver_id (in ticket case (driver_id),
-                                        // in paytoll and city (cd,pd) which is unique key. 
+            // in paytoll and city (cd,pd) which is unique key. 
 
             switch ($table) {
                 case 'tickets':
@@ -274,12 +275,12 @@ class superAdminController extends Controller
             $toll->days = json_decode($toll->days, true);
         }
         $charges = City::all();
-        return view('superAdmin.adminTolls',compact('tolls', 'charges'));
+        return view('superAdmin.adminTolls', compact('tolls', 'charges'));
     }
     public function fines()
     {
         $fines = Fines::all();
-        return view('superAdmin.undetectedFines',compact('fines'));
+        return view('superAdmin.undetectedFines', compact('fines'));
     }
 
     public function privacy()
