@@ -110,6 +110,7 @@ class UserController extends Controller
                 'password' => 'nullable|same:confirm-password',
                 'roles' => 'required',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+                'business' => 'required',
             ]);
 
             $user = User::find($id);
@@ -117,6 +118,7 @@ class UserController extends Controller
             // Update name and email
             $user->name = $validatedData['name'];
             $user->email = $validatedData['email'];
+            $user->business = $validatedData['business'];
 
             // Update password if provided
             if (!empty($validatedData['password'])) {
@@ -137,16 +139,16 @@ class UserController extends Controller
                 }
 
                 $image->move(public_path('image'), $imageName);
-                
+
 
                 $user->image = $imageName;
             }
-
+            $user->syncRoles([$validatedData['roles']]);
             $user->save();
 
             return redirect()->back()->with('success', 'User updated successfully');
         } catch (\Exception $e) {
-            return back()->with('error, '.$e->getMessage().' Failed to update user.');
+            return back()->with('error', ' Failed to update user.' . $e->getMessage());
         }
     }
 
@@ -198,7 +200,7 @@ class UserController extends Controller
                 return back()->with('error', 'Failed to update user. Password is incorrect.');
             }
         } catch (\Exception $e) {
-            return back()->with('error, Failed to update user.'.$e->getMessage());
+            return back()->with('error, Failed to update user.' . $e->getMessage());
         }
     }
 

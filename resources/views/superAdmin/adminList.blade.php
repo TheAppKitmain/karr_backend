@@ -31,13 +31,24 @@ $page = 'user';
             </div>
 
             <div class="scroll">
-
+                @if (Session::has('success'))
+                    <div class="alert alert-success">
+                        {{ Session::get('success') }}
+                    </div>
+                @endif
+                @if (Session::has('error'))
+                    <div class="alert alert-danger">
+                        {{ Session::get('error') }}
+                    </div>
+                @endif
                 <table class="table">
                     <thread>
                         <tr>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Roles</th>
+                            <th>Business</th>
+                            <th>Status</th>
                             <th>Details</th>
                             <th>Update</th>
                             <th>Delete</th>
@@ -56,6 +67,21 @@ $page = 'user';
                                         @endforeach
                                     @endif
                                 @endcan
+                            </td>
+                            <td>
+                                {{ $user->business }}
+                            </td>
+                            <td>
+                                @if ($user->getRoleNames())
+                                    @foreach ($user->getRoleNames() as $role)
+                                        @if ($role == 'User')
+                                            <a class="btn btn-info" href="{{ route('admin.allow', $user->id) }}">Pending</a>
+                                        @elseif ($role == 'Admin')
+                                            <a class="btn btn-warning"
+                                                href="{{ route('admin.allow', $user->id) }}">Approved</a>
+                                        @endif
+                                    @endforeach
+                                @endif
                             </td>
                             <td>
                                 <a class="btn btn-primary" href="{{ route('admin.details', $user->id) }}">Details</a>

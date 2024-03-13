@@ -45,7 +45,7 @@
 
                                     <img src="{{ asset('assets/dist/img/user.png') }}" width="24" height="24"
                                         viewBox="0 0 24 24" alt="">
-                                    Users
+                                    Business
                                 </span>
                             </a>
                         </li>

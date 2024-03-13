@@ -124,13 +124,14 @@ Route::controller(superAdminController::class)->group(function () {
     Route::get('/privacy', 'privacy');
     Route::get('/terms-conditions','termsCondition');
     Route::get('/fines','fines')->name('admin.fines');
+    Route::get('/allow/user/{id}', 'allowUser')->name('admin.allow');
 
 });
 
 
-Route::get('/delete/data', function () {
-    Ticket::truncate();
-    Paytoll_Driver::truncate();
-    City_Driver::truncate();
-    return 'done';
-});
+// Route::get('/delete/data', function () {
+//     Ticket::truncate();
+//     Paytoll_Driver::truncate();
+//     City_Driver::truncate();
+//     return 'done';
+// });

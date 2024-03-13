@@ -18,23 +18,26 @@ class CreateAdminUserSeeder extends Seeder
     public function run()
     {
         // Create the Super Admin user with all permissions
-        $superAdmin = User::create([
+        $sAdmin = User::create([
             'name' => 'S Admin',
             'email' => 'sadmin@gmail.com',
-            'password' => bcrypt('123456')
+            'password' => bcrypt('123456'),
+            'business' => 'S Admin',
         ]);
 
-        $superAdminRole = Role::create(['name' => 'S Admin']);
+        $sAdminRole = Role::create(['name' => 'S Admin']);
         $allPermissions = Permission::pluck('id')->toArray();
-        $superAdminRole->syncPermissions($allPermissions);
-        $superAdmin->assignRole([$superAdminRole->id]);
+        $sAdminRole->syncPermissions($allPermissions);
+        $sAdmin->assignRole([$sAdminRole->id]);
 
         //super Admin Panel 
 
         $superAdmin = User::create([
             'name' => 'Super Admin',
             'email' => 'superadmin@gmail.com',
-            'password' => bcrypt('123456')
+            'password' => bcrypt('123456'),
+            'business' => 'Super Admin',
+
         ]);
         $superAdminRole = Role::create(['name' => 'Super Admin']);
         $user = Role::create(['name' => 'User']);
@@ -82,7 +85,8 @@ class CreateAdminUserSeeder extends Seeder
         $admin = User::create([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
-            'password' => bcrypt('123456')
+            'password' => bcrypt('123456'),
+            'business' => 'Admin',
         ]);
 
         $adminRole = Role::create(['name' => 'Admin']);

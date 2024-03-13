@@ -34,6 +34,11 @@ $page = 'user';
                                     <label>Email</label>
                                     <input type="email" name="email" value={{ $user->email }} class="form-control">
                                 </div>
+                                <div class="form-group">
+                                    <label>Business</label>
+                                    <input type="text" name="business" value="{{ $user->business }}"
+                                        placeholder="Business" class="form-control">
+                                </div>
 
                                 <div class="form-group">
                                     <label>Password</label>
@@ -44,18 +49,18 @@ $page = 'user';
                                     <input type="password" name="confirm-password" class="form-control">
                                 </div>
                                 @can('role-list')
-                                    <div class="form-group">
-                                        <label>Roles</label>
-                                        <input type="text" name="roles" value="Admin" readonly class="form-control">
-                                    </div>
+                                    <label for="roles">Roles</label>
+                                    <select name="roles" id="roles" class="form-control">
+                                        <option value="">Select a role</option>
+                                        <option value="User">User</option>
+                                        <option value="Admin">Admin</option>
+                                    </select>
                                 @endcan
                             </div>
 
                             <div class="row add-cancel-buttons">
                                 <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="cancel-btn">
-                                        <a href="{{ route('users.index') }}">Back</a>
-                                    </div>
+                                    <a href="{{ route('users.index') }}" class="btn btn-primary">Back</a>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="add-btn">
@@ -70,12 +75,12 @@ $page = 'user';
                         <div class="guest-screen-right">
                             <div class="quick-review-contant">
                                 <h3>Quick preview</h3>
-                                <p>Create Driver.</p>
+                                <p>Update User.</p>
                             </div>
                             <div class="quick-review-img">
 
                                 <label>Image</label>
-                                <img id="image-preview" src="#" alt="Image Preview">
+                                <img id="image-preview" src="{{ asset('assets/dist/img/users.svg') }}" alt="Image Preview">
                                 <input type="file" name="image" id="image" accept="image/*" class="form-control"
                                     onchange="previewImage()">
 

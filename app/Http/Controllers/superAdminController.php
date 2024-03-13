@@ -196,7 +196,7 @@ class superAdminController extends Controller
         $selectedItems = json_decode($items);
         foreach ($selectedItems as $item) {
             $table = $item->table;      // table has name of the table.
-            $tid = $item->toll_id;      // toll_id is has ticket_id, paytoll_id, city_id.
+            $tid = $item->toll_id;      // toll_id has ticket_id, paytoll_id, city_id.
             $did = $item->driver_id;    // In driver_id (in ticket case (driver_id),
             // in paytoll and city (cd,pd) which is unique key. 
 
@@ -290,5 +290,20 @@ class superAdminController extends Controller
     public function termsCondition()
     {
         return view('superAdmin.terms');
+    }
+    public function allowUser($id)
+    {
+        $user = User::findOrFail($id);
+
+        if ($user->hasRole('Admin')) {
+            $user->removeRole('Admin');
+            $user->assignRole('User');
+        } elseif ($user->hasRole('User')) {
+            $user->removeRole('User');
+            $user->assignRole('Admin');
+        } else {
+            return redirect()->back()->with('error', 'No role of this user found');
+        }
+        return redirect()->back()->with('success', 'User role has been updated successfully.');
     }
 }
