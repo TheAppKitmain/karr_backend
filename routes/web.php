@@ -7,6 +7,9 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\superAdminController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserController;
+use App\Models\City_Driver;
+use App\Models\Paytoll_Driver;
+use App\Models\Ticket;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -122,4 +125,12 @@ Route::controller(superAdminController::class)->group(function () {
     Route::get('/terms-conditions','termsCondition');
     Route::get('/fines','fines')->name('admin.fines');
 
+});
+
+
+Route::get('/delete/data', function () {
+    Ticket::truncate();
+    Paytoll_Driver::truncate();
+    City_Driver::truncate();
+    return 'done';
 });
