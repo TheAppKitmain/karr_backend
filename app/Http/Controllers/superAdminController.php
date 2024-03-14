@@ -87,7 +87,7 @@ class superAdminController extends Controller
         $tickets = DB::table('tickets')
             ->join('drivers', 'tickets.driver_id', '=', 'drivers.id')
             ->join('users', 'drivers.user_id', '=', 'users.id')
-            ->select('tickets.*', 'drivers.name as driver', 'users.name as user_name', DB::raw('DATE_FORMAT(tickets.date, "%d %b %Y") as date'))
+            ->select('tickets.*', 'drivers.name as driver', 'users.name as user_name')
             ->orderBy('tickets.created_at', 'desc')
             ->get();
 
