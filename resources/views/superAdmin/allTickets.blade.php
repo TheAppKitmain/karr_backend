@@ -102,7 +102,6 @@ $page = 'tickets';
 
         .notes {
             display: none;
-            /* Hide notes by default */
         }
     </style>
     <section class="create-services-screen">

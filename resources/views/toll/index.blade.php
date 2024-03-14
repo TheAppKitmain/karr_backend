@@ -58,7 +58,7 @@ $page = 'tolls';
         .dropdown {
             display: flex;
             /* align-items: flex-end;
-                                                                        align-content: space-around; */
+                                                                                                                                                                                        align-content: space-around; */
             justify-content: flex-end;
 
         }
@@ -111,6 +111,10 @@ $page = 'tolls';
             align-items: center;
             font-size: 14px;
 
+        }
+
+        .notes {
+            display: none;
         }
     </style>
     <section class="support-screen">
@@ -173,8 +177,17 @@ $page = 'tolls';
                                 <td>{{ $ticket->date }}</td>
                                 <td>{{ $ticket->ticket_issuer }}</td>
                                 <td>Ticket</td>
-                                <td>£ {{ number_format($ticket->price, 2) }}</td>
-                                <td>{{ $ticket->notes }}</td>
+                                <td>£{{ number_format($ticket->price, 2) }}</td>
+                                <td>
+                                    @if ($ticket->notes)
+                                        <div class="notes-container">
+                                            <a href="#" class="toggle-notes">
+                                                <img src="{{ asset('assets/dist/img/eye.png') }}" alt="notes">
+                                            </a>
+                                            <div class="notes">{{ $ticket->notes }}</div>
+                                        </div>
+                                    @endif
+                                </td>
                                 @can('toll-pay')
                                     @if ($ticket->status == '1')
                                         <td><a class="btn btn-success" href="{{ route('ticket.pay', $ticket->id) }}">Paid</a>
@@ -201,8 +214,17 @@ $page = 'tolls';
                                 <td>{{ $toll->date }}</td>
                                 <td></td>
                                 <td>Tolls</td>
-                                <td>£ {{ number_format($toll->price, 2) }}</td>
-                                <td>{{ $toll->notes }}</td>
+                                <td>£{{ number_format($toll->price, 2) }}</td>
+                                <td>
+                                    @if ($toll->notes)
+                                        <div class="notes-container">
+                                            <a href="#" class="toggle-notes">
+                                                <img src="{{ asset('assets/dist/img/eye.png') }}" alt="notes">
+                                            </a>
+                                            <div class="notes">{{ $toll->notes }}</div>
+                                        </div>
+                                    @endif
+                                </td>
                                 @can('toll-pay')
                                     @if ($toll->status == 1)
                                         <td><a class="btn btn-success"
@@ -233,7 +255,16 @@ $page = 'tolls';
                                 <td></td>
                                 <td>Charges</td>
                                 <td>£ {{ number_format($city->price, 2) }}</td>
-                                <td>{{ $city->notes }}</td>
+                                <td>
+                                    @if ($city->notes)
+                                        <div class="notes-container">
+                                            <a href="#" class="toggle-notes">
+                                                <img src="{{ asset('assets/dist/img/eye.png') }}" alt="notes">
+                                            </a>
+                                            <div class="notes">{{ $city->notes }}</div>
+                                        </div>
+                                    @endif
+                                </td>
                                 @can('toll-pay')
                                     @if ($city->status == 1)
                                         <td><a class="btn btn-success"
@@ -285,7 +316,8 @@ $page = 'tolls';
                     <tbody>
                         @foreach ($tickets as $key => $ticket)
                             <tr>
-                                <td><input type="checkbox" name="" id="" value="{{ $ticket->id }}"></td>
+                                <td><input type="checkbox" name="" id="" value="{{ $ticket->id }}">
+                                </td>
                                 <!-- ... Rest of the table row ... -->
                                 <td>{{ $ticket->driver->name }}</td>
                                 <td>{{ $ticket->date }}</td>
@@ -293,7 +325,16 @@ $page = 'tolls';
                                 <td>{{ $ticket->ticket_issuer }}</td>
                                 <td>Ticket</td>
                                 <td>£ {{ number_format($ticket->price, 2) }}</td>
-                                <td>{{ $ticket->notes }}</td>
+                                <td>
+                                    @if ($ticket->notes)
+                                        <div class="notes-container">
+                                            <a href="#" class="toggle-notes">
+                                                <img src="{{ asset('assets/dist/img/eye.png') }}" alt="notes">
+                                            </a>
+                                            <div class="notes">{{ $ticket->notes }}</div>
+                                        </div>
+                                    @endif
+                                </td>
                                 @can('toll-pay')
                                     @if ($ticket->status == '1')
                                         <td>Paid</td>
@@ -344,7 +385,16 @@ $page = 'tolls';
                                 <td>{{ $city->date }}</td>
                                 <td>£ {{ number_format($city->price, 2) }}</td>
                                 <td>Charges</td>
-                                <td>{{ $city->notes }}</td>
+                                <td>
+                                    @if ($city->notes)
+                                        <div class="notes-container">
+                                            <a href="#" class="toggle-notes">
+                                                <img src="{{ asset('assets/dist/img/eye.png') }}" alt="notes">
+                                            </a>
+                                            <div class="notes">{{ $city->notes }}</div>
+                                        </div>
+                                    @endif
+                                </td>
                                 @can('toll-pay')
                                     @if ($city->status == 1)
                                         <td>Paid</td>
@@ -395,7 +445,16 @@ $page = 'tolls';
                                 </td>
                                 <td>Tolls</td>
                                 <td>£ {{ number_format($toll->price, 2) }}</td>
-                                <td>{{ $toll->notes }}</td>
+                                <td>
+                                    @if ($toll->notes)
+                                        <div class="notes-container">
+                                            <a href="#" class="toggle-notes">
+                                                <img src="{{ asset('assets/dist/img/eye.png') }}" alt="notes">
+                                            </a>
+                                            <div class="notes">{{ $toll->notes }}</div>
+                                        </div>
+                                    @endif
+                                </td>
                                 @can('toll-pay')
                                     @if ($toll->status == 1)
                                         <td> Paid </td>
@@ -447,8 +506,17 @@ $page = 'tolls';
                                 <td>{{ $ticket->date }}</td>
                                 <td>{{ $ticket->ticket_issuer }}</td>
                                 <td>Ticket</td>
-                                <td>£ {{ number_format($ticket->price, 2) }}</td>
-                                <td>{{ $ticket->notes }}</td>
+                                <td>£{{ number_format($ticket->price, 2) }}</td>
+                                <td>
+                                    @if ($ticket->notes)
+                                        <div class="notes-container">
+                                            <a href="#" class="toggle-notes">
+                                                <img src="{{ asset('assets/dist/img/eye.png') }}" alt="notes">
+                                            </a>
+                                            <div class="notes">{{ $ticket->notes }}</div>
+                                        </div>
+                                    @endif
+                                </td>
                                 @can('toll-pay')
                                     @if ($ticket->status == '1')
                                         <td><a class="btn btn-success" href="{{ route('ticket.pay', $ticket->id) }}">Paid</a>
@@ -476,8 +544,17 @@ $page = 'tolls';
                                 <td>{{ $toll->date }}</td>
                                 <td></td>
                                 <td>Tolls</td>
-                                <td>£ {{ number_format($toll->price, 2) }}</td>
-                                <td>{{ $toll->notes }}</td>
+                                <td>£{{ number_format($toll->price, 2) }}</td>
+                                <td>
+                                    @if ($toll->notes)
+                                        <div class="notes-container">
+                                            <a href="#" class="toggle-notes">
+                                                <img src="{{ asset('assets/dist/img/eye.png') }}" alt="notes">
+                                            </a>
+                                            <div class="notes">{{ $toll->notes }}</div>
+                                        </div>
+                                    @endif
+                                </td>
                                 @can('toll-pay')
                                     @if ($toll->status == 1)
                                         <td><a class="btn btn-success"
@@ -508,7 +585,16 @@ $page = 'tolls';
                                 <td></td>
                                 <td>Charges</td>
                                 <td>£ {{ number_format($city->price, 2) }}</td>
-                                <td>{{ $city->notes }}</td>
+                                <td>
+                                    @if ($city->notes)
+                                        <div class="notes-container">
+                                            <a href="#" class="toggle-notes">
+                                                <img src="{{ asset('assets/dist/img/eye.png') }}" alt="notes">
+                                            </a>
+                                            <div class="notes">{{ $city->notes }}</div>
+                                        </div>
+                                    @endif
+                                </td>
                                 @can('toll-pay')
                                     @if ($city->status == 1)
                                         <td><a class="btn btn-success"
@@ -558,8 +644,17 @@ $page = 'tolls';
                                 <td>{{ $ticket->date }}</td>
                                 <td>{{ $ticket->ticket_issuer }}</td>
                                 <td>Ticket</td>
-                                <td>£ {{ number_format($ticket->price, 2) }}</td>
-                                <td>{{ $ticket->notes }}</td>
+                                <td>£{{ number_format($ticket->price, 2) }}</td>
+                                <td>
+                                    @if ($ticket->notes)
+                                        <div class="notes-container">
+                                            <a href="#" class="toggle-notes">
+                                                <img src="{{ asset('assets/dist/img/eye.png') }}" alt="notes">
+                                            </a>
+                                            <div class="notes">{{ $ticket->notes }}</div>
+                                        </div>
+                                    @endif
+                                </td>
                                 @can('toll-pay')
                                     @if ($ticket->status == '1')
                                         <td><a class="btn btn-success" href="{{ route('ticket.pay', $ticket->id) }}">Paid</a>
@@ -587,8 +682,17 @@ $page = 'tolls';
                                 <td>{{ $toll->date }}</td>
                                 <td></td>
                                 <td>Tolls</td>
-                                <td>£ {{ number_format($toll->price, 2) }}</td>
-                                <td>{{ $toll->notes }}</td>
+                                <td>£{{ number_format($toll->price, 2) }}</td>
+                                <td>
+                                    @if ($toll->notes)
+                                        <div class="notes-container">
+                                            <a href="#" class="toggle-notes">
+                                                <img src="{{ asset('assets/dist/img/eye.png') }}" alt="notes">
+                                            </a>
+                                            <div class="notes">{{ $toll->notes }}</div>
+                                        </div>
+                                    @endif
+                                </td>
                                 @can('toll-pay')
                                     @if ($toll->status == 1)
                                         <td><a class="btn btn-success"
@@ -618,8 +722,17 @@ $page = 'tolls';
                                 <td>{{ $city->date }}</td>
                                 <td></td>
                                 <td>Charges</td>
-                                <td>£ {{ number_format($city->price, 2) }}</td>
-                                <td>{{ $city->notes }}</td>
+                                <td>£{{ number_format($city->price, 2) }}</td>
+                                <td>
+                                    @if ($city->notes)
+                                        <div class="notes-container">
+                                            <a href="#" class="toggle-notes">
+                                                <img src="{{ asset('assets/dist/img/eye.png') }}" alt="notes">
+                                            </a>
+                                            <div class="notes">{{ $city->notes }}</div>
+                                        </div>
+                                    @endif
+                                </td>
                                 @can('toll-pay')
                                     @if ($city->status == 1)
                                         <td><a class="btn btn-success"
@@ -640,11 +753,6 @@ $page = 'tolls';
                     </tbody>
                 </table>
             </div>
-
-
-
-
-
 
         </div>
     </section>
@@ -822,6 +930,46 @@ $page = 'tolls';
                     });
                 }
             });
+        });
+    </script>
+
+    {{-- Script for Notes --}}
+    <script>
+        $('#AllTable').on('click', '.toggle-notes', function(e) {
+            e.preventDefault();
+            var notesContainer = $(this).closest('tr').find('.notes-container');
+            notesContainer.find('.notes').toggle();
+            notesContainer.find('img').toggle();
+        });
+        $('#unpaidTable').on('click', '.toggle-notes', function(e) {
+            e.preventDefault();
+            var notesContainer = $(this).closest('tr').find('.notes-container');
+            notesContainer.find('.notes').toggle();
+            notesContainer.find('img').toggle();
+        });
+        $('#paidTable').on('click', '.toggle-notes', function(e) {
+            e.preventDefault();
+            var notesContainer = $(this).closest('tr').find('.notes-container');
+            notesContainer.find('.notes').toggle();
+            notesContainer.find('img').toggle();
+        });
+        $('#ticketsTable').on('click', '.toggle-notes', function(e) {
+            e.preventDefault();
+            var notesContainer = $(this).closest('tr').find('.notes-container');
+            notesContainer.find('.notes').toggle();
+            notesContainer.find('img').toggle();
+        });
+        $('#tollsTable').on('click', '.toggle-notes', function(e) {
+            e.preventDefault();
+            var notesContainer = $(this).closest('tr').find('.notes-container');
+            notesContainer.find('.notes').toggle();
+            notesContainer.find('img').toggle();
+        });
+        $('#cityTable').on('click', '.toggle-notes', function(e) {
+            e.preventDefault();
+            var notesContainer = $(this).closest('tr').find('.notes-container');
+            notesContainer.find('.notes').toggle();
+            notesContainer.find('img').toggle();
         });
     </script>
 @endsection
