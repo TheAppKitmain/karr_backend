@@ -383,7 +383,7 @@ $page = 'tolls';
                                 <td>{{ $city->city }}</td>
                                 <td>{{ $city->user_name }}</td>
                                 <td>{{ $city->date }}</td>
-                                <td>£ {{ number_format($city->price, 2) }}</td>
+                                <td>£{{ number_format($city->price, 2) }}</td>
                                 <td>Charges</td>
                                 <td>
                                     @if ($city->notes)
@@ -584,7 +584,7 @@ $page = 'tolls';
                                 <td>{{ $city->date }}</td>
                                 <td></td>
                                 <td>Charges</td>
-                                <td>£ {{ number_format($city->price, 2) }}</td>
+                                <td>£{{ number_format($city->price, 2) }}</td>
                                 <td>
                                     @if ($city->notes)
                                         <div class="notes-container">

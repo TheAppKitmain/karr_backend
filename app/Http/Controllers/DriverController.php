@@ -7,10 +7,12 @@ use App\Imports\DriversImport;
 use App\Models\Car;
 use App\Models\Driver;
 use App\Models\Ticket;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Hash;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
 
 class DriverController extends Controller
 {
@@ -42,7 +44,35 @@ class DriverController extends Controller
     }
     public function create()
     {
-        return view('drivers.create');
+        $id = Auth::user()->id;
+        $user = Auth::user();
+        $roles = $user->roles;
+
+        // For Super Admins
+        if ($roles->contains('name', 'Super Admin')) {
+            $id = Auth::user()->id;
+            $user = Auth::user();
+            $roles = $user->roles;
+            // For Super Admins
+            if ($roles->contains('name', 'Super Admin')) {
+                $adminData = Role::where('name', 'Admin')->orWhere('name', 'user')->get();
+
+                if ($adminData) {
+                    $users = collect();
+
+                    foreach ($adminData as $role) {
+
+                        $businesses = $users->merge($role->users);
+                    }
+                    return view('drivers.create', compact('businesses'));
+                }
+            }
+        }
+        // For Admin
+        elseif ($roles->contains('name', 'Admin')) {
+            $businesses = User::find($id);
+            return view('drivers.create', compact('businesses'));
+        }
     }
     public function edit($id)
     {
@@ -60,12 +90,14 @@ class DriverController extends Controller
                 'password' => 'required|min:6',
                 'email' => 'required',
                 'user_id' => 'required',
+                'business' => 'required'
             ]);
 
             $user = Driver::where('email', '=', $validateData['email'])->first();
             if ($user === null) {
 
                 $input = $request->all();
+                
 
                 // Hash the password
                 $input['password'] = Hash::make($input['password']);

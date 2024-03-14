@@ -11,7 +11,7 @@ $page = 'user';
                     <div class="col-lg-8 col-md-8 col-sm-12">
                         <div class="guest-screen-left">
                             <div class="guest-inner-content">
-                                <h3>Create User</h3>
+                                <h3>Create Business</h3>
                             </div>
                             @csrf
 
@@ -49,12 +49,13 @@ $page = 'user';
                                     <input type="password" name="confirm-password" class="form-control">
                                 </div>
                                 @can('role-list')
-                                    <label for="roles">Roles</label>
+                                    {{-- <label for="roles">Roles</label>
                                     <select name="roles" id="roles" class="form-control">
                                         <option value="">Select a role</option>
                                         <option value="User">User</option>
                                         <option value="Admin">Admin</option>
-                                    </select>
+                                    </select> --}}
+                                    <input type="hidden" name="roles" value="Admin" id="">
                                 @endcan
                             </div>
 
@@ -64,7 +65,7 @@ $page = 'user';
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="add-btn">
-                                        <button type="submit" class="btn btn-success">Add user</button>
+                                        <button type="submit" class="btn btn-success">Add Business</button>
                                     </div>
                                 </div>
                             </div>
@@ -75,7 +76,7 @@ $page = 'user';
                         <div class="guest-screen-right">
                             <div class="quick-review-contant">
                                 <h3>Quick preview</h3>
-                                <p>Update User.</p>
+                                <p>Update Buisness.</p>
                             </div>
                             <div class="quick-review-img">
 

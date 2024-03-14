@@ -56,7 +56,8 @@ class UserController extends Controller
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|same:confirm-password',
                 'roles' => 'required',
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+                'business' => 'required',
             ]);
 
             if ($request->hasFile('image')) {
@@ -74,7 +75,7 @@ class UserController extends Controller
 
             return redirect()->route('users.index')->with('success', 'User created successfully');
         } catch (\Exception $e) {
-            return back()->with('error', $e . 'Failed to create user. Please try again.');
+            return back()->with('error', 'Failed to create user. Please try again.' . $e->getMessage());
         }
     }
 

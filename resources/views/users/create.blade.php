@@ -10,7 +10,7 @@ $page = 'user';
                     <div class="col-lg-8 col-md-8 col-sm-12">
                         <div class="guest-screen-left">
                             <div class="guest-inner-content">
-                                <h3>Create User</h3>
+                                <h3>Create Business</h3>
                             </div>
                             @csrf
 
@@ -47,23 +47,28 @@ $page = 'user';
                                     <input type="password" name="confirm-password" placeholder="Confirm Password"
                                         class="form-control">
                                 </div>
-                                @can('role-list')
+                                {{-- @can('role-list')
                                     <div class="form-group">
-                                        <label>Roles</label>
-                                        <input type="text" name="roles" value="Admin" readonly class="form-control">
+                                        <label for="roles">Roles</label>
+                                        <select name="roles" id="roles" class="form-control">
+                                            <option value="">Select a role</option>
+                                            <option value="User">User</option>
+                                            <option value="Admin">Admin</option>
+                                        </select>
                                     </div>
-                                @endcan
+                                @endcan --}}
+                                <input type="hidden" name="roles" value="Admin" id="">
                             </div>
 
                             <div class="row add-cancel-buttons">
                                 <div class="col-lg-6 col-md-6 col-sm-12">
 
-                                    <a href="{{ route('users.index') }}">Back</a>
+                                    <a href="{{ route('users.index') }}" class="btn btn-primary">Back</a>
 
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="add-btn">
-                                        <button type="submit" class="btn btn-success">Add User</button>
+                                        <button type="submit" class="btn btn-success">Save</button>
                                     </div>
                                 </div>
                             </div>
