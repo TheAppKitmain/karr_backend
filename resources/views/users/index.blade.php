@@ -12,7 +12,7 @@ $page = 'user';
     <section class="create-services-screen">
         <div class="row create-services-screen-left">
             <div class="for-our-services">
-                <h3>Users</h3>
+                <h3>Business</h3>
                 <a href="{{ route('users.create') }}"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <mask id="path-1-inside-1_105_1242" fill="white">
