@@ -306,4 +306,10 @@ class superAdminController extends Controller
         }
         return redirect()->back()->with('success', 'User role has been updated successfully.');
     }
+    public function deleteUnidentified($id)
+    {
+        $fines = Fines::find($id);
+        $fines->delete();
+        return redirect()->back()->with('success', 'Image is deleted');
+    }
 }

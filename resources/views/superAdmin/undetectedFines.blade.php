@@ -3,9 +3,9 @@ $page = 'fine';
 ?>
 @extends('layouts.app')
 @section('content')
-<!-- Add this to your HTML file -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+    <!-- Add this to your HTML file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
 
     <section class="create-services-screen">
         <div class="row create-services-screen-left">
@@ -29,6 +29,7 @@ $page = 'fine';
                             <th>Image</th>
                             <th>Name of Business</th>
                             <th>Driver</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,6 +42,13 @@ $page = 'fine';
                                 </td>
                                 <td>{{ $fine->driver->name }}</td>
                                 <td>{{ $fine->user->name }}</td>
+                                <td>
+                                    <form action="{{ route('admin.deleteFine', $fine->id) }}" method="POST">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

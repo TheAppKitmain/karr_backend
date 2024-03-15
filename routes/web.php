@@ -50,8 +50,8 @@ Route::controller(DriverController::class)->group(function () {
     Route::get('/driver/toll/{id}', 'driverToll')->name('driver.toll');
     Route::get('/driver/charge/{id}', 'driverCharge')->name('driver.charge');
     Route::get('/driver/ticket/{id}', 'driverTicket')->name('driver.ticket');
-    Route::post('/import','import')->name('drivers.import');
-    Route::get('/download','download')->name('download.template');
+    Route::post('/import', 'import')->name('drivers.import');
+    Route::get('/download', 'download')->name('download.template');
 });
 
 
@@ -66,17 +66,17 @@ Route::controller(PaytollController::class)->group(function () {
     Route::put('/toll/update/{id}', 'updateToll')->name('toll.update');
     Route::delete('/toll/{id}', 'delete')->name('toll.destroy');
     // Card Enter
-        
+
     Route::post('/card', 'card')->name('card');
     Route::delete('/card/{id}', 'cardDelete')->name('card.delete');
 });
 
 //Tickets
 Route::controller(TicketController::class)->group(function () {
-    
+
     Route::get('/tickets', 'index')->name('tickets');
     Route::get('/ticket/pay/{id}', 'payticket')->name('ticket.pay');
-    
+
     //City Charges
     Route::get('/charges', 'city')->name('city');
     Route::get('/charges/pay/{id}/{d_id}', 'paycharges')->name('charges.pay');
@@ -85,14 +85,14 @@ Route::controller(TicketController::class)->group(function () {
     Route::delete('/charges/delete/{id}', 'cityDelete')->name('charges.destroy');
     Route::get('/city.charges/{id}', 'cityEdit')->name('charges.edit');
     Route::put('/charges/update/{id}', 'cityUpdate')->name('charges.update');
-    
+
     //Stripe payment
     Route::post('/payment/{id}', 'stripe')->name('payment');
     Route::get('/bulk', 'selectMultiple')->name('bulk');
     Route::post('/bulkpayment', 'bulkStripe')->name('bulkStripe');
 
     // delete
-    Route::delete('/ticket/{id}','deleteTicket')->name('ticket.delete');
+    Route::delete('/ticket/{id}', 'deleteTicket')->name('ticket.delete');
 });
 
 
@@ -110,22 +110,22 @@ Route::controller(UserController::class)->group(function () {
     Route::put('users/update/{user}', 'update')->name('users.update');
     Route::get('/settings/{id}', 'setting')->name('settings');
     Route::get('/analytics', 'analytics')->name('users.analytics');
-    Route::put('admin/update/{id}','updateUser')->name('admin.update');
+    Route::put('admin/update/{id}', 'updateUser')->name('admin.update');
 });
 
 // Routes for all tickets and tolls
 Route::controller(superAdminController::class)->group(function () {
-    Route::get('/all-tickets','totalTickets')->name('admin.tickets');
-    Route::get('admin/{id}/{name}/{d_id}','adminPay')->name('admin.pay');
-    Route::get('/marked-pay','markedPay')->name('marked.pay');
-    Route::get('/user-details/{id}','adminData')->name('admin.details');
-    Route::get('unpaid/{id}/{name}/{d_id}','unpaid')->name('admin.unpaid');
+    Route::get('/all-tickets', 'totalTickets')->name('admin.tickets');
+    Route::get('admin/{id}/{name}/{d_id}', 'adminPay')->name('admin.pay');
+    Route::get('/marked-pay', 'markedPay')->name('marked.pay');
+    Route::get('/user-details/{id}', 'adminData')->name('admin.details');
+    Route::get('unpaid/{id}/{name}/{d_id}', 'unpaid')->name('admin.unpaid');
     Route::get('/tolls/charges', 'tollCharges')->name('admin.tolls');
     Route::get('/privacy', 'privacy');
-    Route::get('/terms-conditions','termsCondition');
-    Route::get('/fines','fines')->name('admin.fines');
+    Route::get('/terms-conditions', 'termsCondition');
+    Route::get('/fines', 'fines')->name('admin.fines');
     Route::get('/allow/user/{id}', 'allowUser')->name('admin.allow');
-
+    Route::delete('/delete/fines/{id}', 'deleteUnidentified')->name('admin.deleteFine');
 });
 
 

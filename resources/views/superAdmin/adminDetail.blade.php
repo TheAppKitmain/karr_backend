@@ -59,14 +59,14 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
                 <div class="home" style="background:  #FFB400;">
                     <div class="homeText">
                         <p>Unpaid Amount</p>
-                        <span>£{{ number_format($unpaidCharges,2) }}</span>
+                        <span>£{{ number_format($unpaidCharges, 2) }}</span>
                     </div>
 
                 </div>
                 <div class="home" style="background:  #FF6F73;">
                     <div class="homeText">
                         <p>Total Amount</p>
-                        <span>£{{ number_format($totalCharges,2) }}</span>
+                        <span>£{{ number_format($totalCharges, 2) }}</span>
                     </div>
                 </div>
 
@@ -80,7 +80,7 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
                         <!-- Ticket Data -->
                         <div class="card mb-4">
                             <div class="card-header">
-                                <h4>Ticket's Submitted by Driver</h4>
+                                <h4><strong>Ticket's Submitted by Driver</strong></h4>
                             </div>
                             <div class="card-body">
                                 <table class="table">
@@ -97,7 +97,7 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
                                             <tr>
                                                 <td>{{ $ticket->driver->name }}</td>
                                                 <td>{{ $ticket->pcn }}</td>
-                                                <td>£ {{ number_format($ticket->price,2) }}</td>
+                                                <td>£ {{ number_format($ticket->price, 2) }}</td>
                                                 <td>
                                                     @if ($ticket->status == 0)
                                                         <h4><span class="label label-default">Unpaid</span></h4>
@@ -115,7 +115,7 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
                         <!-- Toll Data -->
                         <div class="card mb-4">
                             <div class="card-header">
-                                <h4> Tolls </h4>
+                                <h4><strong> Tolls </strong></h4>
                             </div>
                             <div class="card-body">
                                 <table class="table">
@@ -132,7 +132,7 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
                                             <tr>
                                                 <td>{{ $toll->user_name }}</td>
                                                 <td>{{ $toll->name }}</td>
-                                                <td>£ {{ number_format($toll->price,2) }}</td>
+                                                <td>£ {{ number_format($toll->price, 2) }}</td>
                                                 <td>
                                                     @if ($toll->status == 0)
                                                         <h4><span class="label label-default">Unpaid</span></h4>
@@ -150,7 +150,7 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
                         <!-- City Data -->
                         <div class="card mb-4">
                             <div class="card-header">
-                                <h4>City Charges</h4>
+                                <h4><strong>City Charges</strong></h4>
                             </div>
                             <div class="card-body">
                                 <table class="table">
@@ -167,7 +167,7 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
                                             <tr>
                                                 <td>{{ $city->user_name }}</td>
                                                 <td>{{ $city->area }}</td>
-                                                <td>£ {{ number_format($city->price,2) }}</td>
+                                                <td>£ {{ number_format($city->price, 2) }}</td>
                                                 <td>
                                                     @if ($city->status == 0)
                                                         <h4><span class="label label-default">Unpaid</span></h4>
@@ -185,7 +185,7 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
                         <!-- Bank Data -->
                         <div class="card mb-4">
                             <div class="card-header">
-                                <h4>Bank Data</h4>
+                                <h4><strong>Card on file</strong></h4>
                             </div>
                             <div class="card-body">
                                 <table class="table">
@@ -199,7 +199,8 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
                                         @foreach ($bank as $card)
                                             <tr>
                                                 <td>{{ $card->name }}</td>
-                                                <td>{{ $card->card }}</td>
+                                                <td>{{ str_repeat('*', strlen($card->card) - 4) . substr($card->card, -4) }}
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
