@@ -222,7 +222,6 @@
     @csrf
 </form>
 <script>
-    // Attach a click event handler to the "Logout" button within the modal
     document.getElementById('confirmLogout').addEventListener('click', function() {
         // Submit the logout form when the "Logout" button is clicked
         document.getElementById('logout-form').submit();

@@ -50,27 +50,22 @@ class DriverController extends Controller
 
         // For Super Admins
         if ($roles->contains('name', 'Super Admin')) {
-            $id = Auth::user()->id;
-            $user = Auth::user();
-            $roles = $user->roles;
-            // For Super Admins
-            if ($roles->contains('name', 'Super Admin')) {
-                $adminData = Role::where('name', 'Admin')->orWhere('name', 'user')->get();
+            $adminData = Role::where('name', 'Admin')->get();
 
-                if ($adminData) {
-                    $users = collect();
+            if ($adminData) {
+                $users = collect();
 
-                    foreach ($adminData as $role) {
+                foreach ($adminData as $role) {
 
-                        $businesses = $users->merge($role->users);
-                    }
-                    return view('drivers.create', compact('businesses'));
+                    $businesses = $users->merge($role->users);
                 }
+                return view('drivers.create', compact('businesses'));
             }
         }
+
         // For Admin
         elseif ($roles->contains('name', 'Admin')) {
-            $businesses = User::find($id);
+            $businesses = User::where('id', $id)->get();
             return view('drivers.create', compact('businesses'));
         }
     }
@@ -89,7 +84,6 @@ class DriverController extends Controller
                 'number' => 'required|string',
                 'password' => 'required|min:6',
                 'email' => 'required',
-                'user_id' => 'required',
                 'business' => 'required'
             ]);
 
@@ -97,23 +91,20 @@ class DriverController extends Controller
             if ($user === null) {
 
                 $input = $request->all();
-                
-
-                // Hash the password
                 $input['password'] = Hash::make($input['password']);
-
-                // Create the driver
+                $user = User::where('business', $request->business)->first();
+                $input['user_id'] = $user->id;
                 Driver::create($input);
 
                 return redirect()->route('drivers.index')->with('success', 'Driver created successfully.');
             } else {
-                return redirect()->back()->with('error', 'Driver with this email already exits.');
+                return redirect()->back()->with('error', 'Driver with this email already exist.');
             }
         } catch (\Exception $e) {
             // Log the exception for debugging
             \Log::error('Failed to create driver: ' . $e->getMessage());
 
-            return back()->with('error', 'Failed to create driver. Please try again.');
+            return back()->with('error', 'Failed to create driver. Please try again.' . $e->getMessage());
         }
     }
 

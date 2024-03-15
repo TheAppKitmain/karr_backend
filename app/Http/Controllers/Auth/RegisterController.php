@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -30,7 +31,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = RouteServiceProvider::LOGIN;
 
     /**
      * Create a new controller instance.
@@ -72,14 +73,17 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'business' => $data['business'],
         ]);
-    
+
         $role = Role::where('name', 'User')->first();
-    
+
         if ($role) {
             $user->assignRole([$role->id]);
         }
-    
+
         return $user;
     }
-    
+    protected function registered(Request $request, $user)
+    {
+        return redirect()->route('login')->with('success', 'Registration successful! Please login with your credentials.');
+    }
 }

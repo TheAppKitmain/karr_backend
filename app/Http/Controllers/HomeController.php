@@ -211,7 +211,7 @@ class HomeController extends Controller
             ));
         } else {
 
-            return view('profile.newUser');
+            // return view('profile.newUser');
         }
     }
 }

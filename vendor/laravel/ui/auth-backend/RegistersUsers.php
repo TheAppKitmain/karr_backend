@@ -33,15 +33,15 @@ trait RegistersUsers
 
         event(new Registered($user = $this->create($request->all())));
 
-        $this->guard()->login($user);
+        // $this->guard()->login($user);
 
         if ($response = $this->registered($request, $user)) {
             return $response;
         }
 
         return $request->wantsJson()
-                    ? new JsonResponse([], 201)
-                    : redirect($this->redirectPath());
+            ? new JsonResponse([], 201)
+            : redirect($this->redirectPathAfterRegistration());
     }
 
     /**
@@ -53,7 +53,15 @@ trait RegistersUsers
     {
         return Auth::guard();
     }
-
+    /**
+     * Get the path to the login page.
+     *
+     * @return string
+     */
+    protected function redirectPathAfterRegistration()
+    {
+        return route('login'); 
+    }
     /**
      * The user has been registered.
      *
@@ -63,6 +71,6 @@ trait RegistersUsers
      */
     protected function registered(Request $request, $user)
     {
-        //
+        return redirect()->route('login')->with('success', 'Registration successful! Please login with your credentials.');
     }
 }

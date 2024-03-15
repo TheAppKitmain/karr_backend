@@ -38,6 +38,16 @@
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <div class="col-md-12 col-sm-12 col-12">
+                        @if (Session::has('success'))
+                            <div class="alert alert-success">
+                                {{ Session::get('success') }}
+                            </div>
+                        @endif
+                        @if (Session::has('error'))
+                            <div class="alert alert-danger">
+                                {{ Session::get('error') }}
+                            </div>
+                        @endif
                         <div class="form-group">
                             <label>Email</label>
                             <input id="email" type="email" placeholder="Email"
@@ -89,7 +99,7 @@
             '{{ asset('assets/dist/img/login/4.jpg') }}',
             '{{ asset('assets/dist/img/login/5.jpg') }}',
         ];
-       
+
 
         // Get a random index from the imageArray
         var randomIndex = Math.floor(Math.random() * imageArray.length);

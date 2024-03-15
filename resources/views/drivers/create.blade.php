@@ -29,7 +29,6 @@ $page = 'driver';
 
                     <form action="{{ route('drivers.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                         <div class="guest-screen-form">
                             @if (Session::has('error'))
                                 <div class="alert alert-danger">
