@@ -3,8 +3,7 @@ $page = 'tickets';
 ?>
 @extends('layouts.app')
 @section('content')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js">
-    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="//code.jquery.com/jquery-1.12.3.js"></script>
     <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
@@ -724,25 +723,24 @@ $page = 'tickets';
             $(document).ready(function() {
                 $('#AllTable').on('click', '.toggle-notes', function(e) {
                     e.preventDefault();
-                    var notesContainer = $(this).closest('tr').find('.notes-container');
-                    notesContainer.find('.notes').toggle();
-                    notesContainer.find('img').toggle();
+                    var notes = $(this).closest('.notes-container').find('.notes').text();
+                    alert(notes);
                 });
             });
             $(document).ready(function() {
                 $('#unpaidTable').on('click', '.toggle-notes', function(e) {
                     e.preventDefault();
                     var notesContainer = $(this).closest('tr').find('.notes-container');
-                    notesContainer.find('.notes').toggle();
-                    notesContainer.find('img').toggle();
+                    var notes = $(this).closest('.notes-container').find('.notes').text();
+                    alert(notes);
                 });
             });
             $(document).ready(function() {
                 $('#paidTable').on('click', '.toggle-notes', function(e) {
                     e.preventDefault();
                     var notesContainer = $(this).closest('tr').find('.notes-container');
-                    notesContainer.find('.notes').toggle();
-                    notesContainer.find('img').toggle();
+                    var notes = $(this).closest('.notes-container').find('.notes').text();
+                    alert(notes);
                 });
             });
         });

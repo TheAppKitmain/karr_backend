@@ -626,21 +626,18 @@ $page = 'ticket';
         $(document).ready(function() {
             $('#ticket').on('click', '.toggle-notes', function(e) {
                 e.preventDefault();
-                var notesContainer = $(this).closest('tr').find('.notes-container');
-                notesContainer.find('.notes').toggle();
-                notesContainer.find('img').toggle();
+                var notes = $(this).closest('.notes-container').find('.notes').text();
+                alert(notes);
             });
             $('#unpaidTicket').on('click', '.toggle-notes', function(e) {
                 e.preventDefault();
-                var notesContainer = $(this).closest('tr').find('.notes-container');
-                notesContainer.find('.notes').toggle();
-                notesContainer.find('img').toggle();
+                var notes = $(this).closest('.notes-container').find('.notes').text();
+                alert(notes);
             });
             $('#paidTicket').on('click', '.toggle-notes', function(e) {
                 e.preventDefault();
-                var notesContainer = $(this).closest('tr').find('.notes-container');
-                notesContainer.find('.notes').toggle();
-                notesContainer.find('img').toggle();
+                var notes = $(this).closest('.notes-container').find('.notes').text();
+                alert(notes);
             });
         });
     </script>

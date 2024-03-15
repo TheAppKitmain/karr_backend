@@ -58,7 +58,7 @@ $page = 'tolls';
         .dropdown {
             display: flex;
             /* align-items: flex-end;
-                                                                                                                                                                                        align-content: space-around; */
+                                                                                                                                                                                                                align-content: space-around; */
             justify-content: flex-end;
 
         }
@@ -937,39 +937,33 @@ $page = 'tolls';
     <script>
         $('#AllTable').on('click', '.toggle-notes', function(e) {
             e.preventDefault();
-            var notesContainer = $(this).closest('tr').find('.notes-container');
-            notesContainer.find('.notes').toggle();
-            notesContainer.find('img').toggle();
+            var notes = $(this).closest('.notes-container').find('.notes').text();
+            alert(notes);
         });
         $('#unpaidTable').on('click', '.toggle-notes', function(e) {
             e.preventDefault();
-            var notesContainer = $(this).closest('tr').find('.notes-container');
-            notesContainer.find('.notes').toggle();
-            notesContainer.find('img').toggle();
+            var notes = $(this).closest('.notes-container').find('.notes').text();
+            alert(notes);
         });
         $('#paidTable').on('click', '.toggle-notes', function(e) {
             e.preventDefault();
-            var notesContainer = $(this).closest('tr').find('.notes-container');
-            notesContainer.find('.notes').toggle();
-            notesContainer.find('img').toggle();
+            var notes = $(this).closest('.notes-container').find('.notes').text();
+            alert(notes);
         });
         $('#ticketsTable').on('click', '.toggle-notes', function(e) {
             e.preventDefault();
-            var notesContainer = $(this).closest('tr').find('.notes-container');
-            notesContainer.find('.notes').toggle();
-            notesContainer.find('img').toggle();
+            var notes = $(this).closest('.notes-container').find('.notes').text();
+            alert(notes);
         });
         $('#tollsTable').on('click', '.toggle-notes', function(e) {
             e.preventDefault();
-            var notesContainer = $(this).closest('tr').find('.notes-container');
-            notesContainer.find('.notes').toggle();
-            notesContainer.find('img').toggle();
+            var notes = $(this).closest('.notes-container').find('.notes').text();
+            alert(notes);
         });
         $('#cityTable').on('click', '.toggle-notes', function(e) {
             e.preventDefault();
-            var notesContainer = $(this).closest('tr').find('.notes-container');
-            notesContainer.find('.notes').toggle();
-            notesContainer.find('img').toggle();
+            var notes = $(this).closest('.notes-container').find('.notes').text();
+            alert(notes);
         });
     </script>
 @endsection
