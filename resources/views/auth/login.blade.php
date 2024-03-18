@@ -43,11 +43,11 @@
                                 {{ Session::get('success') }}
                             </div>
                         @endif
-                        @if (Session::has('error'))
+                        @error('email')
                             <div class="alert alert-danger">
-                                {{ Session::get('error') }}
+                                The email or password do not match our records
                             </div>
-                        @endif
+                        @enderror
                         <div class="form-group">
                             <label>Email</label>
                             <input id="email" type="email" placeholder="Email"
@@ -55,11 +55,6 @@
                                 value="{{ old('email') }}" required autocomplete="email" autofocus>
                         </div>
                     </div>
-                    @error('email')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
                     <div class="col-md-12 col-sm-12 col-12">
                         <div class="form-group">
                             <label>Password</label>
