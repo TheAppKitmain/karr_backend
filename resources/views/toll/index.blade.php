@@ -58,7 +58,7 @@ $page = 'tolls';
         .dropdown {
             display: flex;
             /* align-items: flex-end;
-                                                                                                                                                                                                                align-content: space-around; */
+                                                                                                                                                                                                                                                                align-content: space-around; */
             justify-content: flex-end;
 
         }
@@ -181,7 +181,8 @@ $page = 'tolls';
                                 <td>
                                     @if ($ticket->notes)
                                         <div class="notes-container">
-                                            <a href="#" class="toggle-notes">
+                                            <a href="#" class="toggle-notes" data-toggle="modal"
+                                                data-target="#myModal">
                                                 <img src="{{ asset('assets/dist/img/eye.png') }}" alt="notes">
                                             </a>
                                             <div class="notes">{{ $ticket->notes }}</div>
@@ -218,7 +219,8 @@ $page = 'tolls';
                                 <td>
                                     @if ($toll->notes)
                                         <div class="notes-container">
-                                            <a href="#" class="toggle-notes">
+                                            <a href="#" class="toggle-notes" data-toggle="modal"
+                                                data-target="#myModal">
                                                 <img src="{{ asset('assets/dist/img/eye.png') }}" alt="notes">
                                             </a>
                                             <div class="notes">{{ $toll->notes }}</div>
@@ -258,7 +260,8 @@ $page = 'tolls';
                                 <td>
                                     @if ($city->notes)
                                         <div class="notes-container">
-                                            <a href="#" class="toggle-notes">
+                                            <a href="#" class="toggle-notes" data-toggle="modal"
+                                                data-target="#myModal">
                                                 <img src="{{ asset('assets/dist/img/eye.png') }}" alt="notes">
                                             </a>
                                             <div class="notes">{{ $city->notes }}</div>
@@ -328,7 +331,8 @@ $page = 'tolls';
                                 <td>
                                     @if ($ticket->notes)
                                         <div class="notes-container">
-                                            <a href="#" class="toggle-notes">
+                                            <a href="#" class="toggle-notes" data-toggle="modal"
+                                                data-target="#myModal">
                                                 <img src="{{ asset('assets/dist/img/eye.png') }}" alt="notes">
                                             </a>
                                             <div class="notes">{{ $ticket->notes }}</div>
@@ -388,7 +392,8 @@ $page = 'tolls';
                                 <td>
                                     @if ($city->notes)
                                         <div class="notes-container">
-                                            <a href="#" class="toggle-notes">
+                                            <a href="#" class="toggle-notes" data-toggle="modal"
+                                                data-target="#myModal">
                                                 <img src="{{ asset('assets/dist/img/eye.png') }}" alt="notes">
                                             </a>
                                             <div class="notes">{{ $city->notes }}</div>
@@ -448,7 +453,8 @@ $page = 'tolls';
                                 <td>
                                     @if ($toll->notes)
                                         <div class="notes-container">
-                                            <a href="#" class="toggle-notes">
+                                            <a href="#" class="toggle-notes" data-toggle="modal"
+                                                data-target="#myModal">
                                                 <img src="{{ asset('assets/dist/img/eye.png') }}" alt="notes">
                                             </a>
                                             <div class="notes">{{ $toll->notes }}</div>
@@ -510,7 +516,8 @@ $page = 'tolls';
                                 <td>
                                     @if ($ticket->notes)
                                         <div class="notes-container">
-                                            <a href="#" class="toggle-notes">
+                                            <a href="#" class="toggle-notes" data-toggle="modal"
+                                                data-target="#myModal">
                                                 <img src="{{ asset('assets/dist/img/eye.png') }}" alt="notes">
                                             </a>
                                             <div class="notes">{{ $ticket->notes }}</div>
@@ -548,7 +555,8 @@ $page = 'tolls';
                                 <td>
                                     @if ($toll->notes)
                                         <div class="notes-container">
-                                            <a href="#" class="toggle-notes">
+                                            <a href="#" class="toggle-notes" data-toggle="modal"
+                                                data-target="#myModal">
                                                 <img src="{{ asset('assets/dist/img/eye.png') }}" alt="notes">
                                             </a>
                                             <div class="notes">{{ $toll->notes }}</div>
@@ -588,7 +596,8 @@ $page = 'tolls';
                                 <td>
                                     @if ($city->notes)
                                         <div class="notes-container">
-                                            <a href="#" class="toggle-notes">
+                                            <a href="#" class="toggle-notes" data-toggle="modal"
+                                                data-target="#myModal">
                                                 <img src="{{ asset('assets/dist/img/eye.png') }}" alt="notes">
                                             </a>
                                             <div class="notes">{{ $city->notes }}</div>
@@ -648,7 +657,8 @@ $page = 'tolls';
                                 <td>
                                     @if ($ticket->notes)
                                         <div class="notes-container">
-                                            <a href="#" class="toggle-notes">
+                                            <a href="#" class="toggle-notes" data-toggle="modal"
+                                                data-target="#myModal">
                                                 <img src="{{ asset('assets/dist/img/eye.png') }}" alt="notes">
                                             </a>
                                             <div class="notes">{{ $ticket->notes }}</div>
@@ -686,7 +696,8 @@ $page = 'tolls';
                                 <td>
                                     @if ($toll->notes)
                                         <div class="notes-container">
-                                            <a href="#" class="toggle-notes">
+                                            <a href="#" class="toggle-notes" data-toggle="modal"
+                                                data-target="#myModal">
                                                 <img src="{{ asset('assets/dist/img/eye.png') }}" alt="notes">
                                             </a>
                                             <div class="notes">{{ $toll->notes }}</div>
@@ -726,7 +737,8 @@ $page = 'tolls';
                                 <td>
                                     @if ($city->notes)
                                         <div class="notes-container">
-                                            <a href="#" class="toggle-notes">
+                                            <a href="#" class="toggle-notes" data-toggle="modal"
+                                                data-target="#myModal">
                                                 <img src="{{ asset('assets/dist/img/eye.png') }}" alt="notes">
                                             </a>
                                             <div class="notes">{{ $city->notes }}</div>
@@ -754,6 +766,39 @@ $page = 'tolls';
                 </table>
             </div>
 
+        </div>
+        <!-- Modal -->
+        <div class="modal fade create_success_property" id="myModal" tabindex="-1" role="dialog"
+            aria-labelledby="myModalLabel">
+            <div class="modal-dialog">
+                <div class="modal-content text-center">
+                    <div class="modal-header">
+                        <div class="modal-header">
+                            <div class="header_inner">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70"
+                                    viewBox="0 0 70 70" fill="none">
+                                    <path
+                                        d="M25.0335 35.0772C25.7627 34.5304 26.7652 34.5304 27.4944 35.0772L31.5265 38.1013L35.0715 35.4426L28.1641 23.5117V15.9875H39.2383C40.046 15.9875 40.7787 15.5132 41.1093 14.7763C41.44 14.0392 41.3071 13.1768 40.7702 12.5735L38.7023 10.2495L40.7702 7.92586C41.3072 7.32252 41.44 6.45996 41.1093 5.72305C40.7787 4.986 40.046 4.51172 39.2383 4.51172H28.1641V4.375C28.1641 3.24242 27.2459 2.32422 26.1133 2.32422C24.9807 2.32422 24.0625 3.24242 24.0625 4.375V23.5117L17.2002 35.3646L20.9826 38.1154L25.0335 35.0772Z"
+                                        fill="#2D927E"></path>
+                                    <path
+                                        d="M32.757 42.3056C32.0277 42.8525 31.0253 42.8525 30.2961 42.3056L26.2639 39.2815L22.2318 42.3056C21.8675 42.5789 21.4345 42.7158 21.0014 42.7158C20.5782 42.7158 20.1549 42.5852 19.7952 42.3235L15.1342 38.9336L0.276036 64.5975C-0.0913271 65.232 -0.0918739 66.0142 0.274122 66.6494C0.640392 67.2846 1.3177 67.6758 2.05078 67.6758H53.684L37.141 39.0174L32.757 42.3056Z"
+                                        fill="#F3D55B"></path>
+                                    <path
+                                        d="M69.6742 64.516L49.9867 33.891C49.5992 33.288 48.9285 32.9318 48.2081 32.9499C47.4916 32.9686 46.8368 33.3602 46.4811 33.9825L42.7448 40.5209L58.4199 67.6758H67.9492C68.6994 67.6758 69.3897 67.2661 69.7493 66.6077C70.1087 65.9493 70.08 65.147 69.6742 64.516Z"
+                                        fill="#F3D55B"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <h4 class="modal-title" id="myModalLabel"><strong>Notes</strong></h4>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Notes content will be displayed here -->
+                    </div>
+                    <div class="modal-footer text-center">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
     {{-- Script to hide tables --}}
@@ -938,32 +983,32 @@ $page = 'tolls';
         $('#AllTable').on('click', '.toggle-notes', function(e) {
             e.preventDefault();
             var notes = $(this).closest('.notes-container').find('.notes').text();
-            alert(notes);
+            $('.modal-body').text(notes);
         });
         $('#unpaidTable').on('click', '.toggle-notes', function(e) {
             e.preventDefault();
             var notes = $(this).closest('.notes-container').find('.notes').text();
-            alert(notes);
+            $('.modal-body').text(notes);
         });
         $('#paidTable').on('click', '.toggle-notes', function(e) {
             e.preventDefault();
             var notes = $(this).closest('.notes-container').find('.notes').text();
-            alert(notes);
+            $('.modal-body').text(notes);
         });
         $('#ticketsTable').on('click', '.toggle-notes', function(e) {
             e.preventDefault();
             var notes = $(this).closest('.notes-container').find('.notes').text();
-            alert(notes);
+            $('.modal-body').text(notes);
         });
         $('#tollsTable').on('click', '.toggle-notes', function(e) {
             e.preventDefault();
             var notes = $(this).closest('.notes-container').find('.notes').text();
-            alert(notes);
+            $('.modal-body').text(notes);
         });
         $('#cityTable').on('click', '.toggle-notes', function(e) {
             e.preventDefault();
             var notes = $(this).closest('.notes-container').find('.notes').text();
-            alert(notes);
+            $('.modal-body').text(notes);
         });
     </script>
 @endsection

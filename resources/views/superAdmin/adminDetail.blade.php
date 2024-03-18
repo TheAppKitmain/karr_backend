@@ -5,6 +5,13 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
 ?>
 @extends('layouts.app')
 @section('content')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.12.3.js"></script>
+    <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
     <style>
         .home {
             float: left;
@@ -79,11 +86,11 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
                     <div class="col-md-12">
                         <!-- Ticket Data -->
                         <div class="card mb-4">
-                            <div class="card-header">
+                            <div class="card-header" style="margin-bottom: 10px">
                                 <h4><strong>Ticket's Submitted by Driver</strong></h4>
                             </div>
                             <div class="card-body">
-                                <table class="table">
+                                <table class="table" id="table">
                                     <thead>
                                         <tr>
                                             <th>Driver</th>
@@ -114,11 +121,11 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
 
                         <!-- Toll Data -->
                         <div class="card mb-4">
-                            <div class="card-header">
+                            <div class="card-header" style="margin-bottom: 10px">
                                 <h4><strong> Tolls </strong></h4>
                             </div>
                             <div class="card-body">
-                                <table class="table">
+                                <table class="table" id="Tolltable">
                                     <thead>
                                         <tr>
                                             <th>Driver</th>
@@ -149,11 +156,11 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
 
                         <!-- City Data -->
                         <div class="card mb-4">
-                            <div class="card-header">
+                            <div class="card-header" style="margin-bottom: 10px">
                                 <h4><strong>City Charges</strong></h4>
                             </div>
                             <div class="card-body">
-                                <table class="table">
+                                <table class="table" id="Citytable">
                                     <thead>
                                         <tr>
                                             <th>Driver</th>
@@ -184,11 +191,11 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
 
                         <!-- Bank Data -->
                         <div class="card mb-4">
-                            <div class="card-header">
+                            <div class="card-header" style="margin-bottom: 10px">
                                 <h4><strong>Card on file</strong></h4>
                             </div>
                             <div class="card-body">
-                                <table class="table">
+                                <table class="table" id="Cardtable" style="margin-bottom: 20px">
                                     <thead>
                                         <tr>
                                             <th>Card </th>
@@ -214,4 +221,18 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
         </div>
 
     </section>
+    <script>
+        $(document).ready(function() {
+            $('#table').DataTable();
+        });
+        $(document).ready(function() {
+            $('#Tolltable').DataTable();
+        });
+        $(document).ready(function() {
+            $('#Citytable').DataTable();
+        });
+        $(document).ready(function() {
+            $('#Cardtable').DataTable();
+        });
+    </script>
 @endsection
