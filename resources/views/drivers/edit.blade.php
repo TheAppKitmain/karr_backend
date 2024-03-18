@@ -54,7 +54,7 @@ $page = 'driver';
                             </div>
                             <div class="col-lg-6 col-md-6 form-group">
                                 <label>Confirm Password</label>
-                                <input type="password" name="confirm_password" id="confirm_password" class="form-control" />
+                                <input type="password" name="confirm-password" id="confirm_password" class="form-control" />
                                 <span id='message'></span>
                             </div>
                             <div class="col-lg-6 col-md-6 form-group">
