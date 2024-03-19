@@ -147,7 +147,7 @@ class UserController extends Controller
             $user->syncRoles([$validatedData['roles']]);
             $user->save();
 
-            return redirect()->back()->with('success', 'User updated successfully');
+            return redirect()->back()->with('success', 'Your profile has been updated');
         } catch (\Exception $e) {
             return back()->with('error', ' Failed to update user.' . $e->getMessage());
         }
@@ -196,7 +196,7 @@ class UserController extends Controller
 
                 $user->save();
 
-                return redirect()->back()->with('success', 'User updated successfully');
+                return redirect()->back()->with('success', 'Your profile has been updated');
             } else {
                 return back()->with('error', 'Failed to update user. Password is incorrect.');
             }

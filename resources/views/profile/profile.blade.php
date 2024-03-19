@@ -3,6 +3,17 @@ $page = 'setting';
 ?>
 @extends('layouts.app')
 @section('content')
+    <style>
+        .add-btns {
+            text-align: right;
+        }
+
+        .btn-main {
+            background: #8C52FF;
+            color: #fff ;
+
+        }
+    </style>
     <section class="profile-screen">
         <div class="row">
             <form action="{{ route('users.update', $user->id) }}" method="POST">
@@ -44,11 +55,9 @@ $page = 'setting';
 
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12">
-                                <div class="add-btn">
-
-                                    <a href="#">cancel</a>
-
-                                    <button type="submit" class="btn btn-primary">Save</button>
+                                <div class="add-btns">
+                                    <button type="button" class="btn primary">Cancel</button>
+                                    <button type="submit" class="btn btn-main">Save</button>
                                 </div>
                             </div>
                         </div>

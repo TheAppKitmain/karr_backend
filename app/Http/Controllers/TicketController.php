@@ -152,7 +152,7 @@ class TicketController extends Controller
         if ($status == 0) {
             return view('ticket.stripe', compact('type', 'price', 'name', 'collection'));
         } else if ($status == 1) {
-            return redirect()->route('tickets')->with('error', 'Ticket is paid');
+            return redirect()->route('home')->with('success', 'Ticket is paid');
         } else {
             return redirect()->route('tickets')->with('error', 'Ticket status is disputed');
         }

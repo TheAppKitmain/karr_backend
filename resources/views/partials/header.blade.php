@@ -1,6 +1,12 @@
 <?php
-$image = Auth::user()->image;
+
+if (Auth::check()) {
+    $image = Auth::user()->image;
+} else {
+    $image = null;
+}
 ?>
+
 
 <header class="main-header">
     <!-- Logo -->
@@ -11,8 +17,8 @@ $image = Auth::user()->image;
     <nav class="navbar navbar-static-top" role="navigation">
         <!-- Sidebar toggle button-->
         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-         <span class="sr-only">Toggle navigation</span>
-       </a> 
+            <span class="sr-only">Toggle navigation</span>
+        </a>
         <button id="show-hidden-menu">
             <div id="toggle">
                 <div class="one"></div>
@@ -44,4 +50,3 @@ $image = Auth::user()->image;
         </div>
     </nav>
 </header
-

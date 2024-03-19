@@ -69,7 +69,7 @@ $page = 'ticket';
 
         .pay {
             display: flex;
-            justify-content: space-between;
+            margin-bottom: 10px;
         }
 
         .main {
@@ -78,25 +78,34 @@ $page = 'ticket';
         }
 
         .payMultiple {
+            padding: 10px;
+            margin-left: 10px;
+            background-color: #8C52FF;
+            color: #FFF;
             border-radius: 10px;
-            background: #8C52FF;
-            padding: 10px 8px;
-            color: var(--white, #FFF);
-            height: fit-content;
-            font-weight: 500;
-            width: 140px;
-            margin-top: 10px;
-            display: flex;
-            align-items: center;
+            margin-bottom: 10px;
         }
 
         .notes {
             display: none;
         }
+
+        .btn-dark {
+            color: #fff;
+            background-color: #000;
+
+        }
+
+        .for-our-services a {
+            padding: 10px;
+            font-size: 14px;
+        }
     </style>
     <section class="create-services-screen">
         <div class="row create-services-screen-left">
+
             <div class="for-our-services">
+                <a href="#" class="payMultiple" id="selectAllCheckboxItems">Pay Multiple Tickets</a>
                 <div class="sort dropdown">
                     <p id="dropdown-toggle">Filter By<span class="caret"></span></p>
                     <div class="dropdown-content" id="dropdown-content">
@@ -105,6 +114,10 @@ $page = 'ticket';
                     </div>
                 </div>
             </div>
+            <div id="totalPriceDisplay" style="font-size 14px; margin-bottom:10px; margin-left:10px; margin-top:-20px">
+                Total Price: £0.00
+            </div>
+
             @if (Session::has('success'))
                 <div class="alert alert-success">
                     {{ Session::get('success') }}
@@ -258,7 +271,7 @@ $page = 'ticket';
                                     <td>{{ $ticket->pcn }}</td>
                                     <td>{{ $ticket->ticket_issuer }}</td>
                                     <td>Ticket</td>
-                                    <td>£ {{ number_format($ticket->price, 2) }}</td>
+                                    <td>£{{ number_format($ticket->price, 2) }}</td>
                                     @if ($ticket->image)
                                         <td> <a href="{{ asset('ticket/' . $ticket->image) }}" data-fancybox="gallery">
                                                 <img src="{{ asset('assets/dist/img/eye.png') }}">
@@ -281,13 +294,12 @@ $page = 'ticket';
                                     @can('toll-pay')
                                         @if ($ticket->status == '1')
                                             <td>Paid</td>
-                                            <td><a class="btn btn-success"
-                                                    href="{{ route('ticket.pay', $ticket->id) }}">Paid</a>
+                                            <td><a class="btn btn-dark" href="{{ route('ticket.pay', $ticket->id) }}">Paid</a>
                                             </td>
                                         @elseif ($ticket->status == '0')
                                             <td>Unpaid</td>
                                             <td>
-                                                <a class="btn main" href="{{ route('ticket.pay', $ticket->id) }}">Pay
+                                                <a class="btn btn-success" href="{{ route('ticket.pay', $ticket->id) }}">Pay
                                                     Now</a>
                                             </td>
                                         @elseif ($ticket->status == '2')
@@ -311,12 +323,6 @@ $page = 'ticket';
                 </table>
                 <div id="ticket_page" class="pay">
                     {!! $tickets->withQueryString()->links('pagination::bootstrap-5') !!}
-                </div>
-                <div>
-                    <a href="#" class="payMultiple" id="selectAllCheckboxItems">Pay multiple Tickets</a>
-                </div>
-                <div id="totalPriceDisplay" style="margin-top: 10px; margin-bottom: 10px; font-size:14px;">
-                    Total Price: £ 0.00
                 </div>
             </div>
 
@@ -353,7 +359,7 @@ $page = 'ticket';
                                     <td>{{ $ticket->pcn }}</td>
                                     <td>{{ $ticket->ticket_issuer }}</td>
                                     <td>Ticket</td>
-                                    <td>£ {{ number_format($ticket->price, 2) }}</td>
+                                    <td>£{{ number_format($ticket->price, 2) }}</td>
                                     @if ($ticket->image)
                                         <td> <a href="{{ asset('ticket/' . $ticket->image) }}" data-fancybox="gallery">
                                                 <img src="{{ asset('assets/dist/img/eye.png') }}">
@@ -376,13 +382,12 @@ $page = 'ticket';
                                     @can('toll-pay')
                                         @if ($ticket->status == '1')
                                             <td>Paid</td>
-                                            <td><a class="btn btn-success"
-                                                    href="{{ route('ticket.pay', $ticket->id) }}">Paid</a>
+                                            <td><a class="btn btn-dark" href="{{ route('ticket.pay', $ticket->id) }}">Paid</a>
                                             </td>
                                         @elseif ($ticket->status == '0')
                                             <td>Unpaid</td>
                                             <td>
-                                                <a class="btn main" href="{{ route('ticket.pay', $ticket->id) }}">Pay
+                                                <a class="btn btn-success" href="{{ route('ticket.pay', $ticket->id) }}">Pay
                                                     Now</a>
                                             </td>
                                         @elseif ($ticket->status == '2')
@@ -436,7 +441,7 @@ $page = 'ticket';
                                     <td>{{ $ticket->pcn }}</td>
                                     <td>{{ $ticket->ticket_issuer }}</td>
                                     <td>Ticket</td>
-                                    <td>£ {{ number_format($ticket->price, 2) }}</td>
+                                    <td>£{{ number_format($ticket->price, 2) }}</td>
                                     @if ($ticket->image)
                                         <td>
                                             <a href="{{ asset('ticket/' . $ticket->image) }}" data-fancybox="gallery">
@@ -460,13 +465,13 @@ $page = 'ticket';
                                     @can('toll-pay')
                                         @if ($ticket->status == '1')
                                             <td>Paid</td>
-                                            <td><a class="btn btn-success"
+                                            <td><a class="btn btn-dark"
                                                     href="{{ route('ticket.pay', $ticket->id) }}">Paid</a>
                                             </td>
                                         @elseif ($ticket->status == '0')
                                             <td>Unpaid</td>
                                             <td>
-                                                <a class="btn main" href="{{ route('ticket.pay', $ticket->id) }}">Pay
+                                                <a class="btn btn-success" href="{{ route('ticket.pay', $ticket->id) }}">Pay
                                                     Now</a>
                                             </td>
                                         @elseif ($ticket->status == '2')
@@ -523,7 +528,7 @@ $page = 'ticket';
 
     </section>
 
-
+    {{-- Check and filter --}}
     <script>
         $(document).ready(function() {
             $('#select-all').click(function(event) {
@@ -573,6 +578,8 @@ $page = 'ticket';
             $("#totalPriceDisplay").hide();
         });
     </script>
+
+    {{-- Select ids --}}
     <script>
         $(document).ready(function() {
             // When the "Pay multiple Tickets" anchor tag is clicked
@@ -627,6 +634,8 @@ $page = 'ticket';
             }
         });
     </script>
+
+    {{-- Price --}}
     <script>
         $(document).ready(function() {
             var totalPrice = 0.00;
@@ -644,7 +653,7 @@ $page = 'ticket';
                 }
 
                 // Update the displayed total price
-                $('#totalPriceDisplay').text('Total Price: £ ' + totalPrice.toFixed(2));
+                $('#totalPriceDisplay').text('Total Price: £' + totalPrice.toFixed(2));
             });
 
             // // Handle the "Pay multiple" button click
@@ -659,6 +668,8 @@ $page = 'ticket';
             // });
         });
     </script>
+
+    {{-- Notes --}}
     <script>
         $(document).ready(function() {
             $('#ticket').on('click', '.toggle-notes', function(e) {

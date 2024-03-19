@@ -16,10 +16,10 @@ $page = 'ticket';
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <div class="row">
         <section class="create-services-screen">
-            <button id="addButton" class="justify-content-start btn-lg">
+            <button id="addButton" class="justify-content-start btn-sm">
                 ADD CARD
             </button>
-            <button id="payButton" class="justify-content-start btn-lg">
+            <button id="payButton" class="justify-content-start btn-sm">
                 PAYMENT
             </button>
             <div class="row create-services-screen-left">
@@ -55,7 +55,7 @@ $page = 'ticket';
 
                                         <label class='control-label'><b>Name on Card</b></label>
                                         <select name="name" id="card-name" class="form-control">
-                                            <option value="">---Select Values---</option>
+                                            <option value="">--- Select names on cards ---</option>
                                             @foreach ($collection as $item)
                                                 <option value="{{ $item->name }}" data-card-number="{{ $item->card }}"
                                                     data-card-cvc="{{ $item->cvc }}"
@@ -78,7 +78,8 @@ $page = 'ticket';
                                         <input autocomplete='off' class='form-control card-number' size='20'
                                             type='text' id="card-number" readonly>
                                     </div>
-                                    <input type="hidden" name="card-number-hidden" class="card-number-hidden" id="card-number-hidden">
+                                    <input type="hidden" name="card-number-hidden" class="card-number-hidden"
+                                        id="card-number-hidden">
                                 </div>
 
                                 <div class='form-row row'>
@@ -124,8 +125,7 @@ $page = 'ticket';
                                         <input type="hidden" name="type" value="{{ $name }}">
                                         <button class="btn btn-lg btn-block" style="background-color:  #8C52FF; color:#fff"
                                             type="submit"> <strong>Pay Now
-                                                ({{ $price }}
-                                                £) </strong></button>
+                                                (£{{ $price }}) </strong></button>
 
                                     </div>
 
@@ -142,7 +142,7 @@ $page = 'ticket';
                 {{-- -------------------------------------Add Card --------------------------------------- --}}
                 <div class="row d-flex justify-content-center" id="add" style="display: none;">
                     <div class="col-md-10 col-lg-8 col-xl-5">
-                        <div class="card rounded-3">
+                        <div class="card">
                             <div class="card-body p-4">
                                 <div class="text-center mb-4">
                                     <h3>Settings</h3>
@@ -150,9 +150,9 @@ $page = 'ticket';
                                 </div>
                                 <form action="{{ route('card') }}" method="post">
                                     @csrf
-                                    <h4 class="mb-2">Add new Card</h4>
+                                    <h4 class="mb-2" style="margin-bottom: 20px;">Add New Card</h4>
                                     <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                                    <div class="form-outline mb-4">
+                                    <div class="form-outline" style="margin-bottom: 20px;">
                                         <label class="form-label" for="formControlLgXsd">Cardholder's Name</label>
                                         <input type="text" id="formControlLgXsd" class="form-control form-control-lg"
                                             placeholder="Anna Doe" name="name" />
@@ -160,7 +160,7 @@ $page = 'ticket';
 
                                     <div class="row mb-4">
                                         <div class="col-7">
-                                            <div class="form-outline">
+                                            <div class="form-outline" style="margin-bottom: 20px;">
                                                 <label class="form-label" for="formControlLgXM">Card Number</label>
                                                 <input type="text" id="formControlLgXM"
                                                     class="form-control form-control-lg" placeholder="1234 5678 1234 5678"
@@ -168,13 +168,13 @@ $page = 'ticket';
                                             </div>
                                         </div>
                                         <div class="col-3">
-                                            <div class="form-outline">
+                                            <div class="form-outline" style="margin-bottom: 20px;">
                                                 <label class="form-label" for="formControlLgExpk">Expire Month</label>
                                                 <input type="test" id="formControlLgExpk"
                                                     class="form-control form-control-lg" placeholder="MM" maxlength="2"
                                                     name="mon" />
                                             </div>
-                                            <div class="form-outline">
+                                            <div class="form-outline" style="margin-bottom: 20px;">
                                                 <label class="form-label" for="formControlLgExpk">Expire Year</label>
                                                 <input type="test" id="formControlLgExpk"
                                                     class="form-control form-control-lg" placeholder="YYYY"
@@ -182,17 +182,17 @@ $page = 'ticket';
                                             </div>
                                         </div>
                                         <div class="col-2 mb-3">
-                                            <div class="form-outline">
-                                                <label class="form-label" for="formControlLgcvv">Cvc</label>
+                                            <div class="form-outline" style="margin-bottom: 20px;">
+                                                <label class="form-label" for="formControlLgcvv">CVC</label>
                                                 <input type="integer" id="formControlLgcvv"
-                                                    class="form-control form-control-lg" placeholder="Cvc" name="cvc"
+                                                    class="form-control form-control-lg" placeholder="CVC" name="cvc"
                                                     maxlength="4" />
                                             </div>
                                         </div>
                                     </div>
 
                                     <button class="btn btn-success btn-lg btn-block"
-                                        style="background-color: #8C52FF; border: none;">Add card</button>
+                                        style="background-color: #8C52FF; border: none;">Add Card</button>
                                 </form>
                             </div>
                         </div>
