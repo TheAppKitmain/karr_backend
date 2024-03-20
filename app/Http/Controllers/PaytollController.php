@@ -175,7 +175,7 @@ class PaytollController extends Controller
             return redirect()->route('admin.tolls')->with('success', 'Toll has been created successfully.');
         } catch (\Exception $e) {
 
-            return back()->with('error', $e . 'Failed to create toll. Please try again.');
+            return back()->with('error','Failed to create toll. Please try again.'. $e->getMessage());
         }
     }
     public function editToll($id)
