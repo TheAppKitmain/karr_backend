@@ -129,8 +129,8 @@ Route::controller(superAdminController::class)->group(function () {
 });
 
 
-Route::get('/delete/data', function () {
+// Route::get('/delete/data', function () {
 
-    City_Driver::truncate();
-    return 'done';
-});
+//     City_Driver::truncate();
+//     return 'done';
+// });
