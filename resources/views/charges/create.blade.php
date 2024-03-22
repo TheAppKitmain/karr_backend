@@ -43,7 +43,7 @@ $page = 'city';
                         <div class="row add-cancel-buttons">
                             <div class="col-lg-6 col-md-6 col-sm-12">
                                 <div class="cancel-btn">
-                                    <a href="{{ route('city') }}" class="btn-secondary">Back</a>
+                                    <a href="{{ route('admin.tolls') }}" class="btn-secondary">Back</a>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12">

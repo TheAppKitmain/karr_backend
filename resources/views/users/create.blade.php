@@ -25,17 +25,20 @@ $page = 'user';
                                         {{ Session::get('error') }}
                                     </div>
                                 @endif
+
                                 <div class="form-group">
-                                    <label>Name</label>
-                                    <input type="text" name="name" placeholder="Name" class="form-control" required>
+                                    <label>Full Name</label>
+                                    <input type="text" name="name" placeholder="Full Name" class="form-control" required>
                                 </div>
+
                                 <div class="form-group">
                                     <label>Email</label>
                                     <input type="email" name="email" placeholder="Email" class="form-control" required>
                                 </div>
+
                                 <div class="form-group">
-                                    <label>Business</label>
-                                    <input type="text" name="business" placeholder="Business" class="form-control">
+                                    <label>Business Name</label>
+                                    <input type="text" name="business" placeholder="Business Name" class="form-control">
                                 </div>
 
                                 <div class="form-group">

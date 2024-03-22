@@ -3,6 +3,17 @@ $page = 'toll';
 ?>
 @extends('layouts.app')
 @section('content')
+    <style>
+        .add-btns {
+            text-align: right;
+        }
+
+        .btn-main {
+            background: #8C52FF;
+            color: #fff;
+
+        }
+    </style>
     <section class="guest-screen">
         <div class="row">
             <div class="col-lg-8 col-md-8 col-sm-12">
@@ -43,13 +54,13 @@ $page = 'toll';
 
                         <div class="row add-cancel-buttons">
                             <div class="col-lg-6 col-md-6 col-sm-12">
-                                <div class="cancel-btn">
-                                    <a href="{{ route('toll') }}" class="btn-secondary">Back</a>
-                                </div>
+                                <button type="button" class="btn primary">Cancel</button>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12">
-                                <div class="add-btn">
-                                    <button type="submit" class="btn btn-success">Add Toll</button>
+                                <div class="add-btns">
+                                    {{-- <a href="{{ route('toll') }}" class="btn-secondary">Back</a> --}}
+                                   
+                                    <button type="submit" class="btn btn-main">Save</button>
                                 </div>
                             </div>
                         </div>
