@@ -78,16 +78,18 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
                 </div>
 
             </div>
-            <div class="for-our-services">
-                {{-- <h3>Details</h3> --}}
-            </div>
+        </div>
+        <div class="row create-services-screen-left" style="margin-top:20px;">
+
             <div class="container">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-10">
                         <!-- Ticket Data -->
                         <div class="card mb-4">
                             <div class="card-header" style="margin-bottom: 10px">
-                                <h4><strong>Ticket's Submitted by Driver</strong></h4>
+                                <center>
+                                    <h4><strong>Ticket's Submitted by Driver</strong></h4>
+                                </center>
                             </div>
                             <div class="card-body">
                                 <table class="table" id="table">
@@ -120,9 +122,11 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
                         </div>
 
                         <!-- Toll Data -->
-                        <div class="card mb-4">
+                        <div class="card" style="margin-bottom: 10px">
                             <div class="card-header" style="margin-bottom: 10px">
-                                <h4><strong> Tolls </strong></h4>
+                                <center>
+                                    <h4><strong> Tolls </strong></h4>
+                                </center>
                             </div>
                             <div class="card-body">
                                 <table class="table" id="Tolltable">
@@ -155,9 +159,11 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
                         </div>
 
                         <!-- City Data -->
-                        <div class="card mb-4">
+                        <div class="card" style="margin-bottom: 10px">
                             <div class="card-header" style="margin-bottom: 10px">
-                                <h4><strong>City Charges</strong></h4>
+                                <center>
+                                    <h4><strong>City Charges</strong></h4>
+                                </center>
                             </div>
                             <div class="card-body">
                                 <table class="table" id="Citytable">
@@ -190,9 +196,11 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
                         </div>
 
                         <!-- Bank Data -->
-                        <div class="card mb-4">
+                        <div class="card" style="margin-bottom: 10px">
                             <div class="card-header" style="margin-bottom: 10px">
-                                <h4><strong>Card on file</strong></h4>
+                                <center>
+                                    <h4><strong>Card on file</strong></h4>
+                                </center>
                             </div>
                             <div class="card-body">
                                 <table class="table" id="Cardtable" style="margin-bottom: 20px">
@@ -217,8 +225,8 @@ $ticketCount = $ticketData->count() + $tollData->count() + $cityData->count();
                     </div>
                 </div>
             </div>
-
         </div>
+
 
     </section>
     <script>
