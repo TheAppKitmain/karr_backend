@@ -30,7 +30,9 @@ if (Auth::check()) {
             <ul class="nav navbar-nav">
                 <li style="margin-top: 20px;">
                     <a style="color: #000000; text-align:bottom">
-                        {{ Auth::user()->name }}
+                      @auth
+                      {{ Auth::user()->name }}
+                      @endauth
                     </a>
                 </li>
                 {{-- <li class="dropdown tasks-menu">
