@@ -65,7 +65,7 @@ $page = 'setting';
                             </div>
 
                             <div class="form-group">
-                                <label>Image</label>
+                                <label>Business Logo</label>
                                 <input type="file" class="form-control" placeholder="Image" name="image">
                             </div>
 
