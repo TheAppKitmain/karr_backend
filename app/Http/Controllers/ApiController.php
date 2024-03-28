@@ -145,7 +145,7 @@ class ApiController extends Controller
         $validator = Validator::make($request->all(), [
             'driver_id' => 'required|exists:drivers,id',
             'way' => 'required',
-            'date' => 'required|date', // Make sure it's a valid date format
+            'date' => 'required|date', 
             'tolls' => 'required',
             'notes' => 'nullable',
         ]);

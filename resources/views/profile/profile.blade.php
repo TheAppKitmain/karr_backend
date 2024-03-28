@@ -10,32 +10,49 @@ $page = 'setting';
 
         .btn-main {
             background: #8C52FF;
-            color: #fff ;
+            color: #fff;
 
         }
     </style>
     <section class="profile-screen">
         <div class="row">
-            <form action="{{ route('users.update', $user->id) }}" method="POST">
+            <form action="{{ route('users.update', $user->id) }}" method="POST" enctype="multipart/form-data">
                 <div class="col-lg-8 col-md-8 col-sm-12">
                     <div class="welcome-screen-left">
                         <div class="welcome-inner-content">
                             <h3>Edit Profile</h3>
                             <p>You can edit your profile and save once complete</p>
                         </div>
-                        @if (Session::has('success'))
-                            <div class="alert alert-success">
-                                {{ Session::get('success') }}
-                            </div>
-                        @endif
-                        @if (Session::has('error'))
+                        @if ($errors->any())
                             <div class="alert alert-danger">
-                                {{ Session::get('error') }}
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
                             </div>
                         @endif
+
+                        @if (session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        @endif
+
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+
                         @csrf
                         @method('PUT')
                         <div class="welcome-screen-form">
+                            <div class="form-group">
+                                <label>Business Name</label>
+                                <input type="text" class="form-control" placeholder="Business" name="business"
+                                    value="{{ $user->business }}">
+                            </div>
                             <div class="form-group">
                                 <label>Name</label>
                                 <input type="text" class="form-control" placeholder="Name" name="name"
@@ -46,6 +63,12 @@ $page = 'setting';
                                 <input type="email" class="form-control" placeholder="Email" name="email"
                                     value="{{ $user->email }}">
                             </div>
+
+                            <div class="form-group">
+                                <label>Image</label>
+                                <input type="file" class="form-control" placeholder="Image" name="image">
+                            </div>
+
                         </div>
 
                         <input type="hidden" name="roles" value="Admin">

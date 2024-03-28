@@ -14,6 +14,7 @@ use DB;
 use Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -157,30 +158,35 @@ class UserController extends Controller
     {
         try {
             if (password_verify($request->old, Auth::user()->password)) {
-                $validatedData = $request->validate([
+                $validatedData = Validator::make($request->all(), [
                     'name' => 'required',
                     'email' => 'required|email|unique:users,email,' . $id,
                     'password' => 'nullable|same:confirm-password',
                     'roles' => 'required',
                     'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+                    'business' => 'required|unique:users,business,' . $id,
                 ]);
+
+                if ($validatedData->fails()) {
+                    return back()->withErrors($validatedData)->withInput()->with('error', 'Failed to update user. Please fix the errors and try again.');
+                }
 
                 // Find the user to update
                 $user = User::find($id);
 
                 // Update name and email
-                $user->name = $validatedData['name'];
-                $user->email = $validatedData['email'];
+                $user->name = $request->input('name');
+                $user->email = $request->input('email');
+                $user->business = $request->input('business');
 
-                if (!empty($validatedData['password'])) {
-                    $user->password = Hash::make($validatedData['password']);
+                if (!empty($request->input('password'))) {
+                    $user->password = Hash::make($request->input('password'));
                 }
 
-                // Update image if provided
                 if ($request->hasFile('image')) {
                     $image = $request->file('image');
                     $extension = $image->getClientOriginalExtension();
-                    $imageName = $validatedData['name'] . '.' . $extension;
+                    $imageName = $user->business . '.' . $extension;
                     $image->move(public_path('image'), $imageName);
 
                     // Delete the old image if it exists
@@ -201,7 +207,7 @@ class UserController extends Controller
                 return back()->with('error', 'Failed to update user. Password is incorrect.');
             }
         } catch (\Exception $e) {
-            return back()->with('error, Failed to update user.' . $e->getMessage());
+            return back()->with('error', 'Failed to update user. ' . $e->getMessage());
         }
     }
 
