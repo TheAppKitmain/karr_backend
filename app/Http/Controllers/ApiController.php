@@ -41,7 +41,7 @@ class ApiController extends Controller
                     'logo' => 'No image found',
                 ], 200);
             } else {
-                $imageUrl = 'https://dashboard.karrcompany.co.uk/image/' . $image;
+                $imageUrl = 'https://54.146.4.118/image/' . $image;
                 return response()->json([
                     'status' => true,
                     'message' => 'Login successful',
